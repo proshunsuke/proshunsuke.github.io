@@ -1,8 +1,13 @@
+.PHONY: dev install lint build
+
 dev:
 	yarn next dev
 
-lint:
+install:
+	yarn install
+
+lint: install
 	yarn next lint
 
-build:
+build: install
 	yarn next build && yarn next export
