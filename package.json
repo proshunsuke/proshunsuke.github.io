@@ -3,12 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "@mdx-js/loader": "*",
+    "@mdx-js/react": "*",
+    "@next/mdx": "*",
+    "@tailwindcss/typography": "*",
+    "@types/mdx-js__react": "*",
     "@types/react": "*",
+    "add": "^2.0.6",
+    "autoprefixer": "*",
     "eslint": "*",
     "eslint-config-next": "*",
     "next": "*",
+    "next-themes": "*",
+    "postcss": "*",
+    "prism-react-renderer": "*",
     "react": "*",
     "react-dom": "*",
+    "react-switch": "*",
+    "react-use": "*",
+    "tailwindcss": "*",
     "typescript": "*"
   }
 }
