@@ -2,8 +2,7 @@ import {useDarkMode} from '../../hooks/useDarkMode';
 import Switch from 'react-switch';
 
 export const DarkMode = () => {
-  const { isDarkMode, toggle, mounted } = useDarkMode();
-  if (!mounted) return null;
+  const { isDarkMode, toggle } = useDarkMode();
   return (
     <Switch
       onChange={toggle}
