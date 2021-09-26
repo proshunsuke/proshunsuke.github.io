@@ -2292,6 +2292,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-config-prettier@npm:*":
+  version: 8.3.0
+  resolution: "eslint-config-prettier@npm:8.3.0"
+  peerDependencies:
+    eslint: ">=7.0.0"
+  bin:
+    eslint-config-prettier: bin/cli.js
+  checksum: df4cea3032671995bb5ab07e016169072f7fa59f44a53251664d9ca60951b66cdc872683b5c6a3729c91497c11490ca44a79654b395dd6756beb0c3903a37196
+  languageName: node
+  linkType: hard
+
 "eslint-import-resolver-node@npm:^0.3.4, eslint-import-resolver-node@npm:^0.3.6":
   version: 0.3.6
   resolution: "eslint-import-resolver-node@npm:0.3.6"
@@ -5013,6 +5024,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prettier@npm:*":
+  version: 2.4.1
+  resolution: "prettier@npm:2.4.1"
+  bin:
+    prettier: bin-prettier.js
+  checksum: cc6830588b401b0d742862fe9c46bc9118204fb307c3abe0e49e95b35ed23629573807ffdf9cdd65289c252a0bb51fc0171437f6626ee36378dea80f0ee80b91
+  languageName: node
+  linkType: hard
+
 "pretty-hrtime@npm:^1.0.3":
   version: 1.0.3
   resolution: "pretty-hrtime@npm:1.0.3"
@@ -5101,9 +5121,11 @@ __metadata:
     autoprefixer: "*"
     eslint: "*"
     eslint-config-next: "*"
+    eslint-config-prettier: "*"
     next: "*"
     next-themes: "*"
     postcss: "*"
+    prettier: "*"
     prism-react-renderer: "*"
     react: "*"
     react-dom: "*"

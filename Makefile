@@ -15,5 +15,15 @@ install:
 lint: install
 	yarn next lint
 
+fix/js: install
+	$(MAKE) fix/js/prettier
+	$(MAKE) fix/js/eslint
+
+fix/js/eslint: install
+	yarn eslint "**/*.{ts,tsx}" --fix
+
+fix/js/prettier: install
+	yarn prettier --check --write "**/*.{ts,tsx}"
+
 build: install
 	yarn next build && yarn next export
