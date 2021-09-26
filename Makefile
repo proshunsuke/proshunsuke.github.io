@@ -1,7 +1,13 @@
 .PHONY: dev install lint build
 
+ifeq ($(shell uname),Linux)
+  OPEN=xdg-open
+else
+  OPEN=open
+endif
+
 dev:
-	yarn next dev
+	$(OPEN) http://localhost:3000 && yarn next dev
 
 install:
 	yarn install
