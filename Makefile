@@ -1,4 +1,4 @@
-.PHONY: dev install lint build
+.PHONY: dev install lint fix/js fix/js/eslint fix/js/prettier build
 
 ifeq ($(shell uname),Linux)
   OPEN=xdg-open
