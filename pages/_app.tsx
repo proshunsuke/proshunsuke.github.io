@@ -1,10 +1,10 @@
 import 'tailwindcss/tailwind.css';
-import type {AppProps} from 'next/app';
-import {MDXProvider} from '@mdx-js/react';
+import type { AppProps } from 'next/app';
+import { MDXProvider } from '@mdx-js/react';
 import MDXComponents from '../components/MDXComponents';
-import {ThemeProvider} from 'next-themes';
+import { ThemeProvider } from 'next-themes';
 
-function MyApp({Component, pageProps}: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider attribute="class">
       <MDXProvider components={MDXComponents}>
@@ -14,4 +14,4 @@ function MyApp({Component, pageProps}: AppProps) {
   );
 }
 
-export default MyApp
+export default MyApp;

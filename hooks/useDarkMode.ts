@@ -1,11 +1,11 @@
-import {useCallback, useEffect, useState} from 'react'
-import {useTheme} from 'next-themes';
+import { useCallback, useEffect, useState } from 'react';
+import { useTheme } from 'next-themes';
 
 type UseDarkMode = () => {
   isDarkMode: boolean;
   toggle: () => void;
   mounted: boolean;
-}
+};
 
 export const useDarkMode: UseDarkMode = () => {
   const { theme, setTheme } = useTheme();
@@ -18,8 +18,11 @@ export const useDarkMode: UseDarkMode = () => {
     setIsDarkMode(newMode);
   }, [dark]);
 
-  useEffect(() => setTheme(isDarkMode ? 'dark' : 'light'), [isDarkMode, setTheme]);
+  useEffect(
+    () => setTheme(isDarkMode ? 'dark' : 'light'),
+    [isDarkMode, setTheme]
+  );
   useEffect(() => setMounted(true), []);
 
-  return { isDarkMode, toggle, mounted }
+  return { isDarkMode, toggle, mounted };
 };

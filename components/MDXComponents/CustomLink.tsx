@@ -1,11 +1,11 @@
-import {ReactNode} from 'react';
+import { ReactNode } from 'react';
 import Link from 'next/link';
 
 type Props = {
-  href: string,
-  children: ReactNode
-}
-export const CustomLink = ({href, children}: Props) => {
+  href: string;
+  children: ReactNode;
+};
+export const CustomLink = ({ href, children }: Props) => {
   const isInternalLink = href && (href.startsWith('/') || href.startsWith('#'));
 
   if (isInternalLink) {
@@ -16,5 +16,14 @@ export const CustomLink = ({href, children}: Props) => {
     );
   }
 
-  return <a className="text-indigo-500" target="_blank" rel="noopener noreferrer" href={href}>{children}</a>;
+  return (
+    <a
+      className="text-indigo-500"
+      target="_blank"
+      rel="noopener noreferrer"
+      href={href}
+    >
+      {children}
+    </a>
+  );
 };

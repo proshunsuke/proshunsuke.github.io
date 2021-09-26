@@ -1,4 +1,4 @@
-import {useDarkMode} from '../../hooks/useDarkMode';
+import { useDarkMode } from '../../hooks/useDarkMode';
 import Switch from 'react-switch';
 
 export const DarkMode = () => {
@@ -13,14 +13,10 @@ export const DarkMode = () => {
       onHandleColor="#eee"
       handleDiameter={20}
       uncheckedIcon={
-        <div className="flex justify-center items-center h-full">
-          🌞
-        </div>
+        <div className="flex justify-center items-center h-full">🌞</div>
       }
       checkedIcon={
-        <div className="flex justify-center items-center h-full">
-          🌙
-        </div>
+        <div className="flex justify-center items-center h-full">🌙</div>
       }
       height={24}
       width={48}
