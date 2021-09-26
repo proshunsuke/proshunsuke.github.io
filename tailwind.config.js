@@ -5,6 +5,12 @@ module.exports = {
   theme: {
     extend: {
       typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            'code::before': false,
+            'code::after': false
+          }
+        },
         dark: {
           css: {
             color: theme('colors.gray.300'),
@@ -12,6 +18,15 @@ module.exports = {
               color: theme('colors.gray.100'),
             },
             h2: {
+              color: theme('colors.gray.100'),
+            },
+            h3: {
+              color: theme('colors.gray.100'),
+            },
+            h4: {
+              color: theme('colors.gray.100'),
+            },
+            h5: {
               color: theme('colors.gray.100'),
             },
           },
