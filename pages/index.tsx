@@ -16,7 +16,7 @@ const Home: NextPage = () => {
             <div className="container flex flex-col mx-auto w-full items-center justify-center">
               <ul className="flex flex-col">
                 <li className="border-gray-400 flex flex-row mb-2">
-                  <Link href="/posts/about-page">
+                  <Link href="/about-page">
                     <a className="w-full">
                       <div
                         className="shadow border select-none cursor-pointer bg-white dark:bg-gray-800 rounded-md flex flex-1 items-center p-4">
@@ -37,7 +37,7 @@ const Home: NextPage = () => {
                   </Link>
                 </li>
                 <li className="border-gray-400 flex flex-row mb-2">
-                  <Link href="/posts/markdown-with-next">
+                  <Link href="/resume">
                     <a className="w-full">
                       <div
                         className="shadow border select-none cursor-pointer bg-white dark:bg-gray-800 rounded-md flex flex-1 items-center p-4">
