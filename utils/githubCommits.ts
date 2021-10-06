@@ -96,6 +96,6 @@ export const getLastUpdated = async ({ path }: Props) => {
     }
   );
   const data = result.data;
-  const latestCommit = data[data.length - 1];
+  const latestCommit = data[0];
   return dayjs(latestCommit.commit.committer.date).format('YYYY.MM.DD');
 };
