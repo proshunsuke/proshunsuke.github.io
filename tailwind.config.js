@@ -8,8 +8,162 @@ module.exports = {
         DEFAULT: {
           css: {
             'code::before': false,
-            'code::after': false
+            'code::after': false,
+            a: {
+              color: theme('colors.indigo.500')
+            },
+            ul: {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            li: {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            '> ul > li > *:first-child': {
+              marginTop: '0',
+            },
+            '> ul > li > *:last-child': {
+              marginBottom: '0',
+            },
+            '> ol > li > *:first-child': {
+              marginTop: '0',
+            },
+            '> ol > li > *:last-child': {
+              marginBottom: '0',
+            },
+            'ul ul, ul ol, ol ul, ol ol': {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            'li+li': {
+              marginTop: '.25em',
+            },
           }
+        },
+        sm: {
+          css: {
+            ul: {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            li: {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            '> ul > li > *:first-child': {
+              marginTop: '0',
+            },
+            '> ul > li > *:last-child': {
+              marginBottom: '0',
+            },
+            '> ol > li > *:first-child': {
+              marginTop: '0',
+            },
+            '> ol > li > *:last-child': {
+              marginBottom: '0',
+            },
+            'ul ul, ul ol, ol ul, ol ol': {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            'li+li': {
+              marginTop: '.25em',
+            },
+          },
+        },
+        lg: {
+          css: {
+            ul: {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            li: {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            '> ul > li > *:first-child': {
+              marginTop: '0',
+            },
+            '> ul > li > *:last-child': {
+              marginBottom: '0',
+            },
+            '> ol > li > *:first-child': {
+              marginTop: '0',
+            },
+            '> ol > li > *:last-child': {
+              marginBottom: '0',
+            },
+            'ul ul, ul ol, ol ul, ol ol': {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            'li+li': {
+              marginTop: '.25em',
+            },
+          },
+        },
+        xl: {
+          css: {
+            ul: {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            li: {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            '> ul > li > *:first-child': {
+              marginTop: '0',
+            },
+            '> ul > li > *:last-child': {
+              marginBottom: '0',
+            },
+            '> ol > li > *:first-child': {
+              marginTop: '0',
+            },
+            '> ol > li > *:last-child': {
+              marginBottom: '0',
+            },
+            'ul ul, ul ol, ol ul, ol ol': {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            'li+li': {
+              marginTop: '.25em',
+            },
+          },
+        },
+        '2xl': {
+          css: {
+            ul: {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            li: {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            '> ul > li > *:first-child': {
+              marginTop: '0',
+            },
+            '> ul > li > *:last-child': {
+              marginBottom: '0',
+            },
+            '> ol > li > *:first-child': {
+              marginTop: '0',
+            },
+            '> ol > li > *:last-child': {
+              marginBottom: '0',
+            },
+            'ul ul, ul ol, ol ul, ol ol': {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            'li+li': {
+              marginTop: '.25em',
+            },
+          },
         },
         dark: {
           css: {
@@ -32,6 +186,9 @@ module.exports = {
           },
         },
       }),
+      screens: {
+        'print': {'raw': 'print'},
+      }
     },
   },
   variants: {
