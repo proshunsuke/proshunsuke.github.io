@@ -43,7 +43,7 @@ export default function Layout({ meta, children }: Props) {
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <main className="dark:bg-gray-800 font-mono bg-white relative overflow-auto h-screen text-gray-900 dark:text-gray-100">
+      <main className="dark:bg-gray-800 font-mono bg-white relative overflow-auto h-screen print:h-auto text-gray-900 dark:text-gray-100">
         <Header />
         {children}
         <Hooter />

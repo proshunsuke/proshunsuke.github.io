@@ -1,10 +1,272 @@
 import {ArticleLayout} from "../components/ArticleLayout";
+import { Career } from '../components/utils/Career';
+import { LastUpdated } from '../components/utils/LastUpdated';
+import { getLastUpdated } from '../utils/githubCommits';
 
-# [WIP]職務経歴書
+export const getStaticProps = async () => {
+  const lastUpdated = await getLastUpdated({path: 'pages/resume.mdx'});
+  return { props: { lastUpdated } }
+}
 
-* [HOME](/)
-* ```javascript
-  const a = 'a';
-  ```
+# 職務経歴書
+
+<LastUpdated lastUpdated={props.lastUpdated} />
+
+## 個人データ
+
+* 氏名: 鈴木駿介(Suzuki Shunsuke)
+* ID: `pro_shunsuke`, `proshunsuke`
+
+## 職務経歴(概要)
+
+### ソフトウェア開発
+
+* Webアプリケーションの開発
+  * サーバーサイド: <Career periodList={[{ from: '2015-04-01' }]}/>
+  * インフラ: <Career periodList={[{ from: '2019-04-01' }]}/>
+  * フロントエンド: <Career periodList={[{ from: '2020-04-01' }]}/>
+
+### 採用 / 教育
+
+#### エンジニアの採用
+
+* 新卒エンジニアの採用面接
+* インターンシップの採用面接
+* PHPカンファレンスにおける企業ブースの出展
+
+#### エンジニアの教育・育成
+
+* 新卒エンジニアのOJTを担当
+* インターンシップの講師を担当
+  * DBの講義
+  * インフラの講義
+
+### エンジニアリングスキル
+
+#### プログラミング言語
+
+##### PHP
+
+* 経験年数: <Career periodList={[{ from: '2015-04-01'}]}/>
+* 経験したバージョン: 5.6, 7.0 ~ 7.2
+* Symfonyを用いたWebアプリケーション開発で使用
+* 独自フレームワークを用いたWebアプリケーション開発で使用
+
+##### Ruby
+
+* 経験年数: <Career periodList={[{ from: '2015-10-01', to: '2019-04-01' }]}/>
+* 経験したバージョン: 2.2 ~ 2.3
+* Ruby on Railsを用いたWebアプリケーション開発で使用
+
+##### JavaScript
+
+* 経験年数: <Career periodList={[{ from: '2015-04-01', to: '2019-04-01' }]}/>
+* 主にjQueryを用いた開発で使用
+
+##### TypeScript
+
+* 経験年数: <Career periodList={[{ from: '2019-12-01' }]}/>
+* 経験したバージョン: 3.7 ~ 4.4
+* React, Next.jsを用いた開発で使用
+* 趣味プロダクトのGoogle Apps Scriptを用いた開発で使用
+
+##### Rust
+
+* 経験年数: <Career periodList={[{ from: '2020-03-15', to: '2020-07-07' }, { from: '2020-09-16', to: '2021-01-30' }, {from: '2021-01-02', to: '2021-01-23'}]}/>
+* 経験したバージョン: 1.45
+* 趣味プロダクトのコマンドラインツールの開発で使用
+
+#### インフラ(クラウドサービス)
+
+##### AWS
+
+* 経験年数: <Career periodList={[{ from: '2019-04-01' }]}/>
+* CloudFormationを用いたIaCで管理
+* 構成管理にAnsibleを使用
+* 使用したサービス
+  * EC2, S3, CloudFront, CloudWatch, CloudFormation, EFS, ELB, Route53, SES, VPC, SNS, Lambda, ECS, ElastiCache, RDS, Redshift, API Gateway, WAF, SQS, EBS
+
+##### GCP
+
+* 経験年数: <Career periodList={[{ from: '2019-12-01', to: '2020-02-01' }]}/>
+* 趣味プロダクトでCloud Functionsのみ使用
+
+#### Webサーバー
+
+##### Apache
+
+* 経験年数: <Career periodList={[{ from: '2019-04-01', to: '2019-10-01' }]}/>
+* 経験したバージョン: 2.4
+
+##### Nginx
+
+* 経験年数: <Career periodList={[{ from: '2019-10-01', to: '2020-03-01' }]}/>
+* 経験したバージョン: 1.17
+
+#### フレームワーク
+
+##### Symfony
+
+* 経験年数: <Career periodList={[{ from: '2015-04-01', to: '2019-04-01'}]}/>
+* 経験したバージョン: 2.7, 3.4
+
+##### Ruby on Rails
+
+* 経験年数: <Career periodList={[{ from: '2015-10-01', to: '2019-04-01' }]}/>
+* 経験したバージョン: 4.2, 5.2
+
+##### Next.js
+
+* 経験年数: <Career periodList={[{ from: '2021-08-31' }]}/>
+* 経験したバージョン: 11
+
+#### DB
+
+##### MySQL
+
+* 経験年数: <Career periodList={[{ from: '2015-04-01' }]}/>
+* 経験したバージョン: 5.6, 5.7
+* Amazon RDSで使用
+
+##### PostgreSQL
+
+* 経験年数: <Career periodList={[{ from: '2016-04-01' }]}/>
+* Amazon Redshiftで使用
+
+##### Redis
+
+* 経験年数: <Career periodList={[{ from: '2015-10-01', to: '2019-04-01' }]}/>
+* Amazon ElastiCacheで使用
+
+##### Memcached
+
+* 経験年数: <Career periodList={[{ from: '2015-04-01', to: '2019-04-01' }]}/>
+* Amazon ElastiCacheで使用
+
+## 職務経歴(現職)
+
+### 株式会社CARTA HOLDINGS(元 株式会社VOYAGE GROUP)
+
+#### デザインチーム: 2020年4月〜
+
+* エンジニア1人+デザイナー3人のチームリーダーを担当
+* [ECナビ](https://ecnavi.jp/)のフロントエンド改善・UX改善を推進
+    
+##### 独自のJavaScript/CSSをバンドルする仕組みをWebpackへ置き換え
+
+* 様々な問題が存在しフロントエンドを改善する土壌が出来ていなかった
+  * ES2015以前のJavaScript、ライブラリがバージョン管理されず直コミット、JavaScript/CSSをバンドルする独自の仕組み
+* フロントエンドを改善出来る土壌を作成した
+  * ライブラリのパッケージ管理(Yarn berryの導入)。Webpackの導入
+  * PHPでビルド済みJavaScript/CSSを読み込める仕組みの作成
+  * 既存のJavaScript/CSSコードを変更せずWebpackでバンドル出来る仕組みの導入
+    * 400ページ分のJavaScript/CSSの修正工数を削減
+  * Webpackのビルド改善
+    * 事情により1つの共通EC2インスタンス内で全員が開発している状況
+    * そのためWebpackのビルドの負荷が開発に影響
+    * ビルドを分割する仕組みを導入して負荷を大幅に軽減(メモリ使用量6GB → 600MB)
+
+##### 全てのJavaScript/CSSをWebpackでバンドルする仕組みに置き換え
+
+* シェルスクリプトを用意して機械的かつ自動的に置き換えPRを作成する仕組みを導入
+* 当初36営業日かかる想定のところを11営業日まで短縮
+* 独自のJavaScript/CSSをバンドルする仕組みの完全削除
+
+##### スマホ版ECナビのナビゲーションメニューのReact化
+
+* React、Redux、SWR、TypeScript、Storybook、ESLint、Stylelint、Prettierの導入
+* Atomic Designを参考にしたデザインシステムの導入
+* デザイナーさん向けのReact、TypeScript勉強会の開催
+* 使いにくいスマホ版のナビゲーションメニューを再定義しReact化を完了
+
+##### Next.jsの導入
+
+* 一部のページをNext.jsのSSGを利用したフロントエンドへ移行
+  * より素早いサイト表示、開発環境の改善、ストレスの無い操作の実現。これらのためにNext.jsを採用
+  * SSRではNode.jsサーバーが必要、SSR必須の要件は無い、安く始められる。これらの理由でSSGを採用
+* 現在進行中...
+
+#### システム改善チーム: 2019年4月〜
+
+* エンジニア7人チームの開発メンバーの1人として参画
+* [ECナビ](https://ecnavi.jp/)のインフラ改善を推進
+* [PeX](https://pex.jp/), [デジコ](https://digi-co.net/)、その他サービスのインフラ移管を推進
+
+##### 複数サービスのインフラ移管を担当
+
+* 共通する内容
+  * 社内の別管轄で管理していたインフラを事業部内で管理。1からインフラを再構築
+  * AWSを利用。CloudFormationを用いたIaCで管理
+  * Ansibleを用いて構成管理
+  * CodePipelineとCodeDeployを利用してプロビジョニング
+  * Kinesis Data Firehoseを利用してログを収集。S3やRedShiftにログを格納。Redashからログを閲覧
+  * Fluentdを用いてデータ収集。Datadogを用いてデータモニタリング
+* デジコを含むデジタルギフト関連3サービス
+  * インフラ未経験ながら移管を完了
+* PeX
+  * 当時リリースされたばかりのWAFv2を利用
+    * CloudFormation上でWAFv2を扱う際に不具合があったためAWSサポートに問い合わせながら解決
+  * リリース手順の作成を担当し、問題無く移管を完了
+    * 複数のシステムにまたがる大きなサービスだが、リリース手順通り事故無く移管を完了
+    * 多くの外部パートナー企業との連携も担当
+
+#### デジタルギフトチーム: 2017年3月〜
+
+* デジタルギフトサービスに関わる問題を解決する仕事をエンジニア自分1人で担当
+  * デジタルギフトに関わるサービスの積極的な開発は一旦終了していた
+  * サービスの継続的な運用のためのシステム改修を行うエンジニアとして担当
+* PHPとSymfonyを用いたWebアプリケーション開発等を担当
+
+##### デジタルギフト管理システムのオンプレからAWSへの移転
+  
+* 移転計画・アプリケーションコード修正・DB移転を担当。インフラ構築は別のエンジニアが担当
+* インフラとミドルウェアの要件を定義
+* PHP5.5 → 7.1へバージョンアップ
+* 新旧同時並行稼働させつつ参照・更新処理を工夫しながらサービスを無停止で移転
+
+##### [AGCOD(法人向けAmazonギフト券(オンデマンドサービス)](https://www.amazon.co.jp/b?ie=UTF8&node=4174012051)を利用したAPIによるAmazonギフト券自動在庫確保の実装
+
+* 今まで営業の人が手動で発注・在庫確保を行っていた作業を自動化
+  * ギフト券という機微な情報を手作業で扱っていたところをセキュアに取り扱えるように
+  * 在庫チェック等の運用作業の削減
+  * 在庫確保忘れによるサービスが提供出来なくなるリスクの削減
+* 過去の発券実績を元に確保する在庫数を自動的に決定
+* [PHP-VCR](http://php-vcr.github.io/)を利用したAPIモックの仕組みの導入
+
+##### その他外部パートナーとの新規繋ぎ込みを複数担当
+
+#### PeXチーム: 2015年10月〜
+
+* エンジニア、デザイナーを含む約20人の1人として参画
+* [PeX](https://pex.jp/)のアプリケーション開発を推進
+* RubyとRuby on Railsを用いたWebアプリケーション開発を担当
+
+##### [PeXの専用ギフト券を使用してPeXポイントに加算出来る機能](https://pex.jp/point_gift/new)をリリース
+
+* 新機能をエンジニア自分1人とデザイナーと協力してリリース
+* ギフト券を扱うPHPとSymfony製の別の社内サービスの改修 & API連携を実施
+* 2重加算のような不正利用を防ぐためのテーブル設計やアプリケーション設計を実施
+
+##### PeXの専用ギフト券の締め処理の自動化
+
+* 実行手順レビュー・実行見守り・実行をエンジニア2人で半日以上かけていた処理を自動化
+* 締め処理結果を管理画面から閲覧出来る機能をリリース
+
+##### 遊ぶとポイントがもらえるコンテンツのスマホ版のリリース
+
+* 元々PC版がリリースされていたもののスマホ版を担当
+* クエリの改善やキャッシュを利用してスマホ版リリースの影響による負荷を軽減
+* Railsの仕組みに則りモデルのSTI化を行ってPC版・スマホ版のロジックをシンプルに実装
+
+#### デジタルギフトチーム: 2015年4月〜
+
+* エンジニア4人チームの開発メンバーとして参画
+* [デジコ](https://digi-co.net/)を含む関連3サービスのアプリケーション開発を推進
+
+##### PHPとSymfonyを用いたWebアプリケーション開発を担当
+
+* 関連3サービスをAPIを使用して連携
+* 内部スタッフと外部パートナー用の管理画面を作成
+* 外部パートナーとのAPI連携作業を担当
 
 export default ({children}) =><ArticleLayout meta={{title: "職務経歴書"}}>{children}</ArticleLayout>;

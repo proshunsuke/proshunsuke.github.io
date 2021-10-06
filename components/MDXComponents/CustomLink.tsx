@@ -11,18 +11,13 @@ export const CustomLink = ({ href, children }: Props) => {
   if (isInternalLink) {
     return (
       <Link href={href}>
-        <a className="text-indigo-500">{children}</a>
+        <a>{children}</a>
       </Link>
     );
   }
 
   return (
-    <a
-      className="text-indigo-500"
-      target="_blank"
-      rel="noopener noreferrer"
-      href={href}
-    >
+    <a target="_blank" rel="noopener noreferrer" href={href}>
       {children}
     </a>
   );

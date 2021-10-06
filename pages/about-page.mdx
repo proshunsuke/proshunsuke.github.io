@@ -1,6 +1,15 @@
 import {ArticleLayout} from "../components/ArticleLayout";
+import { LastUpdated } from '../components/utils/LastUpdated';
+import { getLastUpdated } from '../utils/githubCommits';
+
+export const getStaticProps = async () => {
+  const lastUpdated = await getLastUpdated({path: 'pages/about-page.mdx'});
+  return { props: { lastUpdated } }
+}
 
 # このページについて
+
+<LastUpdated lastUpdated={props.lastUpdated} />
 
 ## 目的
 
