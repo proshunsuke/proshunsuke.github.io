@@ -23,7 +23,7 @@ jobs:
         env:
           NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID }}
         run: |
-          echo "$NEXT_PUBLIC_GOOGLE_ANALYTICS_ID" > .env
+          echo "NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=$NEXT_PUBLIC_GOOGLE_ANALYTICS_ID" > .env
 
       - name: Build Next.js app
         run: make build
