@@ -4,7 +4,7 @@ type Props = {
 
 export const InlineCode = ({ children }: Props) => {
   return (
-    <code className="dark:bg-gray-300 bg-gray-200 px-2 py-1 rounded-lg">
+    <code className="dark:bg-gray-300 bg-gray-200 px-1.5 py-1 rounded">
       {children}
     </code>
   );
