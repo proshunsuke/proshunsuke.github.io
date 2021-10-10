@@ -11,6 +11,7 @@
     "@types/react": "*",
     "autoprefixer": "*",
     "axios": "*",
+    "classnames": "*",
     "dayjs": "*",
     "eslint": "*",
     "eslint-config-next": "*",
