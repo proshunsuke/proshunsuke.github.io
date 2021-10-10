@@ -8,7 +8,7 @@ type Props = {
 };
 export const ArticleLayout = ({ meta, children }: Props) => (
   <Layout {...{ meta }}>
-    <article className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto py-8 lg:py-16 dark:prose-dark">
+    <article className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto py-8 lg:py-16 px-3 lg:px-5 dark:prose-dark">
       {children}
     </article>
   </Layout>
