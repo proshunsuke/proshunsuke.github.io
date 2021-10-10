@@ -13,6 +13,8 @@ const Home: NextPage = () => {
               src="https://pbs.twimg.com/profile_images/1237275389/DSC_0062-2_400x400.jpg"
               className="rounded-full w-28 mx-auto"
               alt=""
+              width='7rem'
+              height='7rem'
             />
             <h2 className="text-3xl my-6 text-center dark:text-white">
               {"pro_shunsuke's page"}
