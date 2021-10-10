@@ -418,6 +418,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/gtag.js@npm:*":
+  version: 0.0.7
+  resolution: "@types/gtag.js@npm:0.0.7"
+  checksum: 056b15ac63429993a0a43ef85c950e5fcf413d5ca104bd8b25c24625fe61e5b2af4a61eaa2be53e31f29e1ef4f9e953830ddd98693e885f531ab70482863419c
+  languageName: node
+  linkType: hard
+
 "@types/js-cookie@npm:^2.2.6":
   version: 2.2.7
   resolution: "@types/js-cookie@npm:2.2.7"
@@ -4979,6 +4986,7 @@ __metadata:
     "@mdx-js/react": "*"
     "@next/mdx": "*"
     "@tailwindcss/typography": "*"
+    "@types/gtag.js": "*"
     "@types/mdx-js__react": "*"
     "@types/react": "*"
     autoprefixer: "*"

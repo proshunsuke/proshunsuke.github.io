@@ -18,6 +18,13 @@ jobs:
         with:
           node-version: 14.x
 
+      - name: Set GA tag
+        shell: bash
+        env:
+          NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID }}
+        run: |
+          echo "$NEXT_PUBLIC_GOOGLE_ANALYTICS_ID" > .env
+
       - name: Build Next.js app
         run: make build
 

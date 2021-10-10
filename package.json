@@ -7,6 +7,7 @@
     "@mdx-js/react": "*",
     "@next/mdx": "*",
     "@tailwindcss/typography": "*",
+    "@types/gtag.js": "*",
     "@types/mdx-js__react": "*",
     "@types/react": "*",
     "autoprefixer": "*",
