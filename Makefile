@@ -26,4 +26,4 @@ fix/js/prettier: install
 	yarn prettier --check --write "**/*.{ts,tsx}"
 
 build: install
-	yarn next build && yarn next export
+	rm -rf .next && yarn next build && yarn next export
