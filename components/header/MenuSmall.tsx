@@ -4,6 +4,7 @@ import { Home } from './menu/Home';
 import { GitHub } from './menu/GitHub';
 import { Twitter } from './menu/Twitter';
 import { DarkMode } from './DarkMode';
+import { Posts } from './menu/Posts';
 
 export const MenuSmall = () => {
   const [isShowMenu, setIsShowMenu] = useState(false);
@@ -37,6 +38,9 @@ export const MenuSmall = () => {
             </li>
             <li className="my-10">
               <Home />
+            </li>
+            <li className="my-10">
+              <Posts />
             </li>
             <li className="my-10">
               <GitHub />

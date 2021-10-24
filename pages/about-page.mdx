@@ -1,15 +1,11 @@
-import {ArticleLayout} from "../components/ArticleLayout";
-import { LastUpdated } from '../components/utils/LastUpdated';
-import { getLastUpdated } from '../utils/githubCommits';
+import { ArticleLayout } from "../components/ArticleLayout";
+import { latestUpdatedProps } from '../utils/githubCommits';
 
-export const getStaticProps = async () => {
-  const lastUpdated = await getLastUpdated({path: 'pages/about-page.mdx'});
-  return { props: { lastUpdated } }
+export const getStaticProps = latestUpdatedProps;
+export const meta = {
+  title: 'このページについて',
 }
-
-# このページについて
-
-<LastUpdated lastUpdated={props.lastUpdated} />
+export default ({latestUpdated, children}) =><ArticleLayout {...{meta, latestUpdated}} >{children}</ArticleLayout>;
 
 ## 目的
 
@@ -37,5 +33,3 @@ export const getStaticProps = async () => {
 Next.jsを使用しているのでVercelでも良かったのですが、SSRをする気が無いのと、Vercelに依存した作りになってしまうのが嫌だったのでGitHub Pagesを使用しました
 
 このプロジェクトは[proshunsuke/proshunsuke.github.io](https://github.com/proshunsuke/proshunsuke.github.io)で公開しています
-
-export default ({children}) =><ArticleLayout meta={{title: "このページについて"}}>{children}</ArticleLayout>;

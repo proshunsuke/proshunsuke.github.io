@@ -11,7 +11,7 @@ export const existsGaId = GA_ID !== '';
 // PVを測定する
 export const pageview = (path: string) => {
   window.gtag('config', GA_ID, {
-    page_path: path
+    page_path: path,
   });
 };
 
@@ -24,7 +24,7 @@ export const event = ({ action, category, label, value = '' }: Event) => {
   window.gtag('event', action, {
     event_category: category,
     event_label: label ? JSON.stringify(label) : '',
-    value
+    value,
   });
 };
 
@@ -53,9 +53,13 @@ export const GoogleAnalytics = () => (
   <>
     {existsGaId && (
       <>
-        <Script defer src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy='afterInteractive' />
         <Script
-          id='gtag-script'
+          defer
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script
+          id="gtag-script"
           defer
           dangerouslySetInnerHTML={{
             __html: `
@@ -63,9 +67,9 @@ export const GoogleAnalytics = () => (
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());    
               gtag('config', '${GA_ID}');
-            `
+            `,
           }}
-          strategy='afterInteractive'
+          strategy="afterInteractive"
         />
       </>
     )}
@@ -74,16 +78,16 @@ export const GoogleAnalytics = () => (
 
 // イベントを型で管理
 type ContactEvent = {
-  action: 'submit_form'
-  category: 'contact'
-}
+  action: 'submit_form';
+  category: 'contact';
+};
 
 type ClickEvent = {
-  action: 'click'
-  category: 'other'
-}
+  action: 'click';
+  category: 'other';
+};
 
 export type Event = (ContactEvent | ClickEvent) & {
-  label?: Record<string, string | number | boolean>
-  value?: string
-}
+  label?: Record<string, string | number | boolean>;
+  value?: string;
+};

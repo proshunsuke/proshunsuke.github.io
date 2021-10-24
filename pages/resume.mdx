@@ -1,16 +1,12 @@
 import {ArticleLayout} from "../components/ArticleLayout";
 import { Career } from '../components/utils/Career';
-import { LastUpdated } from '../components/utils/LastUpdated';
-import { getLastUpdated } from '../utils/githubCommits';
+import { latestUpdatedProps } from '../utils/githubCommits';
 
-export const getStaticProps = async () => {
-  const lastUpdated = await getLastUpdated({path: 'pages/resume.mdx'});
-  return { props: { lastUpdated } }
+export const getStaticProps = latestUpdatedProps;
+export const meta = {
+  title: '職務経歴書',
 }
-
-# 職務経歴書
-
-<LastUpdated lastUpdated={props.lastUpdated} />
+export default ({latestUpdated, children}) =><ArticleLayout {...{meta, latestUpdated}} >{children}</ArticleLayout>;
 
 ## 個人データ
 
@@ -268,5 +264,3 @@ export const getStaticProps = async () => {
 * 関連3サービスをAPIを使用して連携
 * 内部スタッフと外部パートナー用の管理画面を作成
 * 外部パートナーとのAPI連携作業を担当
-
-export default ({children}) =><ArticleLayout meta={{title: "職務経歴書"}}>{children}</ArticleLayout>;

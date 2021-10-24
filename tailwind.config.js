@@ -188,7 +188,10 @@ module.exports = {
       }),
       screens: {
         'print': {'raw': 'print'},
-      }
+      },
+      width: {
+        '47': '47%',
+      },
     },
   },
   variants: {
@@ -198,6 +201,7 @@ module.exports = {
       inset: ["checked"],
       zIndex: ["hover", "active"],
       typography: ['dark'],
+      textColor: ['visited'],
     },
   },
   plugins: [require('@tailwindcss/typography'),],
