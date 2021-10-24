@@ -1,6 +1,13 @@
 import { ArticleLayout } from "../../components/ArticleLayout";
 import { latestUpdatedProps } from '../../utils/githubCommits';
-export const getStaticProps = () => latestUpdatedProps(__filename);
+export const getStaticProps = async () => {
+  const filename = __filename;
+  const match = /.*(\/pages\/.*)\.js$/.exec(filename);
+  if (!match) throw Error(`記事ファイルを特定できませんでした。filename: ${filename}`);
+  const path = `${match[1]}.mdx`;
+  const latestUpdated = (await getCommitDates({ path })).latestUpdated;
+  return { props: { latestUpdated } };
+};
 export const meta = {
   title: 'テストテストテストテストテストテストテストテストテストテストテストテストテスト2',
 }
