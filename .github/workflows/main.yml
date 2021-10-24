@@ -27,6 +27,15 @@ jobs:
         run: |
           echo "NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=$NEXT_PUBLIC_GOOGLE_ANALYTICS_ID" > .env
 
+      - name: Set GitHub Token
+        shell: bash
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        run: |
+          echo "CLIENT_ID=$CLIENT_ID" >> .env
+          echo "CLIENT_SECRET=$CLIENT_SECRET" >> .env
+
       - name: Build Next.js app
         run: make build
 
