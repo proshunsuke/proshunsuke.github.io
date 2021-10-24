@@ -1,8 +1,7 @@
 import {ArticleLayout} from "../components/ArticleLayout";
 import { Career } from '../components/utils/Career';
 import { latestUpdatedProps } from '../utils/githubCommits';
-
-export const getStaticProps = latestUpdatedProps;
+export const getStaticProps = () => latestUpdatedProps(__filename);
 export const meta = {
   title: '職務経歴書',
 }

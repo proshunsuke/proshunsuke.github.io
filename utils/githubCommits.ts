@@ -126,10 +126,10 @@ export const getCommitDates = async ({ path }: Props) => {
   };
 };
 
-export const latestUpdatedProps = async () => {
+export const latestUpdatedProps = async (filename: string) => {
   // getStaticProps実行時にはmdxファイルはjsファイルと解釈されるため
-  const match = /.*(\/pages\/.*)\.js$/.exec(__filename);
-  if (!match) throw Error(`記事ファイルを特定できませんでした。__filename: ${__filename}`);
+  const match = /.*(\/pages\/.*)\.js$/.exec(filename);
+  if (!match) throw Error(`記事ファイルを特定できませんでした。filename: ${filename}`);
   const path = `${match[1]}.mdx`;
   const latestUpdated = (await getCommitDates({ path })).latestUpdated;
   return { props: { latestUpdated } };
