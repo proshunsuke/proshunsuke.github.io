@@ -98,6 +98,7 @@ export const getCommitDates = async ({ path }: Props) => {
   if (process.env.CLIENT_ID && process.env.CLIENT_SECRET) {
     config.params = {
       ...config.params,
+      // TODO: どうやらこのやり方ではトークンを使えていないらしい
       client_id: process.env.CLIENT_ID,
       client_secret: process.env.CLIENT_SECRET,
     };
@@ -128,9 +129,12 @@ export const getCommitDates = async ({ path }: Props) => {
 
 export const latestUpdatedProps = async (filename: string) => {
   // getStaticProps実行時にはmdxファイルはjsファイルと解釈されるため
-  const match = /.*(\/pages\/.*)\.js$/.exec(filename);
-  if (!match) throw Error(`記事ファイルを特定できませんでした。filename: ${filename}`);
-  const path = `${match[1]}.mdx`;
+  // TODO: 本当は__filenameでファイル名を特定したかったけど上手くいかない場合があるので一旦諦めている
+  // const match = /.*(\/pages\/.*)\.js$/.exec(filename);
+  // if (!match) throw Error(`記事ファイルを特定できませんでした。filename: ${filename}`);
+  // const path = `${match[1]}.mdx`;
+  
+  const path = filename;
   const latestUpdated = (await getCommitDates({ path })).latestUpdated;
   return { props: { latestUpdated } };
 };
