@@ -20,6 +20,7 @@
     "eslint-config-prettier": "*",
     "glob": "*",
     "next": "*",
+    "next-optimized-images": "*",
     "next-themes": "*",
     "postcss": "*",
     "prettier": "*",
