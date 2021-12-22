@@ -9,6 +9,7 @@ import {
 } from 'react-share';
 import { LatestUpdated } from './utils/LatestUpdated';
 import { useRouter } from 'next/router';
+import { createDescription } from '../lib/description';
 
 type Props = {
   meta: Meta;
@@ -17,10 +18,7 @@ type Props = {
 };
 export const ArticleLayout = ({ meta, latestUpdated, children }: Props) => {
   const router = useRouter();
-  const articleContent = Array.isArray(children)
-    ? children.map((e) => e.props.children).join(' ')
-    : children.props.children;
-  meta.description = articleContent.substr(0, 85);
+  meta.description = createDescription(children);
   const url = new URL(
     router.pathname,
     process.env.NEXT_PUBLIC_SITE_URL
