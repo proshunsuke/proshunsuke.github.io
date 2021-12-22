@@ -3,7 +3,12 @@ import Layout from '../components/Layout';
 import { BoxLink } from '../components/utils/BoxLink';
 
 const Home: NextPage = () => (
-  <Layout meta={{ title: 'HOME' }}>
+  <Layout
+    meta={{
+      title: 'HOME',
+      description: "pro_shunsuke's pageのTOPページです。",
+    }}
+  >
     <div className="flex relative z-20 items-center">
       <div className="container mx-auto px-6 flex flex-col justify-between items-center relative py-4">
         <div className="flex flex-col">

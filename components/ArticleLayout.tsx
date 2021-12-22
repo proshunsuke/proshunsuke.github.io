@@ -1,14 +1,30 @@
 import Layout from './Layout';
 import { Meta } from '../types/Meta';
-import { ReactNode } from 'react';
+import { ReactElement } from 'react';
+import {
+  HatenaIcon,
+  HatenaShareButton,
+  TwitterIcon,
+  TwitterShareButton,
+} from 'react-share';
 import { LatestUpdated } from './utils/LatestUpdated';
+import { useRouter } from 'next/router';
 
 type Props = {
   meta: Meta;
   latestUpdated: string;
-  children: ReactNode;
+  children: ReactElement[] | ReactElement;
 };
 export const ArticleLayout = ({ meta, latestUpdated, children }: Props) => {
+  const router = useRouter();
+  const articleContent = Array.isArray(children)
+    ? children.map((e) => e.props.children).join(' ')
+    : children.props.children;
+  meta.description = articleContent.substr(0, 85);
+  const url = new URL(
+    router.pathname,
+    process.env.NEXT_PUBLIC_SITE_URL
+  ).toString();
   return (
     <Layout {...{ meta }}>
       <article>
@@ -19,6 +35,14 @@ export const ArticleLayout = ({ meta, latestUpdated, children }: Props) => {
             </div>
             <div className="flex justify-center text-gray-400 text-sm sm:text-base mt-2 lg:mt-4 lg:mt-6 xl:mt-8">
               <LatestUpdated {...{ latestUpdated }} />
+            </div>
+            <div className="flex pt-4">
+              <TwitterShareButton url={url} title={meta.title} className="pr-2">
+                <TwitterIcon size={32} round={true} />
+              </TwitterShareButton>
+              <HatenaShareButton url={url} title={meta.title} className="px-2">
+                <HatenaIcon size={32} round={true} />
+              </HatenaShareButton>
             </div>
           </div>
         </header>
