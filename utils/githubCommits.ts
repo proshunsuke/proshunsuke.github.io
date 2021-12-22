@@ -133,7 +133,7 @@ export const latestUpdatedProps = async (filename: string) => {
   // const match = /.*(\/pages\/.*)\.js$/.exec(filename);
   // if (!match) throw Error(`記事ファイルを特定できませんでした。filename: ${filename}`);
   // const path = `${match[1]}.mdx`;
-  
+
   const path = filename;
   const latestUpdated = (await getCommitDates({ path })).latestUpdated;
   return { props: { latestUpdated } };
