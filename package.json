@@ -27,6 +27,7 @@
     "jimp": "*",
     "lqip-loader": "*",
     "next": "*",
+    "next-compose-plugins": "*",
     "next-optimized-images": "*",
     "next-themes": "*",
     "postcss": "*",
