@@ -19,6 +19,13 @@
     "eslint-config-next": "*",
     "eslint-config-prettier": "*",
     "glob": "*",
+    "image-trace-loader": "*",
+    "imagemin-gifsicle": "*",
+    "imagemin-mozjpeg": "*",
+    "imagemin-optipng": "*",
+    "imagemin-svgo": "*",
+    "jimp": "*",
+    "lqip-loader": "*",
     "next": "*",
     "next-optimized-images": "*",
     "next-themes": "*",
@@ -29,8 +36,11 @@
     "react-dom": "*",
     "react-switch": "*",
     "react-use": "*",
+    "responsive-loader": "*",
+    "svg-sprite-loader": "*",
     "tailwindcss": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "webp-loader": "*"
   },
   "packageManager": "yarn@3.1.1"
 }
