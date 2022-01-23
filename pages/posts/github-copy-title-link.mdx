@@ -1,0 +1,39 @@
+import { ArticleLayout } from "../../components/ArticleLayout";
+import { latestUpdatedProps } from '../../utils/githubCommits';
+export const getStaticProps = () => latestUpdatedProps('/pages/posts/github-copy-title-link.mdx');
+export const meta = {
+  title: 'GitHubのPull requestとIssueのタイトルとURLをコピーしてそれをGoogle Docsに直接貼り付ける',
+}
+export default ({latestUpdated, children}) =><ArticleLayout {...{meta, latestUpdated}} >{children}</ArticleLayout>;
+
+# 概要
+
+GoogleDocsを利用して議事録などを作成することがあるのですが、その際にGitHubのPull requestやIssueのリンクを貼り付けることがよくあります。  
+
+ブラウザのURLをコピーしてGoogle Docsに貼り付けて、それだけだとリンクにしかならないのでGitHubのページに戻ってタイトルをコピーして、Google Docsに戻ってリンクを編集してタイトルを貼り付けます。  
+
+これが結構手間なんですよね。。  
+一発でまるごとコピーしてそのまま貼り付けるだけで終わりにしたいです。
+
+それを実現するためのUserScriptを作りました。
+
+![example.gif](https://raw.githubusercontent.com/proshunsuke/github-copy-title-link/d786bd69d15c75385ca34389e3bf35adaa0362e6/example.gif)
+
+## 使い方
+
+このUserScriptを使うためにまずUserScriptマネージャーが必要です。
+
+### インストール方法
+
+* [Tampermonkey](https://www.tampermonkey.net/)か[Violentmonkey](https://violentmonkey.github.io/get-it/)をインストールしてください。
+* 次に、[こちらのリンク](https://github.com/proshunsuke/github-copy-title-link/raw/main/github-copy-title-link.user.js)をクリックすると新しくタブが開き、インストール画面が表示されます。
+* インストールボタンを押してインストールしてください
+
+### インストールした後
+
+インストールが完了するとGitHubのページに訪れた時にヘッダー部分に「Copy title link」という項目が表示されます。それをクリックするとタイトルとURLがコピーされます。
+
+## 最後に
+
+こちらのプロジェクトは[proshunsuke/github-copy-title-link](https://github.com/proshunsuke/github-copy-title-link)で管理しています。  
+バグや要望がありましたら気軽に報告していただけると嬉しいですm(__)m
