@@ -44,7 +44,7 @@ export const ArticleLayout = ({ meta, latestUpdated, children }: Props) => {
             </div>
           </div>
         </header>
-        <section className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto py-8 lg:py-16 px-3 lg:px-5 dark:prose-dark">
+        <section className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto py-8 lg:py-16 px-3 lg:px-5 max-w-none max-w-3xl lg:text-base dark:prose-dark">
           {children}
         </section>
       </article>
