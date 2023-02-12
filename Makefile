@@ -27,3 +27,4 @@ fix/js/prettier: install
 
 build: install
 	yarn next build && yarn next export
+	cp -r .well-known out/
