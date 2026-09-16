@@ -30,6 +30,7 @@ jobs:
         if: github.event_name != 'pull_request'
         with:
           path: build/client
+          include-hidden-files: true
 
   deploy:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
