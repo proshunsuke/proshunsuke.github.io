@@ -61,3 +61,11 @@ assert.ok(
   !notFound.includes('<script'),
   '404 must not request missing route data',
 );
+
+const admin = await readFile('build/client/admin/index.html', 'utf8');
+const cmsConfig = admin.match(/href="(\/admin\/config\.[a-f0-9]{12}\.yml)"/);
+assert.ok(cmsConfig, 'CMS config needs a versioned URL');
+assert.equal(
+  await readFile(`build/client${cmsConfig[1]}`, 'utf8'),
+  await readFile('public/admin/config.yml', 'utf8'),
+);
