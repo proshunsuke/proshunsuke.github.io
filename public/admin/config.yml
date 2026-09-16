@@ -1,0 +1,51 @@
+backend:
+  name: github
+  repo: proshunsuke/proshunsuke.github.io
+  branch: main
+  base_url: https://proshunsuke-cms-auth.shunsuke0901.workers.dev
+  auth_endpoint: auth
+  site_domain: proshunsuke.github.io
+site_url: https://proshunsuke.github.io
+display_url: https://proshunsuke.github.io
+locale: ja
+publish_mode: editorial_workflow
+media_folder: public/images/uploads
+public_folder: /images/uploads
+collections:
+  - name: posts
+    label: ブログ
+    label_singular: 記事
+    folder: content/posts
+    create: true
+    extension: md
+    format: frontmatter
+    identifier_field: title
+    slug: '{{fields.slug}}'
+    preview_path: 'posts/{{slug}}/'
+    fields:
+      - { label: タイトル, name: title, widget: string }
+      - label: URLの識別子
+        name: slug
+        widget: string
+        hint: 公開後は変更しないでください。英小文字・数字・ハイフンを使用します。
+        pattern:
+          [
+            '^[a-z0-9]+(?:-[a-z0-9]+)*$',
+            '英小文字・数字・ハイフンで入力してください',
+          ]
+      - { label: 本文, name: body, widget: markdown }
+  - name: pages
+    label: 固定ページ
+    files:
+      - name: resume
+        label: 職務経歴書
+        file: content/pages/resume.md
+        fields:
+          - { label: タイトル, name: title, widget: string }
+          - { label: 本文, name: body, widget: markdown }
+      - name: about-page
+        label: このページについて
+        file: content/pages/about-page.md
+        fields:
+          - { label: タイトル, name: title, widget: string }
+          - { label: 本文, name: body, widget: markdown }

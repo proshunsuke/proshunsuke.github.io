@@ -1,0 +1,94 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+@theme inline {
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans JP', sans-serif;
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-wash: var(--wash);
+}
+:root {
+  --surface: #ffffff;
+  --ink: #152239;
+  --muted: #53627a;
+  --line: #dce3ed;
+  --accent: #2158c7;
+  --wash: #f1f5fb;
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  --surface: #111a29;
+  --ink: #edf2fc;
+  --muted: #b1bed1;
+  --line: #34425a;
+  --accent: #8db4ff;
+  --wash: #1b283d;
+  color-scheme: dark;
+}
+@layer base {
+  body {
+    @apply bg-surface text-ink font-sans antialiased;
+    margin: 0;
+  }
+  a,
+  button,
+  select,
+  summary {
+    -webkit-tap-highlight-color: transparent;
+  }
+  a {
+    text-underline-offset: 0.2em;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  :focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 4px;
+  }
+  nav a[aria-current='page'] {
+    color: var(--accent);
+  }
+  ::selection {
+    background: #b9d2ff;
+    color: #152239;
+  }
+}
+@layer components {
+  .page-width {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+  .eyebrow {
+    @apply text-xs font-bold tracking-[0.18em] text-accent;
+  }
+  .skip-link {
+    @apply fixed top-2 left-2 z-50 -translate-y-24 rounded-lg bg-surface p-3 focus:translate-y-0;
+  }
+  .prose {
+    font-size: 1rem;
+    line-height: 1.95;
+    overflow-wrap: anywhere;
+  }
+  .prose h2 {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.6em;
+  }
+  .prose h5 {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-top: 2em;
+    margin-bottom: 0.8em;
+  }
+  .prose > :first-child {
+    margin-top: 0;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

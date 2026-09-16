@@ -1,0 +1,24 @@
+[tools]
+node = "24.21.0"
+
+[tasks.install]
+run = "npm ci"
+
+[tasks.dev]
+run = "npm run dev -- --host 127.0.0.1"
+
+[tasks.build]
+run = "npm run build"
+
+[tasks.check]
+run = "npm run check"
+
+[tasks.preview]
+run = "npm run preview -- --host 127.0.0.1"
+
+[tasks."auth:check"]
+dir = "workers/cms-auth"
+run = ["npm ci", "npm run typecheck", "npm test", "npm run build"]
+
+[tasks.format]
+run = "npx prettier --write app scripts '*.ts' package.json tsconfig.json public/admin .github/workflows/main.yml README.md"

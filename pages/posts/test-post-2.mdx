@@ -1,9 +1,0 @@
-import { ArticleLayout } from "../../components/ArticleLayout";
-import { latestUpdatedProps } from '../../utils/githubCommits';
-export const getStaticProps = () => latestUpdatedProps('/pages/posts/text-post-2.mdx');
-export const meta = {
-  title: 'テストテストテストテストテストテストテストテストテストテストテストテストテスト2',
-}
-export default ({latestUpdated, children}) =><ArticleLayout {...{meta, latestUpdated}} >{children}</ArticleLayout>;
-
-テストテスト
