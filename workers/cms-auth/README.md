@@ -47,9 +47,8 @@ Workers Logs 自体は有効です。コードから認証情報をログ出力�
 Brave で公開 URL の応答と GitHub の認可画面への遷移を確認済みです。
 ユーザー承認のうえ `public_repo` 権限を付与し、実際の GitHub 認可・トークン交換・
 アカウント照合が成功したことを確認済みです（トークン値は出力していません）。
-CMS管理画面を実装済みです。実画面へのトークン受け渡しは公開後に確認します。期限切れ後の再ログインは未検証です。
-認証成功後、ルート URL へ戻る操作では Brave の `ERR_BLOCKED_BY_CLIENT` が再発しています。
-CMS 接続の検証時にはブラウザのブロック状況も確認してください。
+公開済みCMSからGitHubログインし、認証ポップアップが閉じて記事一覧・編集画面が表示されることを確認済みです。
+期限切れ後の再ログインは未検証です。
 
 参考: [Decap の OAuth 仕様](https://decapcms.org/docs/backends-overview/)、
 [公式資料掲載のサンプル](https://github.com/sterlingwes/decap-proxy/tree/9adde7c898ed4675f414f50334c321d6c87751ed)。

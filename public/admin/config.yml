@@ -36,6 +36,7 @@ collections:
       - { label: 本文, name: body, widget: markdown }
   - name: pages
     label: 固定ページ
+    preview_path: '{{slug}}/'
     files:
       - name: resume
         label: 職務経歴書
