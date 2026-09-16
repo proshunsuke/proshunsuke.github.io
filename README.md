@@ -56,7 +56,7 @@ CMS本体はバージョン固定のDecap CMS 3.16.2をunpkgから読み込み�
 
 開発・公開ブランチは `main` です。GitHub PagesのSourceは **GitHub Actions** を使用します。`.github/workflows/main.yml` がPRの検証とmainの公開を担当します。日次ビルドはありません。
 
-GitHub Pagesは動的サーバーを持たないため、既存ページのHTMLとReact Routerの遷移用データを生成します。未知のURLにはSPAフォールバックを `404.html` として配信し、HTTP 404を維持します。
+GitHub Pagesは動的サーバーを持たないため、既存ページのHTMLとReact Routerの遷移用データを生成します。未知のURLには専用の静的な `404.html` を配信します。存在しない記事のデータ取得を避け、JavaScriptなしでもエラー内容を表示し、HTTP 404を維持します。
 
 GA4は既存のActions Secret `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` を継続使用し、ビルド時に `VITE_GOOGLE_ANALYTICS_ID` に渡します。測定IDは公開される識別子です。ローカルで計測する場合のみ `.env.example` を参考に `.env.local` を作成します。アプリ側でページ遷移ごとに `page_view` を送るため、GA4の拡張計測で「ブラウザの履歴イベントに基づくページの変更」を併用すると重複計測になります。該当設定を無効にしてください。
 

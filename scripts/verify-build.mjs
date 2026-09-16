@@ -54,3 +54,10 @@ for (const slug of ['test-post-1', 'test-post-2', 'test-post-3'])
 console.log(
   `${pages.length} static pages, metadata, CMS, Nostr and removed URLs verified.`,
 );
+
+const notFound = await readFile('build/client/404.html', 'utf8');
+assert.ok(notFound.includes('ページが見つかりません'));
+assert.ok(
+  !notFound.includes('<script'),
+  '404 must not request missing route data',
+);
