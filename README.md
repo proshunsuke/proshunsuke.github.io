@@ -15,7 +15,7 @@ mise run install
 mise run dev
 ```
 
-- `mise run check`: lint、整形チェック、型検査、コンテンツの検証
+- `mise run check`: lint、整形チェック、型検査、Vitest（Node・Browser Mode）
 - `mise run lint`: Oxlintによる検査
 - `mise run format`: Oxfmtによる整形
 - `mise run format:check`: ファイルを書き換えずに整形を検査
@@ -23,6 +23,30 @@ mise run dev
 - `mise run preview`: ビルド済みサイトの確認
 - `node scripts/verify-build.mjs`: 公開成果物の検証（ビルド後）
 - `mise run auth:check`: OAuth Workerの型検査、テスト、ビルド
+
+## テスト
+
+初回とPlaywright更新後に `mise run test:install` でテスト用ブラウザをインストールします。
+
+| コマンド                | 対象                                               |
+| ----------------------- | -------------------------------------------------- |
+| `mise run test`         | VitestのNode環境とBrowser Mode                     |
+| `mise run test:unit`    | Markdown変換、コンテンツ取得、入力検証             |
+| `mise run test:browser` | Chromium上で配色コンポーネント・GAの呼び出しを検証 |
+| `mise run test:e2e`     | ビルド・成果物検証後、Playwrightでサイト全体を検証 |
+| `mise run test:e2e:ui`  | ビルド後、Playwright UIでテストを実行・調査        |
+
+コンポーネントは `vitest-browser-react` とPlaywright providerで実ブラウザ上に描画します。JSDOM・React Testing Libraryは使用しません。
+
+Vitestのテストは対象の実装ファイルの隣に配置します。Node環境は `*.test.ts`、Browser Modeは `*.browser.test.ts` または `*.browser.test.tsx` とし、Node環境からBrowser Modeのファイルを除外します。例えば `theme.tsx` に対して `theme.browser.test.tsx`、`content.server.ts` に対して `content.server.test.ts` を置きます。複数画面を横断するPlaywrightのE2Eは `tests/e2e/` にまとめます。
+
+現在、ルート全体はE2Eで検証しています。今後ルート固有の処理をVitestで検証する場合も実装の隣に配置し、`app/routes/` に置くテストをファイルルーティングから除外する設定を併せて追加します。
+
+E2Eは `build/client/` を専用ポート4175で配信します。未知のURLはSPAのトップページにフォールバックせず、静的な `404.html` をHTTP 404で返します。テスト用サーバーはPlaywrightが起動・終了し、開発サーバーとは別に動作します。Chromiumで一通りの検証を行い、Firefox・WebKitでは主要ページ・画面遷移・配色を確認します。画面幅375・768・1440px、ライト・ダーク配色のアクセシビリティも検証します。
+
+CMS本文は書き換えず、変換の異常系にはモックのMarkdownを使います。GAスクリプトは差し替え、実際の計測送信を防ぎます。CMSは管理画面の入口と設定ファイルの配信までを検証し、本物のGitHubへのログイン・記事公開は行いません。
+
+CIではVitestと本番ビルドのE2Eが成功した場合だけ公開します。E2E失敗時のHTMLレポート・スクリーンショット・トレースはActionsの成果物として7日間保持します。ローカルでは `mise exec -- npx playwright show-report` でレポートを確認できます。
 
 ## lint・formatter
 

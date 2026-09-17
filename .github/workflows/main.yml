@@ -23,6 +23,7 @@ jobs:
         with:
           version: 2026.9.9
       - run: mise run install
+      - run: npx playwright install --with-deps chromium firefox webkit
       - run: mise run check
       - run: mise run auth:check
       - name: Build static site
@@ -30,6 +31,19 @@ jobs:
         env:
           VITE_GOOGLE_ANALYTICS_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID }}
       - run: node scripts/verify-build.mjs
+      - name: Test built site
+        run: npm run test:e2e:built
+      - name: Upload browser test diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-test-diagnostics
+          path: |
+            playwright-report/
+            test-results/
+            .vitest/attachments/
+          include-hidden-files: true
+          retention-days: 7
       - uses: actions/upload-pages-artifact@v5
         if: github.event_name != 'pull_request'
         with:

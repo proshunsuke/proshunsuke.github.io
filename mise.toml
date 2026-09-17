@@ -4,6 +4,24 @@ node = "24.21.0"
 [tasks.install]
 run = "npm ci"
 
+[tasks.test]
+run = "npm test"
+
+[tasks."test:unit"]
+run = "npm run test:unit"
+
+[tasks."test:browser"]
+run = "npm run test:browser"
+
+[tasks."test:e2e"]
+run = "npm run test:e2e"
+
+[tasks."test:e2e:ui"]
+run = "npm run test:e2e:ui"
+
+[tasks."test:install"]
+run = "npm run test:install"
+
 [tasks.dev]
 run = "npm run dev -- --host 127.0.0.1"
 
