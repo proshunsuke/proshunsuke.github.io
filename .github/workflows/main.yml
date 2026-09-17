@@ -15,7 +15,75 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  static-checks:
+    name: Static checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: jdx/mise-action@v4
+        with:
+          version: 2026.9.9
+      - run: mise run install
+      - run: mise run lint
+      - run: mise run format:check
+      - run: npm run typecheck
+
+  vitest:
+    name: Vitest (Node and Browser)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: jdx/mise-action@v4
+        with:
+          version: 2026.9.9
+      - run: mise run install
+      - run: npx playwright install --with-deps chromium
+      - run: mise run test
+      - name: Upload Vitest diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vitest-diagnostics
+          path: .vitest/attachments/
+          include-hidden-files: true
+          retention-days: 7
+
+  worker-checks:
+    name: Worker checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: jdx/mise-action@v4
+        with:
+          version: 2026.9.9
+      - run: mise run auth:check
+
   build:
+    name: Build site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: jdx/mise-action@v4
+        with:
+          version: 2026.9.9
+      - run: mise run install
+      - name: Build static site
+        run: mise run build
+        env:
+          VITE_GOOGLE_ANALYTICS_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID }}
+      - run: node scripts/verify-build.mjs
+      - name: Upload built site
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-site
+          path: build/client/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+
+  e2e:
+    name: Playwright E2E
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -24,12 +92,11 @@ jobs:
           version: 2026.9.9
       - run: mise run install
       - run: npx playwright install --with-deps chromium firefox webkit
-      - run: mise run check
-      - run: mise run auth:check
-      - name: Build static site
-        run: mise run build
-        env:
-          VITE_GOOGLE_ANALYTICS_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID }}
+      - name: Download built site
+        uses: actions/download-artifact@v5
+        with:
+          name: built-site
+          path: build/client/
       - run: node scripts/verify-build.mjs
       - name: Test built site
         run: npm run test:e2e:built
@@ -37,11 +104,10 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: browser-test-diagnostics
+          name: e2e-diagnostics
           path: |
             playwright-report/
             test-results/
-            .vitest/attachments/
           include-hidden-files: true
           retention-days: 7
       - uses: actions/upload-pages-artifact@v5
@@ -51,8 +117,9 @@ jobs:
           include-hidden-files: true
 
   deploy:
+    name: Deploy GitHub Pages
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    needs: build
+    needs: [static-checks, vitest, worker-checks, e2e]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -78,8 +145,9 @@ jobs:
         uses: actions/deploy-pages@v5
 
   deploy-worker:
+    name: Deploy Cloudflare Worker
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    needs: build
+    needs: [static-checks, vitest, worker-checks, e2e]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
