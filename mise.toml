@@ -21,4 +21,10 @@ dir = "workers/cms-auth"
 run = ["npm ci", "npm run typecheck", "npm test", "npm run build"]
 
 [tasks.format]
-run = "npx prettier --write app scripts '*.ts' package.json tsconfig.json public/admin .github/workflows/main.yml README.md"
+run = "npm run format"
+
+[tasks.lint]
+run = "npm run lint"
+
+[tasks."format:check"]
+run = "npm run format:check"

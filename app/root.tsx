@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 import {
   isRouteErrorResponse,
   Links,
@@ -8,10 +8,10 @@ import {
   Scripts,
   ScrollRestoration,
   Link,
-} from 'react-router';
-import { ThemeSelect, themeScript } from '~/components/theme';
-import { Analytics } from '~/components/analytics';
-import '~/style.css';
+} from "react-router";
+import { ThemeSelect, themeScript } from "~/components/theme";
+import { Analytics } from "~/components/analytics";
+import "~/style.css";
 
 export const Layout = ({ children }: { children: ReactNode }) => (
   <html lang="ja" suppressHydrationWarning>
@@ -71,13 +71,11 @@ const App = () => (
 export default App;
 export const ErrorBoundary = ({ error }: { error: unknown }) => (
   <div className="page-width py-24">
-    <p className="eyebrow">
-      {isRouteErrorResponse(error) ? error.status : 'ERROR'}
-    </p>
+    <p className="eyebrow">{isRouteErrorResponse(error) ? error.status : "ERROR"}</p>
     <h1 className="mt-4 text-3xl font-bold">
       {isRouteErrorResponse(error) && error.status === 404
-        ? 'ページが見つかりません'
-        : 'ページを表示できませんでした'}
+        ? "ページが見つかりません"
+        : "ページを表示できませんでした"}
     </h1>
     <Link to="/" className="mt-8 inline-block text-accent underline">
       ホームへ戻る

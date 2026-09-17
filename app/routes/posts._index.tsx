@@ -1,8 +1,8 @@
-import { Link, useLoaderData } from 'react-router';
-import { listPosts } from '~/lib/content.server';
-import { pageMeta } from '~/lib/meta';
+import { Link, useLoaderData } from "react-router";
+import { listPosts } from "~/lib/content.server";
+import { pageMeta } from "~/lib/meta";
 export const loader = () => listPosts();
-export const meta = () => pageMeta('ブログ', '/posts/');
+export const meta = () => pageMeta("ブログ", "/posts/");
 const Posts = () => {
   const posts = useLoaderData<typeof loader>();
   return (

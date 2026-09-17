@@ -1,8 +1,0 @@
-node_modules
-build
-.react-router
-package-lock.json
-workers/cms-auth/node_modules
-workers/cms-auth/dist
-workers/cms-auth/package-lock.json
-content

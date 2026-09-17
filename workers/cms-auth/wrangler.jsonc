@@ -8,8 +8,8 @@
       "enabled": true,
       "head_sampling_rate": 1,
       "invocation_logs": false,
-      "persist": true
+      "persist": true,
     },
-    "traces": { "enabled": false }
-  }
+    "traces": { "enabled": false },
+  },
 }

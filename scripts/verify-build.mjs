@@ -1,15 +1,15 @@
-import assert from 'node:assert/strict';
-import { readFile, access } from 'node:fs/promises';
-import { readContent, listPosts } from '../app/lib/content.server.ts';
+import assert from "node:assert/strict";
+import { readFile, access } from "node:fs/promises";
+import { readContent, listPosts } from "../app/lib/content.server.ts";
 const pages = [
-  { path: '/', title: 'ホーム' },
+  { path: "/", title: "ホーム" },
   ...(await Promise.all(
-    ['resume', 'about-page'].map(async (slug) => ({
+    ["resume", "about-page"].map(async (slug) => ({
       path: `/${slug}/`,
-      title: (await readContent('pages', slug)).title,
+      title: (await readContent("pages", slug)).title,
     })),
   )),
-  { path: '/posts/', title: 'ブログ' },
+  { path: "/posts/", title: "ブログ" },
   ...(await listPosts()).map(({ title, slug }) => ({
     path: `/posts/${slug}/`,
     title,
@@ -17,14 +17,14 @@ const pages = [
 ];
 const escape = (text) =>
   text
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#x27;');
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#x27;");
 for (const { path, title } of pages) {
   const file = `build/client${path}index.html`;
-  const html = await readFile(file, 'utf8');
+  const html = await readFile(file, "utf8");
   assert.ok(
     html.includes(`<title>${escape(title)} | pro_shunsuke</title>`),
     `Incorrect page title in ${file}`,
@@ -33,39 +33,31 @@ for (const { path, title } of pages) {
     html.includes(`href="https://proshunsuke.github.io${path}"`),
     `Incorrect canonical in ${file}`,
   );
-  assert.ok(
-    !/test-post-[123]/.test(html),
-    `Removed article leaked into ${file}`,
-  );
-  if (path !== '/' && path !== '/posts/')
-    assert.ok(html.includes('<article'), `Missing article in ${file}`);
+  assert.ok(!/test-post-[123]/.test(html), `Removed article leaked into ${file}`);
+  if (path !== "/" && path !== "/posts/")
+    assert.ok(html.includes("<article"), `Missing article in ${file}`);
 }
 for (const file of [
-  '404.html',
-  '.nojekyll',
-  'admin/index.html',
-  'admin/config.yml',
-  '.well-known/nostr.json',
-  'favicons/favicon.ico',
+  "404.html",
+  ".nojekyll",
+  "admin/index.html",
+  "admin/config.yml",
+  ".well-known/nostr.json",
+  "favicons/favicon.ico",
 ])
   await access(`build/client/${file}`);
-for (const slug of ['test-post-1', 'test-post-2', 'test-post-3'])
+for (const slug of ["test-post-1", "test-post-2", "test-post-3"])
   await assert.rejects(access(`build/client/posts/${slug}/index.html`));
-console.log(
-  `${pages.length} static pages, metadata, CMS, Nostr and removed URLs verified.`,
-);
+console.log(`${pages.length} static pages, metadata, CMS, Nostr and removed URLs verified.`);
 
-const notFound = await readFile('build/client/404.html', 'utf8');
-assert.ok(notFound.includes('ページが見つかりません'));
-assert.ok(
-  !notFound.includes('<script'),
-  '404 must not request missing route data',
-);
+const notFound = await readFile("build/client/404.html", "utf8");
+assert.ok(notFound.includes("ページが見つかりません"));
+assert.ok(!notFound.includes("<script"), "404 must not request missing route data");
 
-const admin = await readFile('build/client/admin/index.html', 'utf8');
+const admin = await readFile("build/client/admin/index.html", "utf8");
 const cmsConfig = admin.match(/href="(\/admin\/config\.[a-f0-9]{12}\.yml)"/);
-assert.ok(cmsConfig, 'CMS config needs a versioned URL');
+assert.ok(cmsConfig, "CMS config needs a versioned URL");
 assert.equal(
-  await readFile(`build/client${cmsConfig[1]}`, 'utf8'),
-  await readFile('public/admin/config.yml', 'utf8'),
+  await readFile(`build/client${cmsConfig[1]}`, "utf8"),
+  await readFile("public/admin/config.yml", "utf8"),
 );

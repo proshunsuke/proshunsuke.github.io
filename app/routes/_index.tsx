@@ -1,6 +1,6 @@
-import { Link } from 'react-router';
-import { pageMeta } from '~/lib/meta';
-export const meta = () => pageMeta('ホーム', '/');
+import { Link } from "react-router";
+import { pageMeta } from "~/lib/meta";
+export const meta = () => pageMeta("ホーム", "/");
 const Home = () => (
   <div className="page-width">
     <section className="grid items-center gap-10 border-b border-line py-16 sm:py-24 md:grid-cols-[1fr_auto]">
@@ -30,25 +30,25 @@ const Home = () => (
       <div className="grid gap-5 md:grid-cols-3">
         {[
           {
-            path: '/resume/',
-            number: '01',
-            title: '職務経歴書',
-            english: 'EXPERIENCE',
-            description: 'これまでの仕事と、開発に使ってきた技術。',
+            path: "/resume/",
+            number: "01",
+            title: "職務経歴書",
+            english: "EXPERIENCE",
+            description: "これまでの仕事と、開発に使ってきた技術。",
           },
           {
-            path: '/posts/',
-            number: '02',
-            title: 'ブログ',
-            english: 'WRITING',
-            description: '開発の記録と、作ったものについて。',
+            path: "/posts/",
+            number: "02",
+            title: "ブログ",
+            english: "WRITING",
+            description: "開発の記録と、作ったものについて。",
           },
           {
-            path: '/about-page/',
-            number: '03',
-            title: 'このページについて',
-            english: 'ABOUT',
-            description: 'このサイトを作った理由と、その仕組み。',
+            path: "/about-page/",
+            number: "03",
+            title: "このページについて",
+            english: "ABOUT",
+            description: "このサイトを作った理由と、その仕組み。",
           },
         ].map((item) => (
           <Link
@@ -61,13 +61,8 @@ const Home = () => (
               <span>{item.number}</span>
             </div>
             <h2 className="mt-8 text-xl font-bold">{item.title}</h2>
-            <p className="mt-3 text-sm leading-7 text-muted">
-              {item.description}
-            </p>
-            <span
-              aria-hidden="true"
-              className="mt-auto pt-5 text-2xl text-accent"
-            >
+            <p className="mt-3 text-sm leading-7 text-muted">{item.description}</p>
+            <span aria-hidden="true" className="mt-auto pt-5 text-2xl text-accent">
               ↗
             </span>
           </Link>

@@ -20,23 +20,19 @@ collections:
     extension: md
     format: frontmatter
     identifier_field: title
-    slug: '{{fields.slug}}'
-    preview_path: 'posts/{{slug}}/'
+    slug: "{{fields.slug}}"
+    preview_path: "posts/{{slug}}/"
     fields:
       - { label: タイトル, name: title, widget: string }
       - label: URLの識別子
         name: slug
         widget: string
         hint: 公開後は変更しないでください。英小文字・数字・ハイフンを使用します。
-        pattern:
-          [
-            '^[a-z0-9]+(?:-[a-z0-9]+)*$',
-            '英小文字・数字・ハイフンで入力してください',
-          ]
+        pattern: ["^[a-z0-9]+(?:-[a-z0-9]+)*$", "英小文字・数字・ハイフンで入力してください"]
       - { label: 本文, name: body, widget: markdown }
   - name: pages
     label: 固定ページ
-    preview_path: '{{slug}}/'
+    preview_path: "{{slug}}/"
     files:
       - name: resume
         label: 職務経歴書

@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
-import { useLocation } from 'react-router';
+import { useEffect } from "react";
+import { useLocation } from "react-router";
 
 type AnalyticsWindow = Window & {
   dataLayer?: unknown[][];
   gtag?: (...args: unknown[]) => void;
 };
-let previousPage = '';
+let previousPage = "";
 export const Analytics = () => {
   const location = useLocation();
   useEffect(() => {
@@ -17,16 +17,16 @@ export const Analytics = () => {
       window.gtag = (...args: unknown[]) => {
         window.dataLayer!.push(args);
       };
-      window.gtag('js', new Date());
-      window.gtag('config', id, { send_page_view: false });
-      const script = document.createElement('script');
+      window.gtag("js", new Date());
+      window.gtag("config", id, { send_page_view: false });
+      const script = document.createElement("script");
       script.async = true;
       script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
       document.head.append(script);
     }
     const page = location.pathname + location.search;
     if (previousPage !== page) {
-      window.gtag('event', 'page_view', {
+      window.gtag("event", "page_view", {
         page_location: window.location.href,
         page_title: document.title,
       });

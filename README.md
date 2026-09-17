@@ -15,11 +15,22 @@ mise run install
 mise run dev
 ```
 
-- `mise run check`: 型検査、コンテンツの検証
+- `mise run check`: lint、整形チェック、型検査、コンテンツの検証
+- `mise run lint`: Oxlintによる検査
+- `mise run format`: Oxfmtによる整形
+- `mise run format:check`: ファイルを書き換えずに整形を検査
 - `mise run build`: 全ページの静的生成。成果物は `build/client/`
 - `mise run preview`: ビルド済みサイトの確認
 - `node scripts/verify-build.mjs`: 公開成果物の検証（ビルド後）
 - `mise run auth:check`: OAuth Workerの型検査、テスト、ビルド
+
+## lint・formatter
+
+OxlintとOxfmtを使用します。Oxlintは標準のプラグインとルール分類を維持し、React用の内蔵プラグインだけを追加しています。個別ルールの調整・無効化や型情報を使う追加lintは行っていません。標準動作ではwarningだけで終了コードは非ゼロになりません。
+
+Oxfmtは標準の整形規則で、サイト・スクリプト・認証Worker・設定ファイル・READMEを整形します。CMSで管理する `content/**/*.md` は整形・整形チェックの対象外です。Tailwindクラス順・import順の並べ替えは有効化していません。生成物と依存パッケージはgitignore等の標準除外に従います。CIも `mise run check` から同じ検査を実行します。
+
+OxlintはMarkdownを検査しません。CMS本文は整形規則を強制せず、必須のfrontmatterやslugなど公開に必要な内容をコンテンツ検証・ビルドで確認します。
 
 ## 本文とURL
 
