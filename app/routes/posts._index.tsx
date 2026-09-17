@@ -1,10 +1,10 @@
-import { Link, useLoaderData } from "react-router";
+import type { Route } from "./+types/posts._index";
+import { Link } from "react-router";
 import { listPosts } from "~/lib/content.server";
 import { pageMeta } from "~/lib/meta";
 export const loader = () => listPosts();
 export const meta = () => pageMeta("ブログ", "/posts/");
-const Posts = () => {
-  const posts = useLoaderData<typeof loader>();
+const Posts = ({ loaderData: posts }: Route.ComponentProps) => {
   return (
     <div className="page-width py-14 sm:py-20">
       <p className="eyebrow">WRITING</p>
