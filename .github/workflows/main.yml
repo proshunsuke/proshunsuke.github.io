@@ -15,6 +15,17 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  prepare:
+    name: Prepare browser tests
+    runs-on: ubuntu-latest
+    outputs:
+      playwright-version: ${{ steps.playwright.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Read Playwright version
+        id: playwright
+        run: echo "version=$(jq -r '.packages["node_modules/playwright"].version' package-lock.json)" >> "$GITHUB_OUTPUT"
+
   static-checks:
     name: Static checks
     runs-on: ubuntu-latest
@@ -30,14 +41,17 @@ jobs:
 
   vitest:
     name: Vitest (Node and Browser)
+    needs: prepare
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.prepare.outputs.playwright-version }}-noble
+      options: --user 1001 --ipc=host
     steps:
       - uses: actions/checkout@v7
       - uses: jdx/mise-action@v4
         with:
           version: 2026.9.9
       - run: mise run install
-      - run: npx playwright install --with-deps chromium
       - run: mise run test
       - name: Upload Vitest diagnostics
         if: failure()
@@ -61,8 +75,6 @@ jobs:
   build:
     name: Build site
     runs-on: ubuntu-latest
-    outputs:
-      playwright-version: ${{ steps.playwright.outputs.version }}
     steps:
       - uses: actions/checkout@v7
       - uses: jdx/mise-action@v4
@@ -73,9 +85,6 @@ jobs:
         run: mise run build
         env:
           VITE_GOOGLE_ANALYTICS_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID }}
-      - name: Read Playwright version
-        id: playwright
-        run: node -p '"version=" + require("./package-lock.json").packages["node_modules/playwright"].version' >> "$GITHUB_OUTPUT"
       - run: node scripts/verify-build.mjs
       - name: Upload built site
         uses: actions/upload-artifact@v4
@@ -88,11 +97,11 @@ jobs:
 
   e2e:
     name: Playwright E2E
-    needs: build
+    needs: [prepare, build]
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v${{ needs.build.outputs.playwright-version }}-noble
-      options: --ipc=host
+      image: mcr.microsoft.com/playwright:v${{ needs.prepare.outputs.playwright-version }}-noble
+      options: --user 1001 --ipc=host
     steps:
       - uses: actions/checkout@v7
       - uses: jdx/mise-action@v4
