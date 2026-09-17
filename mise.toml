@@ -4,6 +4,12 @@ node = "24.21.0"
 [tasks.install]
 run = "npm ci"
 
+[tasks."skills:list"]
+run = "npm run skills:list"
+
+[tasks."skills:update"]
+run = "npm run skills:update"
+
 [tasks.test]
 run = "npm test"
 

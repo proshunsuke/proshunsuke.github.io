@@ -1,4 +1,4 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
-  "ignorePatterns": ["content/**/*.md", ".agents/skills/**"]
+  "ignorePatterns": ["content/**/*.md", ".agents/skills/**", ".agents/licenses/**"]
 }

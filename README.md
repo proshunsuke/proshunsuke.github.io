@@ -48,6 +48,28 @@ CMS本文は書き換えず、変換の異常系にはモックのMarkdownを使
 
 CIではVitestと本番ビルドのE2Eが成功した場合だけ公開します。E2E失敗時のHTMLレポート・スクリーンショット・トレースはActionsの成果物として7日間保持します。ローカルでは `mise exec -- npx playwright show-report` でレポートを確認できます。
 
+## 公式スキルの管理
+
+公式スキルはnpmの開発依存に追加した `skills` CLIで管理します。ファイルは `.agents/skills/`、取得元・参照先・ハッシュはCLIが生成する `skills-lock.json` に保存し、両方をGit管理します。CLI本体のバージョンは `package-lock.json` で管理します。
+
+| スキル                   | 公式の取得元                                                                         |
+| ------------------------ | ------------------------------------------------------------------------------------ |
+| `react-router`           | `remix-run/react-router` の `.agents/skills/react-router`                            |
+| `workers-best-practices` | `cloudflare/skills` の `skills/workers-best-practices`                               |
+| `wrangler`               | `cloudflare/skills` の `skills/wrangler`                                             |
+| `playwright-cli`         | `microsoft/playwright` の `packages/playwright-core/src/tools/skills/playwright-cli` |
+
+```fish
+mise run skills:list
+mise run skills:update
+```
+
+更新タスクは、このプロジェクトのスキルだけを取得元の最新版へ更新します。更新後はスキル本文と `skills-lock.json` の差分を確認してコミットします。`npm ci` やCIではスキルを自動更新せず、リポジトリに保存された内容を使用します。
+
+skills CLI 1.6.0の `update` はPlaywrightリポジトリ内の深い階層にあるスキルを発見できず、更新をスキップします。そのため更新タスクでは、他の3スキルに `skills update` を使い、Playwrightには保存先URLを明示した `skills add` を再実行します。どちらもskills CLIがファイルとロック情報を管理します。スキル追加時は更新タスクの対象も見直してください。
+
+スキルを追加する場合は公式の取得元を確認し、`mise exec -- npx --no-install skills add <取得元> --agent codex --skill <スキル名>` を使います。ライセンス原文は更新で上書きされない `.agents/licenses/` に保存しています。Vitestは公式スキルが未提供のため、公式ドキュメントに従います。
+
 ## lint・formatter
 
 OxlintとOxfmtを使用します。Oxlintは標準のプラグインとルール分類を維持し、React用の内蔵プラグインだけを追加しています。個別ルールの調整・無効化や型情報を使う追加lintは行っていません。標準動作ではwarningだけで終了コードは非ゼロになりません。
