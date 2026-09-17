@@ -4,6 +4,7 @@
   "compatibility_date": "2026-09-16",
   "workers_dev": true,
   "preview_urls": false,
+  "secrets": { "required": ["GITHUB_OAUTH_ID", "GITHUB_OAUTH_SECRET"] },
   "observability": {
     "logs": {
       "enabled": true,

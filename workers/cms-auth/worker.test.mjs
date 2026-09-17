@@ -138,3 +138,73 @@ test("denied authorization, wrong user, and upstream failures never expose a tok
   assert.match(failed, /authorization:github:error:/);
   assert.ok(!failed.includes("upstream-private-details"));
 });
+
+test("diagnostic logs classify failures without exposing OAuth data", async (t) => {
+  const logged = [];
+  t.mock.method(console, "error", (line) => logged.push(JSON.parse(line)));
+  const upstream = t.mock.method(globalThis, "fetch");
+  const { state, cookie } = await begin();
+  const scenarios = [
+    {
+      response: () => new Response("private-response", { status: 503 }),
+      stage: "token_exchange",
+      reason: "upstream_http",
+      status: 503,
+    },
+    {
+      response: () => new Response("private-response"),
+      stage: "token_exchange",
+      reason: "invalid_response",
+      status: 200,
+    },
+    {
+      response: () => Response.json({ access_token: 123 }),
+      stage: "token_exchange",
+      reason: "invalid_response",
+    },
+    {
+      response: () => {
+        throw new DOMException("private-timeout", "TimeoutError");
+      },
+      stage: "token_exchange",
+      reason: "timeout",
+    },
+    {
+      response: () => {
+        throw new Error("private-network");
+      },
+      stage: "token_exchange",
+      reason: "network",
+    },
+    {
+      response: (url) =>
+        Response.json(
+          url.includes("access_token") ? { access_token: "private-token" } : { login: 123 },
+        ),
+      stage: "user_lookup",
+      reason: "invalid_response",
+    },
+  ];
+  for (const { response, stage, reason, status } of scenarios) {
+    logged.length = 0;
+    upstream.mock.mockImplementation(async (url) => response(url));
+    const html = await (await finish(state, cookie)).text();
+    assert.match(html, /authorization:github:error:/);
+    assert.deepEqual(logged, [
+      { event: "cms_oauth_failure", stage, reason, ...(status === undefined ? {} : { status }) },
+    ]);
+    for (const secret of [
+      state,
+      cookie,
+      "test-code",
+      env.GITHUB_OAUTH_SECRET,
+      "private-response",
+      "private-token",
+      "private-timeout",
+      "private-network",
+    ]) {
+      assert.ok(!JSON.stringify(logged).includes(secret));
+      assert.ok(!html.includes(secret));
+    }
+  }
+});

@@ -1,8 +1,3 @@
-type Env = {
-  GITHUB_OAUTH_ID: string;
-  GITHUB_OAUTH_SECRET: string;
-};
-
 const SITE_ORIGIN = "https://proshunsuke.github.io";
 const WORKER_ORIGIN = "https://proshunsuke-cms-auth.shunsuke0901.workers.dev";
 const CALLBACK_URL = `${WORKER_ORIGIN}/callback`;
@@ -92,6 +87,58 @@ const callbackPage = (status: "success" | "error", data: { token?: string; messa
   );
 };
 
+type AuthStage = "authorize" | "callback" | "token_exchange" | "user_lookup";
+const logFailure = (
+  stage: AuthStage,
+  reason:
+    | "timeout"
+    | "upstream_http"
+    | "invalid_response"
+    | "network"
+    | "unexpected"
+    | "missing_configuration",
+  status?: number,
+) => {
+  console.error(
+    JSON.stringify({
+      event: "cms_oauth_failure",
+      stage,
+      reason,
+      ...(status === undefined ? {} : { status }),
+    }),
+  );
+};
+
+const githubJson = async (
+  stage: "token_exchange" | "user_lookup",
+  url: string,
+  init: RequestInit,
+) => {
+  let response: Response;
+  try {
+    response = await fetch(url, { ...init, signal: AbortSignal.timeout(10000) });
+  } catch (error) {
+    logFailure(
+      stage,
+      error instanceof DOMException && error.name === "TimeoutError" ? "timeout" : "network",
+    );
+    return null;
+  }
+  if (!response.ok) {
+    logFailure(stage, "upstream_http", response.status);
+    await response.body?.cancel();
+    return null;
+  }
+  try {
+    const value: unknown = await response.json();
+    if (value !== null && typeof value === "object") return value;
+  } catch {
+    // Never log the response body, URL, or exception message.
+  }
+  logFailure(stage, "invalid_response", response.status);
+  return null;
+};
+
 const authorize = async (url: URL, env: Env) => {
   if (
     url.searchParams.get("provider") !== "github" ||
@@ -130,7 +177,7 @@ const callback = async (request: Request, url: URL, env: Env) => {
   if (url.searchParams.has("error") || !code) {
     return callbackPage("error", { message: "GitHub の認証が完了しませんでした。" });
   }
-  const tokenResponse = await fetch("https://github.com/login/oauth/access_token", {
+  const token = await githubJson("token_exchange", "https://github.com/login/oauth/access_token", {
     method: "POST",
     headers: { Accept: "application/json", "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
@@ -139,22 +186,29 @@ const callback = async (request: Request, url: URL, env: Env) => {
       code,
       redirect_uri: CALLBACK_URL,
     }),
-    signal: AbortSignal.timeout(10000),
   });
-  const token: { access_token?: string; error?: string } = await tokenResponse.json();
-  if (!tokenResponse.ok || token.error || !token.access_token) {
+  if (
+    !token ||
+    !("access_token" in token) ||
+    typeof token.access_token !== "string" ||
+    !token.access_token ||
+    "error" in token
+  ) {
+    if (token) logFailure("token_exchange", "invalid_response");
     return callbackPage("error", { message: "GitHub の認証情報を取得できませんでした。" });
   }
-  const userResponse = await fetch("https://api.github.com/user", {
+  const user = await githubJson("user_lookup", "https://api.github.com/user", {
     headers: {
       Accept: "application/vnd.github+json",
       Authorization: `Bearer ${token.access_token}`,
       "User-Agent": "proshunsuke-cms-auth",
     },
-    signal: AbortSignal.timeout(10000),
   });
-  const user: { login?: string } = await userResponse.json();
-  if (!userResponse.ok || user.login?.toLowerCase() !== "proshunsuke") {
+  if (!user || !("login" in user) || typeof user.login !== "string") {
+    if (user) logFailure("user_lookup", "invalid_response");
+    return callbackPage("error", { message: "GitHub のアカウント情報を取得できませんでした。" });
+  }
+  if (user.login.toLowerCase() !== "proshunsuke") {
     return callbackPage("error", { message: "この管理画面を利用できるアカウントではありません。" });
   }
   // Decap's GitHub backend receives only the access token. Expiry requires a fresh login.
@@ -168,16 +222,19 @@ export default {
     if (request.method !== "GET") return plain("Method not allowed", 405);
     if (url.pathname === "/") return plain("CMS OAuth service", 200);
     if (url.pathname !== "/auth" && url.pathname !== "/callback") return plain("Not found", 404);
-    if (!env.GITHUB_OAUTH_ID || !env.GITHUB_OAUTH_SECRET)
+    if (!env.GITHUB_OAUTH_ID || !env.GITHUB_OAUTH_SECRET) {
+      logFailure(url.pathname === "/auth" ? "authorize" : "callback", "missing_configuration");
       return plain("Authentication is not configured", 503);
+    }
     try {
       return url.pathname === "/auth"
         ? await authorize(url, env)
         : await callback(request, url, env);
     } catch {
+      logFailure(url.pathname === "/auth" ? "authorize" : "callback", "unexpected");
       return callbackPage("error", {
         message: "認証サービスとの通信に失敗しました。もう一度ログインしてください。",
       });
     }
   },
-};
+} satisfies ExportedHandler<Env>;

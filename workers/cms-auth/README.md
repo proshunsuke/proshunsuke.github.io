@@ -70,3 +70,11 @@ OAuth用の `GITHUB_OAUTH_ID` と `GITHUB_OAUTH_SECRET` はCloudflareのWorker S
 `worker.ts` と `wrangler.jsonc` を変更・pushして更新します。ダッシュボードでのコード編集は通常の更新手順として使用しません。`mise run auth:check` は型検査・テスト・ビルドに加えてデプロイのdry-runを行い、Cloudflare本番への更新は行いません。
 
 配置後に `/` の応答と `/auth` のGitHubへのリダイレクトを自動確認します。実際のユーザーログイン・トークン交換はこの確認には含めません。デプロイや応答確認の失敗はActionsの失敗として記録されます。
+
+## 型と実行環境の検証
+
+`npm run typecheck` は `wrangler types` を実行し、互換性設定と `secrets.required` から環境・ランタイムの型を生成して検査します。生成される `worker-configuration.d.ts` はGit管理せず、手動編集しません。Secretは名前だけを設定に宣言し、値は引き続きCloudflareで管理します。
+
+`npm test` はビルド後に既存の単体テストとMiniflareの統合テストを実行します。統合テストはデプロイ対象の `dist/worker.js` をworkerd上で動かし、Wrangler設定の互換性日付・フラグを使用します。GitHubへの通信はローカルの応答に置き換え、本番のSecretやGitHub認証は使用しません。
+
+障害ログは `event`、処理段階の `stage`、固定分類の `reason`、必要に応じてHTTP `status` のみを記録します。認証コード・Cookie・トークン・Secret・URL全体・外部応答本文・例外メッセージは記録しません。起動ログとトレースの無効化は維持します。
