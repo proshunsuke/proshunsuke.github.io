@@ -1,4 +1,8 @@
 import { Link } from "react-router";
+import type { BreadcrumbHandle } from "~/components/breadcrumbs";
+export const handle = {
+  breadcrumbs: ({ pathname }) => [{ label: "ページが見つかりません", to: pathname }],
+} satisfies BreadcrumbHandle;
 export const meta = () => [
   { title: "ページが見つかりません | pro_shunsuke" },
   { name: "robots", content: "noindex" },

@@ -1,5 +1,3 @@
-import { Link } from "react-router";
-
 type ArticleProps = {
   title: string;
   html: string;
@@ -9,11 +7,6 @@ type ArticleProps = {
 
 export const Article = ({ title, html, headings, category }: ArticleProps) => (
   <div className="page-width py-10 sm:py-16">
-    <nav aria-label="パンくず" className="mb-10 flex flex-wrap gap-2 text-sm text-muted">
-      <Link to="/">ホーム</Link>
-      <span aria-hidden="true">/</span>
-      {category === "BLOG" ? <Link to="/posts/">ブログ</Link> : <span>{title}</span>}
-    </nav>
     <header className="max-w-4xl border-b border-line pb-10">
       <p className="eyebrow">{category}</p>
       <h1 className="mt-4 text-3xl leading-snug font-bold tracking-tight sm:text-4xl">{title}</h1>

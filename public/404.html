@@ -45,6 +45,19 @@
         outline: 3px solid currentColor;
         outline-offset: 4px;
       }
+      nav ol {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 0;
+        list-style: none;
+        font-size: 14px;
+        overflow-wrap: anywhere;
+      }
+      nav a {
+        margin: 0;
+        padding: 0;
+      }
       @media (prefers-color-scheme: dark) {
         :root {
           color: #edf2fc;
@@ -59,6 +72,15 @@
   </head>
   <body>
     <main>
+      <nav aria-label="パンくず">
+        <ol>
+          <li><a href="/">ホーム</a></li>
+          <li>
+            <span aria-hidden="true">/ </span
+            ><span aria-current="page">ページが見つかりません</span>
+          </li>
+        </ol>
+      </nav>
       <p class="label">404</p>
       <h1>ページが見つかりません</h1>
       <p>URLをご確認いただくか、ホームからページをお探しください。</p>

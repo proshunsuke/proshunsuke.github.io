@@ -82,13 +82,15 @@ OxlintはMarkdownを検査しません。CMS本文は整形規則を強制せず
 
 ## 本文とURL
 
-| URL              | 本文 / ルート                                                    |
-| ---------------- | ---------------------------------------------------------------- |
-| `/`              | `app/routes/_index.tsx`                                          |
-| `/resume/`       | `content/pages/resume.md`                                        |
-| `/about-page/`   | `content/pages/about-page.md`                                    |
-| `/posts/`        | `app/routes/posts._index.tsx` が記事一覧を生成                   |
-| `/posts/<slug>/` | `content/posts/<slug>.md` を `app/routes/posts.$slug.tsx` が表示 |
+`app/root.tsx` はHTML文書・共通スクリプト・最上位のエラー表示を担当します。公開サイトのヘッダー・パンくず・本文領域・遷移中表示は、URLに現れないレイアウトルート `app/routes/_site.tsx` にまとめています。既存ページは `_site.*.tsx` としてその配下に置き、URLは維持します。将来、異なるレイアウトのページを追加する場合は `_site` の外にルートを定義することで、公開サイトのヘッダーやパンくずを付けずに表示できます。
+
+| URL              | 本文 / ルート                                                          |
+| ---------------- | ---------------------------------------------------------------------- |
+| `/`              | `app/routes/_site._index.tsx`                                          |
+| `/resume/`       | `content/pages/resume.md`                                              |
+| `/about-page/`   | `content/pages/about-page.md`                                          |
+| `/posts/`        | `app/routes/_site.posts._index.tsx` が記事一覧を生成                   |
+| `/posts/<slug>/` | `content/posts/<slug>.md` を `app/routes/_site.posts.$slug.tsx` が表示 |
 
 ブログのfrontmatterは `title` と `slug`、固定ページは `title` を持ちます。本文はMarkdownで書きます。HTMLやJSXは実行しません。記事ファイル名と `slug` は一致させ、公開後は変更しないでください。タイトルはURLを変えずに変更できます。
 

@@ -1,7 +1,11 @@
-import type { Route } from "./+types/posts._index";
+import type { Route } from "./+types/_site.posts._index";
 import { Link } from "react-router";
 import { listPosts } from "~/lib/content.server";
 import { pageMeta } from "~/lib/meta";
+import type { BreadcrumbHandle } from "~/components/breadcrumbs";
+export const handle = {
+  breadcrumbs: () => [{ label: "ブログ", to: "/posts/" }],
+} satisfies BreadcrumbHandle;
 export const loader = () => listPosts();
 export const meta = () => pageMeta("ブログ", "/posts/");
 const Posts = ({ loaderData: posts }: Route.ComponentProps) => {
