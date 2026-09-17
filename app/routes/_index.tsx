@@ -5,16 +5,21 @@ const Home = () => (
   <div className="page-width">
     <section className="grid items-center gap-10 border-b border-line py-16 sm:py-24 md:grid-cols-[1fr_auto]">
       <div>
-        <p className="eyebrow">PRO_SHUNSUKE’S PAGE</p>
-        <h1 className="mt-6 text-[clamp(2.1rem,8vw,4.5rem)] font-bold tracking-tight">
+        <h1 className="text-[clamp(2.1rem,8vw,4.5rem)] font-bold tracking-tight">
           pro_shunsuke<span className="text-accent">.</span>
         </h1>
         <p className="mt-6 text-xl text-muted">
           鈴木駿介 <span className="ml-2 text-base">Shunsuke Suzuki</span>
         </p>
         <div className="mt-8 flex gap-6 text-sm font-semibold">
-          <a href="https://github.com/proshunsuke">GitHub ↗</a>
-          <a href="https://twitter.com/pro_shunsuke">Twitter ↗</a>
+          <a href="https://github.com/proshunsuke" target="_blank" rel="noopener noreferrer">
+            GitHub <span aria-hidden="true">↗</span>
+            <span className="sr-only">（新しいタブで開く）</span>
+          </a>
+          <a href="https://x.com/pro_shunsuke" target="_blank" rel="noopener noreferrer">
+            X <span aria-hidden="true">↗</span>
+            <span className="sr-only">（新しいタブで開く）</span>
+          </a>
         </div>
       </div>
       <img

@@ -29,6 +29,9 @@
   color-scheme: dark;
 }
 @layer base {
+  html {
+    @apply scroll-pt-36 md:scroll-pt-24;
+  }
   body {
     @apply bg-surface text-ink font-sans antialiased;
     margin: 0;
@@ -75,6 +78,10 @@
   .prose h2 {
     border-bottom: 1px solid var(--line);
     padding-bottom: 0.6em;
+  }
+  .prose :not(pre) > code {
+    @apply rounded bg-wash px-1.5 py-0.5 font-mono text-ink;
+    font-weight: 400;
   }
   .prose h5 {
     font-weight: 700;

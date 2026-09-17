@@ -20,7 +20,7 @@ export const Article = ({ title, html, headings, category }: ArticleProps) => (
     </header>
     <div className="mt-10 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-16">
       <article
-        className="prose prose-slate min-w-0 max-w-none dark:prose-invert prose-headings:scroll-mt-24 prose-a:text-accent prose-img:rounded-xl"
+        className="prose prose-slate min-w-0 max-w-none dark:prose-invert prose-headings:scroll-mt-24 prose-a:text-accent prose-code:before:content-none prose-code:after:content-none prose-img:rounded-xl"
         dangerouslySetInnerHTML={{ __html: html }}
       />
       {headings.length > 0 && (

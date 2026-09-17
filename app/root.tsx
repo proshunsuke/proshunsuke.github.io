@@ -1,6 +1,8 @@
+import type { Route } from "./+types/root";
 import type { ReactNode } from "react";
 import {
   isRouteErrorResponse,
+  useNavigation,
   Links,
   Meta,
   NavLink,
@@ -29,9 +31,9 @@ export const Layout = ({ children }: { children: ReactNode }) => (
       <a href="#main" className="skip-link">
         本文へ移動
       </a>
-      <header className="border-b border-line bg-surface">
-        <div className="page-width flex flex-wrap items-center justify-between gap-x-6 gap-y-3 py-4">
-          <Link to="/" className="text-lg font-bold tracking-tight">
+      <header className="sticky top-0 z-40 border-b border-line bg-surface/95 backdrop-blur-md">
+        <div className="page-width flex flex-wrap items-center justify-between gap-x-3 gap-y-3 py-3">
+          <Link to="/" className="text-base font-bold tracking-tight sm:text-lg">
             pro_shunsuke<span className="text-accent">.</span>
           </Link>
           <nav
@@ -41,6 +43,7 @@ export const Layout = ({ children }: { children: ReactNode }) => (
             <NavLink to="/resume/">職務経歴書</NavLink>
             <NavLink to="/posts/">ブログ</NavLink>
             <NavLink to="/about-page/">このページについて</NavLink>
+            <a href="/admin/index.html">管理画面</a>
           </nav>
           <ThemeSelect />
         </div>
@@ -48,28 +51,36 @@ export const Layout = ({ children }: { children: ReactNode }) => (
       <main id="main" tabIndex={-1} className="min-h-[70vh]">
         {children}
       </main>
-      <footer className="mt-16 border-t border-line">
-        <div className="page-width flex flex-wrap items-center justify-between gap-6 py-8 text-sm text-muted">
-          <p>pro_shunsuke’s page</p>
-          <div className="flex gap-6">
-            <a href="https://github.com/proshunsuke">GitHub ↗</a>
-            <a href="https://twitter.com/pro_shunsuke">Twitter ↗</a>
-          </div>
-        </div>
-      </footer>
       <ScrollRestoration />
       <Scripts />
     </body>
   </html>
 );
-const App = () => (
-  <>
-    <Outlet />
-    <Analytics />
-  </>
-);
+const App = () => {
+  const navigation = useNavigation();
+  const isNavigating = navigation.state !== "idle";
+  return (
+    <>
+      <div role="status" aria-live="polite" className="fixed right-5 bottom-5 z-50">
+        {isNavigating && (
+          <span className="flex items-center gap-3 rounded-full border border-line bg-surface px-5 py-3 text-sm text-ink shadow-lg">
+            <span
+              aria-hidden="true"
+              className="size-4 rounded-full border-2 border-line border-t-accent motion-safe:animate-spin"
+            />
+            ページを読み込んでいます…
+          </span>
+        )}
+      </div>
+      <div aria-busy={isNavigating}>
+        <Outlet />
+      </div>
+      <Analytics />
+    </>
+  );
+};
 export default App;
-export const ErrorBoundary = ({ error }: { error: unknown }) => (
+export const ErrorBoundary = ({ error }: Route.ErrorBoundaryProps) => (
   <div className="page-width py-24">
     <p className="eyebrow">{isRouteErrorResponse(error) ? error.status : "ERROR"}</p>
     <h1 className="mt-4 text-3xl font-bold">
