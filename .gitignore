@@ -5,4 +5,5 @@ build/
 !.env.example
 .DS_Store
 workers/cms-auth/dist/
+workers/cms-auth/.wrangler/
 !mise.toml

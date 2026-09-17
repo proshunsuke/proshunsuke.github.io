@@ -18,7 +18,7 @@ run = "npm run preview -- --host 127.0.0.1"
 
 [tasks."auth:check"]
 dir = "workers/cms-auth"
-run = ["npm ci", "npm run typecheck", "npm test", "npm run build"]
+run = ["npm ci", "npm run typecheck", "npm test", "npm run build", "npm run deploy -- --dry-run"]
 
 [tasks.format]
 run = "npm run format"
