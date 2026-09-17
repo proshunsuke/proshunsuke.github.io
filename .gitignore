@@ -2,7 +2,6 @@ node_modules/
 build/
 .react-router/
 .env*
-!.env.example
 .DS_Store
 workers/cms-auth/dist/
 workers/cms-auth/.wrangler/
