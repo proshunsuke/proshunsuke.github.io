@@ -65,7 +65,7 @@ CMS本体はバージョン固定のDecap CMS 3.16.2をunpkgから読み込み�
 
 ## 公開
 
-開発・公開ブランチは `main` です。GitHub PagesのSourceは **GitHub Actions** を使用します。`.github/workflows/main.yml` がPRの検証とmainの公開を担当します。日次ビルドはありません。
+開発・公開ブランチは `main` です。GitHub PagesのSourceは **GitHub Actions** を使用します。`.github/workflows/main.yml` がPRの検証とmainの公開を担当し、認証WorkerもCloudflareへ自動デプロイします。初回に必要なActions Secretsは [認証WorkerのREADME](workers/cms-auth/README.md#自動デプロイ) に記載しています。日次ビルドはありません。
 
 GitHub Pagesは動的サーバーを持たないため、既存ページのHTMLとReact Routerの遷移用データを生成します。未知のURLには専用の静的な `404.html` を配信します。存在しない記事のデータ取得を避け、JavaScriptなしでもエラー内容を表示し、HTTP 404を維持します。
 
