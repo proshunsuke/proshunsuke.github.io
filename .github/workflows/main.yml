@@ -61,6 +61,8 @@ jobs:
   build:
     name: Build site
     runs-on: ubuntu-latest
+    outputs:
+      playwright-version: ${{ steps.playwright.outputs.version }}
     steps:
       - uses: actions/checkout@v7
       - uses: jdx/mise-action@v4
@@ -71,6 +73,9 @@ jobs:
         run: mise run build
         env:
           VITE_GOOGLE_ANALYTICS_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID }}
+      - name: Read Playwright version
+        id: playwright
+        run: node -p '"version=" + require("./package-lock.json").packages["node_modules/playwright"].version' >> "$GITHUB_OUTPUT"
       - run: node scripts/verify-build.mjs
       - name: Upload built site
         uses: actions/upload-artifact@v4
@@ -85,13 +90,15 @@ jobs:
     name: Playwright E2E
     needs: build
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.build.outputs.playwright-version }}-noble
+      options: --ipc=host
     steps:
       - uses: actions/checkout@v7
       - uses: jdx/mise-action@v4
         with:
           version: 2026.9.9
       - run: mise run install
-      - run: npx playwright install --with-deps chromium firefox webkit
       - name: Download built site
         uses: actions/download-artifact@v5
         with:
