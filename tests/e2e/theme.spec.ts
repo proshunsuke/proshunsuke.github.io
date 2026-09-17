@@ -37,19 +37,22 @@ for (const scenario of [
 }
 
 test("選択表示がスライドし、動きを減らす設定ではアニメーションを抑制する", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
   const indicator = page
     .getByRole("group", { name: "配色" })
     .locator(':scope > span[aria-hidden="true"]');
-  // Register before clicking so a slow CI runner cannot miss the short transition.
-  const started = indicator.evaluate(
-    (element) =>
-      new Promise<void>((resolve) => {
-        element.addEventListener("transitionrun", () => resolve(), { once: true });
-      }),
-  );
+  await expect(page.getByRole("radio", { name: "自動", exact: true })).toBeChecked();
+  await expect(indicator).toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, 0)");
+  // Await registration, and retain the event even if the transition finishes before the assertion.
+  await indicator.evaluate((element) => {
+    element.addEventListener("transitionrun", (event) => {
+      if (event.target === element && (event as TransitionEvent).propertyName === "transform")
+        element.setAttribute("data-transition-started", "true");
+    });
+  });
   await page.getByTitle("ダーク", { exact: true }).click();
-  await started;
+  await expect(indicator).toHaveAttribute("data-transition-started", "true");
   await indicator.evaluate(async (element) => {
     await Promise.all(element.getAnimations().map((animation) => animation.finished));
   });
