@@ -48,7 +48,9 @@ CMS本文は書き換えず、変換の異常系にはモックのMarkdownを使
 
 CIは1つのワークフロー内で、静的チェック、Vitest、Worker検証、サイトビルドを独立したジョブとして並列実行します。Playwright E2Eはサイトビルドの成功後に別ジョブで実行し、ダウンロードしたビルド成果物を検証します。サイトは再ビルドせず、E2Eで検証した成果物をそのままGitHub Pagesへ渡します。サイト・Workerのデプロイは、すべての検証が成功した場合だけ実行します。
 
-CIのVitest・E2Eジョブは、ブラウザとOS依存ライブラリが入ったPlaywright公式Dockerイメージで実行し、毎回のブラウザ・OS依存ライブラリのインストールを省きます。イメージのバージョンは共通の準備ジョブで `package-lock.json` から取得するため、npm側のPlaywrightと一致します。Vitestは準備ジョブの完了後に実行し、サイトビルドの完了は待ちません。コンテナは一般ユーザー（UID 1001）で実行し、Node.jsはコンテナ内でもmiseで管理します。
+CIのVitestジョブは通常のランナーで実行し、`playwright install --with-deps --only-shell chromium` でChromiumのヘッドレス実行に必要なブラウザとOS依存ライブラリだけを導入します。準備ジョブやサイトビルドの完了は待ちません。
+
+E2Eジョブは、ブラウザとOS依存ライブラリが入ったPlaywright公式Dockerイメージで実行し、毎回のブラウザ・OS依存ライブラリのインストールを省きます。イメージのバージョンは準備ジョブで `package-lock.json` から取得するため、npm側のPlaywrightと一致します。コンテナは一般ユーザー（UID 1001）で実行し、Node.jsはコンテナ内でもmiseで管理します。
 
 Vitest失敗時の添付ファイルと、E2E失敗時のHTMLレポート・スクリーンショット・トレースは、それぞれActionsの成果物として7日間保持します。ローカルでは `mise exec -- npx playwright show-report` でレポートを確認できます。
 

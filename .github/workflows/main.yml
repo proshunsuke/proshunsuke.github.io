@@ -41,17 +41,14 @@ jobs:
 
   vitest:
     name: Vitest (Node and Browser)
-    needs: prepare
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v${{ needs.prepare.outputs.playwright-version }}-noble
-      options: --user 1001 --ipc=host
     steps:
       - uses: actions/checkout@v7
       - uses: jdx/mise-action@v4
         with:
           version: 2026.9.9
       - run: mise run install
+      - run: npx playwright install --with-deps --only-shell chromium
       - run: mise run test
       - name: Upload Vitest diagnostics
         if: failure()
