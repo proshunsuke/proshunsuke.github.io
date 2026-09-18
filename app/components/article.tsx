@@ -1,7 +1,10 @@
+import { TableOfContents } from "~/components/table-of-contents";
+import type { Heading } from "~/lib/headings";
+
 type ArticleProps = {
   title: string;
   html: string;
-  headings: { id: string; label: string }[];
+  headings: Heading[];
   category: string;
 };
 
@@ -16,20 +19,7 @@ export const Article = ({ title, html, headings, category }: ArticleProps) => (
         className="prose prose-slate min-w-0 max-w-none dark:prose-invert prose-headings:scroll-mt-24 prose-a:text-accent prose-code:before:content-none prose-code:after:content-none prose-img:rounded-xl"
         dangerouslySetInnerHTML={{ __html: html }}
       />
-      {headings.length > 0 && (
-        <aside className="order-first lg:order-last lg:sticky lg:top-28">
-          <details className="rounded-xl border border-line p-5" open>
-            <summary className="cursor-pointer text-sm font-semibold">このページの内容</summary>
-            <nav aria-label="目次" className="mt-4 flex flex-col gap-3 text-sm text-muted">
-              {headings.map(({ id, label }) => (
-                <a key={id} href={`#${id}`} className="leading-relaxed hover:text-accent">
-                  {label}
-                </a>
-              ))}
-            </nav>
-          </details>
-        </aside>
-      )}
+      <TableOfContents headings={headings} />
     </div>
   </div>
 );
