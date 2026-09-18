@@ -1,5 +1,7 @@
 # pro_shunsuke.
 
+[日本語](README.md) | [English](README.en.md)
+
 職務経歴書とブログの個人サイト。公開先: https://proshunsuke.github.io/
 
 このサイトについて: https://proshunsuke.github.io/about/
