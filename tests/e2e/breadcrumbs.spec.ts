@@ -4,7 +4,7 @@ test("各ページにパンくずを一つ表示し、現在ページはリン�
   for (const [path, parents] of [
     ["/", []],
     ["/resume/", ["ホーム"]],
-    ["/about-page/", ["ホーム"]],
+    ["/about/", ["ホーム"]],
     ["/posts/", ["ホーム"]],
     ["/posts/github-copy-title-link/", ["ホーム", "ブログ"]],
     ["/missing-page/", ["ホーム"]],

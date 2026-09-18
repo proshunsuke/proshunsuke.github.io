@@ -1,5 +1,17 @@
 import { expect, test } from "#tests/e2e/fixtures";
 
+test("サイト紹介のURL・タイトル・リンクを統一する", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("link", { name: "このサイトについて", exact: true })).toHaveAttribute(
+    "href",
+    "/about/",
+  );
+  await page.getByRole("link", { name: "このサイトについて", exact: true }).click();
+  await expect(page).toHaveURL("/about/");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("このサイトについて");
+  await expect(page).toHaveTitle("このサイトについて | pro_shunsuke");
+});
+
 test("GitHubとXはトップページから新規タブで開く", async ({ page }) => {
   await page.goto("/");
   for (const [name, href] of [

@@ -4,7 +4,7 @@ import { readContent, listPosts } from "../app/lib/content.server.ts";
 const pages = [
   { path: "/", title: "ホーム" },
   ...(await Promise.all(
-    ["resume", "about-page"].map(async (slug) => ({
+    ["resume", "about"].map(async (slug) => ({
       path: `/${slug}/`,
       title: (await readContent("pages", slug)).title,
     })),

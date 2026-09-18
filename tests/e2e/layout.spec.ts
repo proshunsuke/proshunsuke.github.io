@@ -34,13 +34,7 @@ for (const width of [375, 768, 1440]) {
 for (const colorScheme of ["light", "dark"] as const) {
   test(`${colorScheme}配色で主要ページのアクセシビリティを検証する`, async ({ page }) => {
     await page.emulateMedia({ colorScheme });
-    for (const path of [
-      "/",
-      "/resume/",
-      "/about-page/",
-      "/posts/",
-      "/posts/github-copy-title-link/",
-    ]) {
+    for (const path of ["/", "/resume/", "/about/", "/posts/", "/posts/github-copy-title-link/"]) {
       await page.goto(path);
       await expect(page.getByRole("group", { name: "配色" })).toBeVisible();
       const results = await new AxeBuilder({ page })

@@ -49,9 +49,9 @@ const Home = () => (
             description: "開発の記録と、作ったものについて。",
           },
           {
-            path: "/about-page/",
+            path: "/about/",
             number: "03",
-            title: "このページについて",
+            title: "このサイトについて",
             english: "ABOUT",
             description: "このサイトを作った理由と、その仕組み。",
           },

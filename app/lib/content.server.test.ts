@@ -7,7 +7,7 @@ test("公開対象の記事と固定ページを読み込める", async () => {
     expect.arrayContaining([expect.objectContaining({ slug: "github-copy-title-link" })]),
   );
   expect(posts.some(({ slug }) => /^test-post-[123]$/.test(slug))).toBe(false);
-  for (const slug of ["resume", "about-page"]) {
+  for (const slug of ["resume", "about"]) {
     const page = await readContent("pages", slug);
     expect(page.headings.length).toBeGreaterThanOrEqual(3);
     expect(page.html).toContain('<h2 id="section-');

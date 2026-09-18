@@ -40,9 +40,9 @@ collections:
         fields:
           - { label: タイトル, name: title, widget: string }
           - { label: 本文, name: body, widget: markdown }
-      - name: about-page
-        label: このページについて
-        file: content/pages/about-page.md
+      - name: about
+        label: このサイトについて
+        file: content/pages/about.md
         fields:
           - { label: タイトル, name: title, widget: string }
           - { label: 本文, name: body, widget: markdown }

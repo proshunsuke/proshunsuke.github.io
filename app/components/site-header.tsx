@@ -13,7 +13,7 @@ export const SiteHeader = () => (
       >
         <NavLink to="/resume/">職務経歴書</NavLink>
         <NavLink to="/posts/">ブログ</NavLink>
-        <NavLink to="/about-page/">このページについて</NavLink>
+        <NavLink to="/about/">このサイトについて</NavLink>
         <a href="/admin/index.html">管理画面</a>
       </nav>
       <ThemeSelect />
