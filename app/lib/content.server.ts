@@ -7,6 +7,8 @@ import remarkRehype from "remark-rehype";
 import rehypeSanitize from "rehype-sanitize";
 import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
+import { toString } from "hast-util-to-string";
+import type { Heading } from "~/lib/headings";
 
 const processor = unified()
   .use(remarkParse)
@@ -31,11 +33,19 @@ export const readContent = async (collection: "pages" | "posts", slug: string) =
     throw new Error(`Missing title: ${slug}`);
   if (collection === "posts" && data.slug !== slug)
     throw new Error(`Slug must match filename: ${slug}`);
-  const html = String(await processor.process(content));
-  const headings = [...html.matchAll(/<h2 id="([^"]+)">(.*?)<\/h2>/g)].map(([, id, label]) => ({
-    id,
-    label: label.replace(/<[^>]*>/g, ""),
-  }));
+  const tree = await processor.run(processor.parse(content));
+  const headings: Heading[] = tree.children.flatMap((node) => {
+    if (
+      node.type !== "element" ||
+      (node.tagName !== "h2" && node.tagName !== "h3") ||
+      typeof node.properties.id !== "string"
+    )
+      return [];
+    return [
+      { id: node.properties.id, label: toString(node), level: node.tagName === "h2" ? 2 : 3 },
+    ];
+  });
+  const html = processor.stringify(tree);
   return { title: data.title, slug, html, headings };
 };
 

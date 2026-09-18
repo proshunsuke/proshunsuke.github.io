@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
+    "hast-util-to-string": "^3.0.1",
     "isbot": "^5",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

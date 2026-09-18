@@ -24,9 +24,41 @@ slug: example
   expect(result.html).toContain("<code>pro_shunsuke</code>");
   expect(result.html).toContain("<table>");
   expect(result.headings).toEqual([
-    { id: "section-見出し", label: "見出し" },
-    { id: "section-見出し-1", label: "見出し" },
+    { id: "section-見出し", label: "見出し", level: 2 },
+    { id: "section-見出し-1", label: "見出し", level: 2 },
   ]);
+});
+
+test("h2・h3を本文順で抽出し、装飾と文字参照をプレーンテキストにする", async () => {
+  files.readFile.mockResolvedValue(`---
+title: 目次
+---
+# 本文タイトル
+### 最初の小見出し
+## **設定** &amp; \`code\`
+### [手順](https://example.com/) &lt;注意&gt;
+#### 詳細
+##### 補足
+###### 注記
+> ## 引用内の見出し
+
+## 次の章
+### 手順
+`);
+  const { html, headings } = await readContent("pages", "example");
+  expect(headings.map(({ label, level }) => ({ label, level }))).toEqual([
+    { label: "最初の小見出し", level: 3 },
+    { label: "設定 & code", level: 2 },
+    { label: "手順 <注意>", level: 3 },
+    { label: "次の章", level: 2 },
+    { label: "手順", level: 3 },
+  ]);
+  for (const { id, level } of headings) expect(html).toContain(`<h${level} id="${id}">`);
+});
+
+test("h2・h3がない本文では目次を生成しない", async () => {
+  files.readFile.mockResolvedValue("---\ntitle: 目次なし\n---\n本文\n\n#### 詳細");
+  expect((await readContent("pages", "example")).headings).toEqual([]);
 });
 
 test("CMS本文に含まれるスクリプトや危険なリンクを出力しない", async () => {
