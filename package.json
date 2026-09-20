@@ -19,7 +19,14 @@
     "preview": "vite preview",
     "lint": "oxlint .",
     "format": "oxfmt --write .",
-    "format:check": "oxfmt --check ."
+    "format:check": "oxfmt --check .",
+    "og": "node scripts/og-images.mjs",
+    "predev": "npm run og",
+    "prebuild": "npm run og",
+    "pretypecheck": "npm run og",
+    "pretest": "npm run og",
+    "pretest:unit": "npm run og",
+    "pretest:browser": "npm run og"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
@@ -41,6 +48,7 @@
     "@playwright/test": "^1.63.0",
     "@react-router/dev": "^8.4.0",
     "@react-router/fs-routes": "^8.4.0",
+    "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^22.20.3",
@@ -50,6 +58,7 @@
     "@vitest/browser-playwright": "^5.0.1",
     "oxfmt": "^0.68.0",
     "oxlint": "^1.83.0",
+    "satori": "^0.33.4",
     "sirv": "^3.0.2",
     "skills": "^1.6.0",
     "tailwindcss": "^4.3.3",

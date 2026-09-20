@@ -78,6 +78,13 @@ jobs:
         with:
           version: 2026.9.9
       - run: mise run install
+      - name: Restore OGP image cache
+        uses: actions/cache@v4
+        with:
+          path: .cache/og
+          key: og-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('package-lock.json', 'scripts/og-*.mjs', 'assets/fonts/**', 'public/images/icon.jpg', 'app/lib/site.ts', 'content/posts/*.md') }}
+          restore-keys: |
+            og-v1-${{ runner.os }}-${{ runner.arch }}-
       - name: Build static site
         run: mise run build
         env:

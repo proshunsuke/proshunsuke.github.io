@@ -10,3 +10,6 @@ test-results/
 playwright-report/
 coverage/
 .vitest/
+.cache/og/
+public/og/
+app/generated/

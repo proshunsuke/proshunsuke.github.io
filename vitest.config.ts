@@ -13,7 +13,7 @@ export default defineConfig({
         test: {
           name: "node",
           environment: "node",
-          include: ["app/**/*.test.ts"],
+          include: ["app/**/*.test.ts", "scripts/**/*.test.mjs"],
           exclude: ["app/**/*.browser.test.ts"],
         },
       },
