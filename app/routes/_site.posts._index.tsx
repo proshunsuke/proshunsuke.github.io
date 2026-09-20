@@ -2,12 +2,14 @@ import type { Route } from "./+types/_site.posts._index";
 import { Link } from "react-router";
 import { listPosts } from "~/lib/content.server";
 import { pageMeta } from "~/lib/meta";
+import { fixedPages } from "~/lib/site";
 import type { BreadcrumbHandle } from "~/components/breadcrumbs";
 export const handle = {
   breadcrumbs: () => [{ label: "ブログ", to: "/posts/" }],
 } satisfies BreadcrumbHandle;
 export const loader = () => listPosts();
-export const meta = () => pageMeta("ブログ", "/posts/");
+export const meta = () =>
+  pageMeta(fixedPages["/posts/"].title, "/posts/", fixedPages["/posts/"].description);
 const Posts = ({ loaderData: posts }: Route.ComponentProps) => {
   return (
     <div className="page-width py-14 sm:py-20">

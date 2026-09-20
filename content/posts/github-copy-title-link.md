@@ -1,5 +1,6 @@
 ---
 title: GitHubのPull requestとIssueのタイトルとURLをコピーしてそれをGoogle Docsに直接貼り付ける
+description: GitHubのPull requestとIssueのタイトル・URLをコピーし、Google Docsにリンクとして貼り付けられるユーザースクリプトを紹介します。
 slug: github-copy-title-link
 ---
 

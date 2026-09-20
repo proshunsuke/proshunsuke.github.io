@@ -24,6 +24,12 @@ collections:
     preview_path: "posts/{{slug}}/"
     fields:
       - { label: タイトル, name: title, widget: string }
+      - {
+          label: 共有・検索用の説明,
+          name: description,
+          widget: text,
+          hint: 記事の内容を1〜2文で説明してください。,
+        }
       - label: URLの識別子
         name: slug
         widget: string
@@ -39,10 +45,12 @@ collections:
         file: content/pages/resume.md
         fields:
           - { label: タイトル, name: title, widget: string }
+          - { label: 共有・検索用の説明, name: description, widget: text }
           - { label: 本文, name: body, widget: markdown }
       - name: about
         label: このサイトについて
         file: content/pages/about.md
         fields:
           - { label: タイトル, name: title, widget: string }
+          - { label: 共有・検索用の説明, name: description, widget: text }
           - { label: 本文, name: body, widget: markdown }

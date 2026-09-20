@@ -6,6 +6,6 @@ import { contentBreadcrumbs } from "~/components/breadcrumbs";
 export const handle = { breadcrumbs: contentBreadcrumbs };
 export const loader = () => readContent("pages", "about");
 export const meta = ({ loaderData: data }: Route.MetaArgs) =>
-  pageMeta(data?.title ?? "ページ", "/about/");
+  data ? pageMeta(data.title, "/about/", data.description) : [];
 const Page = ({ loaderData }: Route.ComponentProps) => <Article {...loaderData} category="ABOUT" />;
 export default Page;

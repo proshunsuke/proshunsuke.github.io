@@ -1,19 +1,28 @@
 import assert from "node:assert/strict";
-import { readFile, access } from "node:fs/promises";
+import { readFile, access, readdir } from "node:fs/promises";
 import { readContent, listPosts } from "../app/lib/content.server.ts";
+import { fixedPages, site } from "../app/lib/site.ts";
 const pages = [
-  { path: "/", title: "ホーム" },
+  { path: "/", title: fixedPages["/"].title, description: fixedPages["/"].description },
   ...(await Promise.all(
     ["resume", "about"].map(async (slug) => ({
       path: `/${slug}/`,
       title: (await readContent("pages", slug)).title,
+      description: (await readContent("pages", slug)).description,
     })),
   )),
-  { path: "/posts/", title: "ブログ" },
-  ...(await listPosts()).map(({ title, slug }) => ({
-    path: `/posts/${slug}/`,
-    title,
-  })),
+  {
+    path: "/posts/",
+    title: fixedPages["/posts/"].title,
+    description: fixedPages["/posts/"].description,
+  },
+  ...(await Promise.all(
+    (await listPosts()).map(async ({ title, slug }) => ({
+      path: `/posts/${slug}/`,
+      title,
+      description: (await readContent("posts", slug)).description,
+    })),
+  )),
 ];
 const escape = (text) =>
   text
@@ -22,7 +31,8 @@ const escape = (text) =>
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#x27;");
-for (const { path, title } of pages) {
+const publishedImages = new Set();
+for (const { path, title, description } of pages) {
   const file = `build/client${path}index.html`;
   const html = await readFile(file, "utf8");
   assert.ok(
@@ -34,9 +44,49 @@ for (const { path, title } of pages) {
     `Incorrect canonical in ${file}`,
   );
   assert.ok(!/test-post-[123]/.test(html), `Removed article leaked into ${file}`);
+  const head = html.slice(0, html.indexOf("</head>"));
+  const meta = (name) => {
+    const matches = [
+      ...head.matchAll(/<meta (?:property|name)="([^"]+)" content="([^"]*)"\s*\/?\s*>/g),
+    ].filter((match) => match[1] === name);
+    assert.equal(matches.length, 1, `Expected one ${name} in ${file}`);
+    return matches[0][2];
+  };
+  assert.equal(meta("description"), escape(description));
+  assert.equal(meta("og:description"), escape(description));
+  assert.equal(meta("og:title"), escape(path === "/" ? site.name : `${title} | ${site.name}`));
+  assert.equal(meta("og:url"), `${site.url}${path}`);
+  assert.equal(
+    meta("og:type"),
+    path.startsWith("/posts/") && path !== "/posts/" ? "article" : "website",
+  );
+  assert.equal(meta("og:site_name"), site.name);
+  assert.equal(meta("og:locale"), "ja_JP");
+  assert.equal(meta("twitter:card"), "summary_large_image");
+  assert.equal(meta("twitter:site"), site.account);
+  assert.equal(meta("twitter:creator"), site.account);
+  for (const field of ["title", "description", "image", "image:alt"])
+    assert.equal(meta(`twitter:${field}`), meta(`og:${field}`));
+  assert.ok(meta("og:image:alt").length > 0);
+  assert.equal(meta("og:image:width"), "1200");
+  assert.equal(meta("og:image:height"), "630");
+  assert.equal(meta("og:image:type"), "image/png");
+  const image = new URL(meta("og:image"));
+  assert.equal(image.origin, site.url);
+  assert.match(image.pathname, /^\/og\/[a-f0-9]{64}\.png$/);
+  publishedImages.add(image.pathname.slice("/og/".length));
+  const png = await readFile(`build/client${image.pathname}`);
+  assert.ok(png.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])));
+  assert.equal(png.readUInt32BE(16), 1200);
+  assert.equal(png.readUInt32BE(20), 630);
   if (path !== "/" && path !== "/posts/")
     assert.ok(html.includes("<article"), `Missing article in ${file}`);
 }
+assert.deepEqual(
+  new Set(await readdir("build/client/og")),
+  publishedImages,
+  "Only current OGP images should be published",
+);
 for (const file of [
   "404.html",
   ".nojekyll",

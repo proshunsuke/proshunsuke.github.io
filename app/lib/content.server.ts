@@ -33,6 +33,8 @@ export const readContent = async (collection: "pages" | "posts", slug: string) =
     throw new Error(`Missing title: ${slug}`);
   if (collection === "posts" && data.slug !== slug)
     throw new Error(`Slug must match filename: ${slug}`);
+  if (typeof data.description !== "string" || !data.description.trim())
+    throw new Error(`Missing description: ${slug}`);
   const tree = await processor.run(processor.parse(content));
   const headings: Heading[] = tree.children.flatMap((node) => {
     if (
@@ -46,7 +48,7 @@ export const readContent = async (collection: "pages" | "posts", slug: string) =
     ];
   });
   const html = processor.stringify(tree);
-  return { title: data.title, slug, html, headings };
+  return { title: data.title, description: data.description, slug, html, headings };
 };
 
 export const listPosts = async () =>

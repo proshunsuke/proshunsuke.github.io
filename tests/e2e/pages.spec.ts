@@ -1,5 +1,42 @@
 import { expect, test } from "#tests/e2e/fixtures";
 
+test("ページ遷移で共有メタタグを更新し、OGP画像を取得できる", async ({ page, request }) => {
+  await page.goto("/");
+  const image = page.locator('head meta[property="og:image"]');
+  const title = page.locator('head meta[property="og:title"]');
+  const type = page.locator('head meta[property="og:type"]');
+  await expect(title).toHaveAttribute("content", "pro_shunsuke");
+  await expect(type).toHaveAttribute("content", "website");
+  const homeImage = await image.getAttribute("content");
+  await page
+    .getByRole("navigation", { name: "メインナビゲーション" })
+    .getByRole("link", { name: "ブログ", exact: true })
+    .click();
+  await expect(title).toHaveAttribute("content", "ブログ | pro_shunsuke");
+  const postLink = page.locator('main a[href="/posts/github-copy-title-link/"]');
+  const postTitle = await postLink.locator("h2").innerText();
+  await postLink.click();
+  await expect(title).toHaveAttribute("content", `${postTitle} | pro_shunsuke`);
+  await expect(type).toHaveAttribute("content", "article");
+  await expect(image).toHaveCount(1);
+  const imageUrl = await image.getAttribute("content");
+  expect(imageUrl).not.toBe(homeImage);
+  await expect(page.locator('head meta[name="twitter:image"]')).toHaveAttribute(
+    "content",
+    imageUrl!,
+  );
+  await expect(page.locator('head meta[name="twitter:card"]')).toHaveAttribute(
+    "content",
+    "summary_large_image",
+  );
+  const response = await request.get(new URL(imageUrl!).pathname);
+  expect(response.status()).toBe(200);
+  expect(response.headers()["content-type"]).toContain("image/png");
+  await page.goBack();
+  await expect(type).toHaveAttribute("content", "website");
+  await expect(title).toHaveAttribute("content", "ブログ | pro_shunsuke");
+});
+
 test("サイト紹介のURL・タイトル・リンクを統一する", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("link", { name: "このサイトについて", exact: true })).toHaveAttribute(

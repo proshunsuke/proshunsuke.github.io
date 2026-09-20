@@ -7,6 +7,7 @@ beforeEach(() => vi.resetAllMocks());
 
 test("Markdownのコード・表・重複見出しを変換し、目次のリンク先を一意にする", async () => {
   files.readFile.mockResolvedValue(`---
+description: 説明
 title: テスト
 slug: example
 ---
@@ -31,6 +32,7 @@ slug: example
 
 test("h2・h3を本文順で抽出し、装飾と文字参照をプレーンテキストにする", async () => {
   files.readFile.mockResolvedValue(`---
+description: 説明
 title: 目次
 ---
 # 本文タイトル
@@ -57,12 +59,15 @@ title: 目次
 });
 
 test("h2・h3がない本文では目次を生成しない", async () => {
-  files.readFile.mockResolvedValue("---\ntitle: 目次なし\n---\n本文\n\n#### 詳細");
+  files.readFile.mockResolvedValue(
+    "---\ndescription: 説明\ntitle: 目次なし\n---\n本文\n\n#### 詳細",
+  );
   expect((await readContent("pages", "example")).headings).toEqual([]);
 });
 
 test("CMS本文に含まれるスクリプトや危険なリンクを出力しない", async () => {
   files.readFile.mockResolvedValue(`---
+description: 説明
 title: 安全な表示
 ---
 <script>alert('unsafe')</script>
@@ -78,15 +83,26 @@ title: 安全な表示
   expect(html).toContain('href="https://example.com/"');
 });
 
-test.each(["", "title: ''", "title: 123"])("不正なタイトルを拒否する: %s", async (frontmatter) => {
-  files.readFile.mockResolvedValue(`---\n${frontmatter}\n---\n本文`);
-  await expect(readContent("pages", "example")).rejects.toThrow("Missing title");
-});
+test.each(["", "description: 説明\ntitle: ''", "description: 説明\ntitle: 123"])(
+  "不正なタイトルを拒否する: %s",
+  async (frontmatter) => {
+    files.readFile.mockResolvedValue(`---\n${frontmatter}\n---\n本文`);
+    await expect(readContent("pages", "example")).rejects.toThrow("Missing title");
+  },
+);
 
 test("記事slugとファイル名が異なる場合は公開を止める", async () => {
-  files.readFile.mockResolvedValue("---\ntitle: 記事\nslug: other\n---\n本文");
+  files.readFile.mockResolvedValue("---\ndescription: 説明\ntitle: 記事\nslug: other\n---\n本文");
   await expect(readContent("posts", "example")).rejects.toThrow("Slug must match filename");
 });
+
+test.each(["", "description: ''", "description: 123"])(
+  "不正な説明文を拒否する: %s",
+  async (description) => {
+    files.readFile.mockResolvedValue(`---\ntitle: 記事\n${description}\n---\n本文`);
+    await expect(readContent("pages", "example")).rejects.toThrow("Missing description");
+  },
+);
 
 test("ファイルがない場合だけ404とし、権限エラーは隠さない", async () => {
   files.readFile.mockRejectedValueOnce(Object.assign(new Error("missing"), { code: "ENOENT" }));
@@ -105,7 +121,7 @@ test("新しいMarkdown記事を一覧に含め、他のファイルを除外す
   files.readdir.mockResolvedValue(["z-post.md", "image.png", "a-post.md"]);
   files.readFile.mockImplementation(async (path: string) => {
     const slug = path.includes("a-post") ? "a-post" : "z-post";
-    return `---\ntitle: ${slug}\nslug: ${slug}\n---\n本文`;
+    return `---\ndescription: 説明\ntitle: ${slug}\nslug: ${slug}\n---\n本文`;
   });
   expect((await listPosts()).map(({ slug }) => slug)).toEqual(["a-post", "z-post"]);
 });

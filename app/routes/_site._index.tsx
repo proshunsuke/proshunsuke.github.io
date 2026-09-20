@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { pageMeta } from "~/lib/meta";
-export const meta = () => pageMeta("ホーム", "/");
+import { fixedPages } from "~/lib/site";
+export const meta = () => pageMeta(fixedPages["/"].title, "/", fixedPages["/"].description);
 const Home = () => (
   <div className="page-width">
     <section className="grid items-center gap-10 border-b border-line py-16 sm:py-24 md:grid-cols-[1fr_auto]">

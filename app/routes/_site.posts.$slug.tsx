@@ -9,6 +9,6 @@ export const handle = {
 } satisfies BreadcrumbHandle;
 export const loader = ({ params }: Route.LoaderArgs) => readContent("posts", params.slug);
 export const meta = ({ loaderData: data }: Route.MetaArgs) =>
-  pageMeta(data?.title ?? "記事が見つかりません", `/posts/${data?.slug ?? ""}/`);
+  data ? pageMeta(data.title, `/posts/${data.slug}/`, data.description, "article") : [];
 const Post = ({ loaderData }: Route.ComponentProps) => <Article {...loaderData} category="BLOG" />;
 export default Post;
