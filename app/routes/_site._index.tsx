@@ -12,7 +12,7 @@ const Home = () => (
         <p className="mt-6 text-xl text-muted">
           鈴木駿介 <span className="ml-2 text-base">Shunsuke Suzuki</span>
         </p>
-        <div className="mt-8 flex gap-6 text-sm font-semibold">
+        <div className="mt-8 flex flex-wrap gap-6 text-sm font-semibold">
           <a href="https://github.com/proshunsuke" target="_blank" rel="noopener noreferrer">
             GitHub <span aria-hidden="true">↗</span>
             <span className="sr-only">（新しいタブで開く）</span>
@@ -21,6 +21,11 @@ const Home = () => (
             X <span aria-hidden="true">↗</span>
             <span className="sr-only">（新しいタブで開く）</span>
           </a>
+          <a href="https://mixi.social/@pro_shunsuke" target="_blank" rel="noopener noreferrer">
+            mixi2 <span aria-hidden="true">↗</span>
+            <span className="sr-only">（新しいタブで開く）</span>
+          </a>
+          <a href="/admin/index.html">管理画面</a>
         </div>
       </div>
       <img

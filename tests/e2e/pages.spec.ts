@@ -8,10 +8,7 @@ test("ページ遷移で共有メタタグを更新し、OGP画像を取得で�
   await expect(title).toHaveAttribute("content", "pro_shunsuke");
   await expect(type).toHaveAttribute("content", "website");
   const homeImage = await image.getAttribute("content");
-  await page
-    .getByRole("navigation", { name: "メインナビゲーション" })
-    .getByRole("link", { name: "ブログ", exact: true })
-    .click();
+  await page.locator('main a[href="/posts/"]').click();
   await expect(title).toHaveAttribute("content", "ブログ | pro_shunsuke");
   const postLink = page.locator('main a[href="/posts/github-copy-title-link/"]');
   const postTitle = await postLink.locator("h2").innerText();
@@ -39,21 +36,24 @@ test("ページ遷移で共有メタタグを更新し、OGP画像を取得で�
 
 test("サイト紹介のURL・タイトル・リンクを統一する", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("link", { name: "このサイトについて", exact: true })).toHaveAttribute(
-    "href",
-    "/about/",
-  );
-  await page.getByRole("link", { name: "このサイトについて", exact: true }).click();
+  await expect(
+    page.getByRole("main").getByRole("link", { name: /このサイトについて/ }),
+  ).toHaveAttribute("href", "/about/");
+  await page
+    .getByRole("main")
+    .getByRole("link", { name: /このサイトについて/ })
+    .click();
   await expect(page).toHaveURL("/about/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("このサイトについて");
   await expect(page).toHaveTitle("このサイトについて | pro_shunsuke");
 });
 
-test("GitHubとXはトップページから新規タブで開く", async ({ page }) => {
+test("GitHub・X・mixi2はトップページから新規タブで開く", async ({ page }) => {
   await page.goto("/");
   for (const [name, href] of [
     ["GitHub", "https://github.com/proshunsuke"],
     ["X", "https://x.com/pro_shunsuke"],
+    ["mixi2", "https://mixi.social/@pro_shunsuke"],
   ]) {
     const link = page.getByRole("link", { name: new RegExp(`^${name} `) });
     await expect(link).toHaveCount(1);
@@ -71,7 +71,9 @@ test("管理画面のリンク先とCMS設定が配信される", async ({ page,
     route.fulfill({ contentType: "text/javascript", body: "" }),
   );
   await page.goto("/");
-  await page.getByRole("link", { name: "管理画面", exact: true }).click();
+  await expect(page.getByRole("banner").getByRole("link")).toHaveCount(1);
+  await expect(page.getByRole("banner").getByRole("link")).toHaveAttribute("href", "/");
+  await page.getByRole("main").getByRole("link", { name: "管理画面", exact: true }).click();
   await expect(page).toHaveTitle("コンテンツ管理 | pro_shunsuke");
   const configUrl = await page.locator('link[rel="cms-config-url"]').getAttribute("href");
   expect(configUrl).toMatch(/^\/admin\/config\.[a-f0-9]{12}\.yml$/);
@@ -118,10 +120,7 @@ test("遷移中は読み込み状態を表示し、完了すると解除する",
     await route.continue();
   });
   try {
-    await page
-      .getByRole("navigation", { name: "メインナビゲーション" })
-      .getByRole("link", { name: "職務経歴書" })
-      .click();
+    await page.locator('main a[href="/resume/"]').click();
     await expect(page.getByRole("status")).toHaveText("ページを読み込んでいます…");
     await expect(page.locator('[aria-busy="true"]')).toHaveCount(1);
   } finally {
