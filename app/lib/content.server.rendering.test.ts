@@ -1,9 +1,22 @@
 import { beforeEach, expect, test, vi } from "vitest";
 import { readContent, listPosts } from "~/lib/content.server";
 
-const files = vi.hoisted(() => ({ readFile: vi.fn(), readdir: vi.fn() }));
+const files = vi.hoisted(() => ({ readFile: vi.fn(), readdir: vi.fn(), execFile: vi.fn() }));
 vi.mock("node:fs/promises", () => files);
-beforeEach(() => vi.resetAllMocks());
+vi.mock("node:child_process", () => ({ execFile: files.execFile }));
+beforeEach(() => {
+  vi.resetAllMocks();
+  files.execFile.mockImplementation((_command, args, _options, callback) =>
+    callback(
+      null,
+      args[0] === "rev-parse"
+        ? "false"
+        : args.at(-1).includes("a-post")
+          ? "2022-01-23"
+          : "2024-02-29",
+    ),
+  );
+});
 
 test("Markdownのコード・表・重複見出しを変換し、目次のリンク先を一意にする", async () => {
   files.readFile.mockResolvedValue(`---
@@ -22,6 +35,7 @@ slug: example
 ## 見出し
 `);
   const result = await readContent("posts", "example");
+  expect(result.publishedAt).toBe("2024-02-29");
   expect(result.html).toContain("<code>pro_shunsuke</code>");
   expect(result.html).toContain("<table>");
   expect(result.headings).toEqual([
@@ -123,5 +137,5 @@ test("新しいMarkdown記事を一覧に含め、他のファイルを除外す
     const slug = path.includes("a-post") ? "a-post" : "z-post";
     return `---\ndescription: 説明\ntitle: ${slug}\nslug: ${slug}\n---\n本文`;
   });
-  expect((await listPosts()).map(({ slug }) => slug)).toEqual(["a-post", "z-post"]);
+  expect((await listPosts()).map(({ slug }) => slug)).toEqual(["z-post", "a-post"]);
 });

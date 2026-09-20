@@ -6,13 +6,19 @@ type ArticleProps = {
   html: string;
   headings: Heading[];
   category: string;
+  publishedAt?: string;
 };
 
-export const Article = ({ title, html, headings, category }: ArticleProps) => (
+export const Article = ({ title, html, headings, category, publishedAt }: ArticleProps) => (
   <div className="page-width py-10 sm:py-16">
     <header className="max-w-4xl border-b border-line pb-10">
       <p className="eyebrow">{category}</p>
       <h1 className="mt-4 text-3xl leading-snug font-bold tracking-tight sm:text-4xl">{title}</h1>
+      {publishedAt && (
+        <p className="mt-4 text-sm text-muted">
+          公開日：<time dateTime={publishedAt}>{publishedAt.replaceAll("-", "/")}</time>
+        </p>
+      )}
     </header>
     <div className="mt-10 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-16">
       <article

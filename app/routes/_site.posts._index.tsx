@@ -22,9 +22,17 @@ const Posts = ({ loaderData: posts }: Route.ComponentProps) => {
             to={`/posts/${post.slug}/`}
             className="group flex items-start justify-between gap-6 border-b border-line py-8 hover:no-underline"
           >
-            <h2 className="max-w-3xl text-xl leading-relaxed font-semibold group-hover:text-accent">
-              {post.title}
-            </h2>
+            <div className="max-w-3xl">
+              <h2 className="text-xl leading-relaxed font-semibold group-hover:text-accent">
+                {post.title}
+              </h2>
+              {post.publishedAt && (
+                <p className="mt-3 text-sm text-muted">
+                  公開日：
+                  <time dateTime={post.publishedAt}>{post.publishedAt?.replaceAll("-", "/")}</time>
+                </p>
+              )}
+            </div>
             <span aria-hidden="true" className="text-2xl text-accent">
               ↗
             </span>

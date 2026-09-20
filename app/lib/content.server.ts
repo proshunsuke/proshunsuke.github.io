@@ -1,3 +1,4 @@
+import { execFile } from "node:child_process";
 import { readFile, readdir } from "node:fs/promises";
 import matter from "gray-matter";
 import { unified } from "unified";
@@ -9,6 +10,25 @@ import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
 import { toString } from "hast-util-to-string";
 import type { Heading } from "~/lib/headings";
+
+const gitOutput = (args: string[], cwd: string) =>
+  new Promise<string>((resolve, reject) => {
+    execFile("git", args, { cwd }, (error, stdout) => {
+      if (error) reject(error);
+      else resolve(stdout.trim());
+    });
+  });
+
+export const readPublishedAt = async (path: string, cwd = process.cwd()) => {
+  if ((await gitOutput(["rev-parse", "--is-shallow-repository"], cwd)) === "true")
+    throw new Error("Publication dates require full Git history. Run git fetch --unshallow.");
+  const dates = await gitOutput(
+    ["log", "--follow", "--diff-filter=A", "--format=%as", "--", path],
+    cwd,
+  );
+  // New, uncommitted posts have no publication date yet.
+  return dates ? dates.split("\n").at(-1) : undefined;
+};
 
 const processor = unified()
   .use(remarkParse)
@@ -35,6 +55,8 @@ export const readContent = async (collection: "pages" | "posts", slug: string) =
     throw new Error(`Slug must match filename: ${slug}`);
   if (typeof data.description !== "string" || !data.description.trim())
     throw new Error(`Missing description: ${slug}`);
+  const publishedAt =
+    collection === "posts" ? await readPublishedAt(`content/posts/${slug}.md`) : undefined;
   const tree = await processor.run(processor.parse(content));
   const headings: Heading[] = tree.children.flatMap((node) => {
     if (
@@ -48,16 +70,21 @@ export const readContent = async (collection: "pages" | "posts", slug: string) =
     ];
   });
   const html = processor.stringify(tree);
-  return { title: data.title, description: data.description, slug, html, headings };
+  return { title: data.title, description: data.description, publishedAt, slug, html, headings };
 };
 
 export const listPosts = async () =>
-  Promise.all(
-    (await readdir("content/posts"))
-      .filter((file) => file.endsWith(".md"))
-      .sort()
-      .map(async (file) => {
-        const { title, slug } = await readContent("posts", file.slice(0, -3));
-        return { title, slug };
-      }),
+  (
+    await Promise.all(
+      (await readdir("content/posts"))
+        .filter((file) => file.endsWith(".md"))
+        .sort()
+        .map(async (file) => {
+          const { title, slug, publishedAt } = await readContent("posts", file.slice(0, -3));
+          return { title, slug, publishedAt };
+        }),
+    )
+  ).sort(
+    (a, b) =>
+      (b.publishedAt ?? "").localeCompare(a.publishedAt ?? "") || a.slug.localeCompare(b.slug),
   );

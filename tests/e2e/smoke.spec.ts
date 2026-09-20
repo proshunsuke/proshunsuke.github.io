@@ -12,16 +12,23 @@ test("公開ページへ直接アクセス・再読み込みできる", async ({
     await expect(page.getByRole("group", { name: "配色" })).toBeVisible();
     expect((await page.reload())?.status()).toBe(200);
     await expect(page.getByRole("group", { name: "配色" })).toBeVisible();
+    if (path.startsWith("/posts/")) {
+      const time =
+        path === "/posts/"
+          ? page.locator('main a[href="/posts/github-copy-title-link/"] time')
+          : page.locator("main time");
+      await expect(time).toHaveAttribute("datetime", "2022-01-23");
+      await expect(time).toHaveText("2022/01/23");
+    } else {
+      await expect(page.locator("main time")).toHaveCount(0);
+    }
   }
   expect(errors).toEqual([]);
 });
 
 test("記事への遷移と戻る・進むが動作する", async ({ page }) => {
   await page.goto("/");
-  await page
-    .getByRole("navigation", { name: "メインナビゲーション" })
-    .getByRole("link", { name: "ブログ", exact: true })
-    .click();
+  await page.locator('main a[href="/posts/"]').click();
   await expect(page).toHaveURL(/\/posts\/$/);
   await page.locator('main a[href="/posts/github-copy-title-link/"]').click();
   await expect(page.getByRole("article")).toBeVisible();
