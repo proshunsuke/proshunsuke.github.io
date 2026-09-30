@@ -22,11 +22,17 @@ run = "npm run test:browser"
 [tasks."test:e2e"]
 run = "npm run test:e2e"
 
+[tasks."test:e2e:built"]
+run = "npm run test:e2e:built"
+
 [tasks."test:e2e:ui"]
 run = "npm run test:e2e:ui"
 
-[tasks."test:install"]
+[tasks."test:setup"]
 run = "npm run test:install"
+
+[tasks."test:setup:ci"]
+run = "npx playwright install --with-deps --only-shell chromium"
 
 [tasks.dev]
 run = "npm run dev -- --host 127.0.0.1"
@@ -34,8 +40,20 @@ run = "npm run dev -- --host 127.0.0.1"
 [tasks.build]
 run = "npm run build"
 
+[tasks."build:verify"]
+run = "node scripts/verify-build.mjs"
+
+[tasks."assets:generate"]
+run = "npm run og"
+
+[tasks.typecheck]
+run = "npm run typecheck"
+
 [tasks.check]
 run = "npm run check"
+
+[tasks."check:static"]
+run = ["npm run typecheck", "npm exec -- vp check"]
 
 [tasks.preview]
 run = "npm run preview -- --host 127.0.0.1"
@@ -43,6 +61,30 @@ run = "npm run preview -- --host 127.0.0.1"
 [tasks."auth:check"]
 dir = "workers/cms-auth"
 run = ["npm ci", "npm run typecheck", "npm test", "npm run build", "npm run deploy -- --dry-run"]
+
+[tasks."auth:install"]
+dir = "workers/cms-auth"
+run = "npm ci"
+
+[tasks."auth:typecheck"]
+dir = "workers/cms-auth"
+run = "npm run typecheck"
+
+[tasks."auth:test"]
+dir = "workers/cms-auth"
+run = "npm test"
+
+[tasks."auth:build"]
+dir = "workers/cms-auth"
+run = "npm run build"
+
+[tasks."auth:deploy"]
+dir = "workers/cms-auth"
+run = 'npm run deploy -- --tag "$DEPLOY_REVISION" --message "$DEPLOY_MESSAGE"'
+
+[tasks."auth:deploy:verify"]
+dir = "workers/cms-auth"
+run = "npm run verify:deployment"
 
 [tasks.format]
 run = "npm run format"

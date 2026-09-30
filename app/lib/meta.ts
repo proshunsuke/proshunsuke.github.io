@@ -11,7 +11,7 @@ export const pageMeta = (
   type: "website" | "article" = "website",
 ) => {
   const image = socialImages[path];
-  if (!image) throw new Error(`Missing OGP image for ${path}. Run npm run og.`);
+  if (!image) throw new Error(`Missing OGP image for ${path}. Run mise run assets:generate.`);
   const shareTitle = path === "/" ? site.name : `${title} | ${site.name}`;
   const imageUrl = new URL(image.url, site.url).href;
   const url = new URL(path, site.url).href;

@@ -35,12 +35,10 @@ jobs:
         with:
           version: 2026.9.9
       - run: mise run install
-      - run: mise run lint
-      - run: mise run format:check
-      - run: npm run typecheck
+      - run: mise run check:static
 
-  vitest:
-    name: Vitest (Node and Browser)
+  tests:
+    name: Tests (Node and Browser)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -50,7 +48,7 @@ jobs:
         with:
           version: 2026.9.9
       - run: mise run install
-      - run: npx playwright install --with-deps --only-shell chromium
+      - run: mise run test:setup:ci
       - run: mise run test
       - name: Upload Vitest diagnostics
         if: failure()
@@ -93,7 +91,7 @@ jobs:
         run: mise run build
         env:
           VITE_GOOGLE_ANALYTICS_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID }}
-      - run: node scripts/verify-build.mjs
+      - run: mise run build:verify
       - name: Upload built site
         uses: actions/upload-artifact@v4
         with:
@@ -123,9 +121,9 @@ jobs:
         with:
           name: built-site
           path: build/client/
-      - run: node scripts/verify-build.mjs
+      - run: mise run build:verify
       - name: Test built site
-        run: npm run test:e2e:built
+        run: mise run test:e2e:built
       - name: Upload browser test diagnostics
         if: failure()
         uses: actions/upload-artifact@v4
@@ -145,7 +143,7 @@ jobs:
   deploy:
     name: Deploy GitHub Pages
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    needs: [static-checks, vitest, worker-checks, e2e]
+    needs: [static-checks, tests, worker-checks, e2e]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -173,7 +171,7 @@ jobs:
   deploy-worker:
     name: Deploy Cloudflare Worker
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    needs: [static-checks, vitest, worker-checks, e2e]
+    needs: [static-checks, tests, worker-checks, e2e]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -182,8 +180,9 @@ jobs:
         with:
           version: 2026.9.9
       - name: Build Worker
-        working-directory: workers/cms-auth
-        run: npm ci && npm run build
+        run: |
+          mise run auth:install
+          mise run auth:build
       - name: Check current main revision
         id: revision
         env:
@@ -193,15 +192,15 @@ jobs:
           echo "current=$([ "$current" = "$GITHUB_SHA" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
       - name: Deploy Worker
         if: steps.revision.outputs.current == 'true'
-        working-directory: workers/cms-auth
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          DEPLOY_REVISION: ${{ github.sha }}
+          DEPLOY_MESSAGE: GitHub Actions ${{ github.run_id }}
         run: |
           test -n "$CLOUDFLARE_API_TOKEN" || { echo 'CLOUDFLARE_API_TOKEN is required'; exit 1; }
           test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo 'CLOUDFLARE_ACCOUNT_ID is required'; exit 1; }
-          npm run deploy -- --tag "$GITHUB_SHA" --message "GitHub Actions $GITHUB_RUN_ID"
+          mise run auth:deploy
       - name: Verify Worker
         if: steps.revision.outputs.current == 'true'
-        working-directory: workers/cms-auth
-        run: npm run verify:deployment
+        run: mise run auth:deploy:verify

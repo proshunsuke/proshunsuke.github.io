@@ -17,26 +17,36 @@ mise run install
 mise run dev
 ```
 
+開発・CIのコマンドはmise経由で実行します。タスク名は使用ツールに依存しない操作名で統一し、ツールを変更する場合も呼び出し方を維持します。現在はNode.jsをmise、依存関係をnpm、フロントエンドのツールチェーンをVite+ 1.0.0で管理しています。
+
 - `mise run check`: lint、整形チェック、型検査、Vitest（Node・Browser Mode）
+- `mise run check:static`: lint、整形チェック、型検査
+- `mise run typecheck`: 型生成と型検査
 - `mise run lint`: Oxlintによる検査
 - `mise run format`: Oxfmtによる整形
 - `mise run format:check`: ファイルを書き換えずに整形を検査
 - `mise run build`: 全ページの静的生成。成果物は `build/client/`
 - `mise run preview`: ビルド済みサイトの確認
-- `node scripts/verify-build.mjs`: 公開成果物の検証（ビルド後）
+- `mise run build:verify`: 公開成果物の検証（ビルド後）
+- `mise run assets:generate`: OG画像の生成
 - `mise run auth:check`: OAuth Workerの型検査、テスト、ビルド
+
+実行するコマンドは `mise.toml` に定義しています。開発・ビルド・テスト時にはOG画像生成の前処理も実行します。lint・format設定は `vite.config.ts`、React Routerのプラグイン構成から分離したテスト設定は `vitest.config.ts` で管理します。OAuth Workerは独立したnpmパッケージとして管理します。
 
 ## テスト
 
-初回とPlaywright更新後に `mise run test:install` でテスト用ブラウザをインストールします。
+初回とテスト用ブラウザの更新後に `mise run test:setup` でテスト環境を準備します。CIのNode・Browserテスト用の準備は `mise run test:setup:ci` で行います。
 
-| コマンド                | 対象                                               |
-| ----------------------- | -------------------------------------------------- |
-| `mise run test`         | VitestのNode環境とBrowser Mode                     |
-| `mise run test:unit`    | Markdown変換、コンテンツ取得、入力検証             |
-| `mise run test:browser` | Chromium上で配色コンポーネント・GAの呼び出しを検証 |
-| `mise run test:e2e`     | ビルド・成果物検証後、Playwrightでサイト全体を検証 |
-| `mise run test:e2e:ui`  | ビルド後、Playwright UIでテストを実行・調査        |
+macOS 27では、Firefoxのデータフォルダへのアクセス制限により `Could not find profile folder` で起動に失敗する場合があります（[Playwright #42768](https://github.com/microsoft/playwright/issues/42768)）。該当する場合は、実行元のアプリのフルディスクアクセス権限を確認してください。CIではLinux上でFirefoxを含む全テストを実行します。
+
+| コマンド                  | 対象                                               |
+| ------------------------- | -------------------------------------------------- |
+| `mise run test`           | VitestのNode環境とBrowser Mode                     |
+| `mise run test:unit`      | Markdown変換、コンテンツ取得、入力検証             |
+| `mise run test:browser`   | Chromium上で配色コンポーネント・GAの呼び出しを検証 |
+| `mise run test:e2e`       | ビルド・成果物検証後、Playwrightでサイト全体を検証 |
+| `mise run test:e2e:built` | ビルド済み成果物に対するE2Eテスト                  |
+| `mise run test:e2e:ui`    | ビルド後、Playwright UIでテストを実行・調査        |
 
 ## 公式スキルの管理
 

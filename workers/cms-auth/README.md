@@ -27,13 +27,13 @@ backend:
   site_domain: proshunsuke.github.io
 ```
 
-開発コマンド（このディレクトリで実行）:
+開発コマンド（リポジトリルートで実行）:
 
 ```fish
-npm ci
-npm test
-npm run typecheck
-npm run build
+mise run auth:install
+mise run auth:test
+mise run auth:typecheck
+mise run auth:build
 ```
 
 `dist/worker.js` はWranglerで配置する依存ライブラリなしのES moduleです。
@@ -60,6 +60,8 @@ Brave で公開 URL の応答と GitHub の認可画面への遷移を確認済�
 
 サイトとWorkerの検証に成功した後、固定バージョンのWranglerで `dist/worker.js` を配置します。デプロイするコードは実行対象コミットから生成します。ワークフローの同時実行を制限し、配置直前にmainの先頭コミットと一致することを確認するため、古い実行の再実行で本番を巻き戻しません。WorkerのバージョンにはコミットSHAをタグとして記録します。
 
+CIは `mise run auth:install`、`mise run auth:build`、`mise run auth:deploy`、`mise run auth:deploy:verify` を実行します。デプロイ時のリビジョンと説明は環境変数 `DEPLOY_REVISION`・`DEPLOY_MESSAGE` で渡し、Wrangler固有のオプションへの変換はmiseタスク内で行います。
+
 初回はGitHubリポジトリのActions Secretsに以下を登録してください。
 
 - `CLOUDFLARE_ACCOUNT_ID`: 既存Workerを所有するCloudflareアカウントID
@@ -73,8 +75,8 @@ OAuth用の `GITHUB_OAUTH_ID` と `GITHUB_OAUTH_SECRET` はCloudflareのWorker S
 
 ## 型と実行環境の検証
 
-`npm run typecheck` は `wrangler types` を実行し、互換性設定と `secrets.required` から環境・ランタイムの型を生成して検査します。生成される `worker-configuration.d.ts` はGit管理せず、手動編集しません。Secretは名前だけを設定に宣言し、値は引き続きCloudflareで管理します。
+`mise run auth:typecheck` は `wrangler types` を実行し、互換性設定と `secrets.required` から環境・ランタイムの型を生成して検査します。生成される `worker-configuration.d.ts` はGit管理せず、手動編集しません。Secretは名前だけを設定に宣言し、値は引き続きCloudflareで管理します。
 
-`npm test` はビルド後に既存の単体テストとMiniflareの統合テストを実行します。統合テストはデプロイ対象の `dist/worker.js` をworkerd上で動かし、Wrangler設定の互換性日付・フラグを使用します。GitHubへの通信はローカルの応答に置き換え、本番のSecretやGitHub認証は使用しません。
+`mise run auth:test` はビルド後に既存の単体テストとMiniflareの統合テストを実行します。統合テストはデプロイ対象の `dist/worker.js` をworkerd上で動かし、Wrangler設定の互換性日付・フラグを使用します。GitHubへの通信はローカルの応答に置き換え、本番のSecretやGitHub認証は使用しません。
 
 障害ログは `event`、処理段階の `stage`、固定分類の `reason`、必要に応じてHTTP `status` のみを記録します。認証コード・Cookie・トークン・Secret・URL全体・外部応答本文・例外メッセージは記録しません。起動ログとトレースの無効化は維持します。
