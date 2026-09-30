@@ -50,10 +50,15 @@ run = "npm run og"
 run = "npm run typecheck"
 
 [tasks.check]
-run = "npm run check"
+run = ["mise run check:static", "npm test"]
 
 [tasks."check:static"]
-run = ["npm run typecheck", "npm exec -- vp check"]
+run = [
+  "mise run auth:install",
+  "mise run auth:typecheck",
+  "npm run typecheck",
+  "npm exec -- vp check",
+]
 
 [tasks.preview]
 run = "npm run preview -- --host 127.0.0.1"
