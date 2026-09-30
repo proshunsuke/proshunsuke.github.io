@@ -1,4 +1,4 @@
-import { expect, test } from "vitest";
+import { expect, test } from "vite-plus/test";
 import { readContent, listPosts } from "~/lib/content.server";
 
 test("公開対象の記事と固定ページを読み込める", async () => {

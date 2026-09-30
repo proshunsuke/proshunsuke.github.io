@@ -1,4 +1,4 @@
-import { beforeEach, expect, test, vi } from "vitest";
+import { beforeEach, expect, test, vi } from "vite-plus/test";
 import { readContent, listPosts } from "~/lib/content.server";
 
 const files = vi.hoisted(() => ({ readFile: vi.fn(), readdir: vi.fn(), execFile: vi.fn() }));
