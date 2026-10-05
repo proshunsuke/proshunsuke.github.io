@@ -21,6 +21,7 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 #### エンジニアの採用
 
 * 新卒エンジニアの採用面接
+* 中途エンジニアの採用面接
 * インターンシップの採用面接
 * PHPカンファレンスにおける企業ブースの出展
 
@@ -31,9 +32,32 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
   * DBの講義
   * インフラの講義
 
+### 受賞
+
+- 
+
 ### エンジニアリングスキル
 
 #### プログラミング言語
+
+##### Go
+
+* 使用期間: 2024年7月〜現在
+* Echoを用いたWebアプリケーション開発で使用
+
+##### Python
+
+* 使用期間: 2026年9月〜現在
+
+##### Dart
+
+* 使用期間: 2024年10月〜現在
+* Flutterを用いたAndroid、iOSアプリ開発で使用
+
+##### Java
+
+* 使用期間: 2025年1月〜現在
+* Androidアプリ開発で使用
 
 ##### PHP
 
@@ -41,6 +65,7 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 * 経験したバージョン: 5.6, 7.0 ~ 7.2
 * Symfonyを用いたWebアプリケーション開発で使用
 * 独自フレームワークを用いたWebアプリケーション開発で使用
+* Laravelを用いたWebアプリケーション開発で使用
 
 ##### Ruby
 
@@ -50,23 +75,20 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 
 ##### JavaScript
 
-* 使用期間: 2015年4月〜2019年4月
-* 主にjQueryを用いた開発で使用
+* 使用期間: 2015年4月〜現在
 
 ##### TypeScript
 
 * 使用期間: 2019年12月〜現在
-* 経験したバージョン: 3.7 ~ 4.4
-* React, Next.jsを用いた開発で使用
+* React、Next.js、React Routerを用いた開発で使用
 * 趣味プロダクトのGoogle Apps Scriptを用いた開発で使用
 
 ##### Rust
 
-* 使用期間: 2020年3月〜2020年7月、2020年9月〜2021年1月
-* 経験したバージョン: 1.45
+* 使用期間: 2020年3月〜現在
 * 趣味プロダクトのコマンドラインツールの開発で使用
 
-#### インフラ(クラウドサービス)
+#### インフラ
 
 ##### AWS
 
@@ -74,26 +96,44 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 * CloudFormationを用いたIaCで管理
 * 構成管理にAnsibleを使用
 * 使用したサービス
-  * EC2, S3, CloudFront, CloudWatch, CloudFormation, EFS, ELB, Route53, SES, VPC, SNS, Lambda, ECS, ElastiCache, RDS, Redshift, API Gateway, WAF, SQS, EBS
+  * EC2, S3, CloudFront, CloudWatch, CloudFormation, EFS, ALB, Route53, SES, VPC, SNS, Lambda, ECS, ElastiCache, RDS, Redshift, API Gateway, WAF, SQS, EBS, EKS
 
 ##### GCP
 
-* 使用期間: 2019年12月〜2020年2月
-* 趣味プロダクトでCloud Functionsのみ使用
+* 使用期間: 2019年12月〜現在
+* Cloud Functionsを使用
+* Vertex AIを使用
+
+##### Terraform
+
+- 使用期間: 2024年7月〜現在
+- CLIで使用
+- HCP Terraformで使用
+
+##### Kubernetes
+
+- 使用期間: 2026年7月〜現在
+- etlaの構築で使用
 
 #### Webサーバー
 
 ##### Apache
 
 * 使用期間: 2019年4月〜2019年10月
-* 経験したバージョン: 2.4
 
 ##### Nginx
 
-* 使用期間: 2019年10月〜2020年3月
-* 経験したバージョン: 1.17
+* 使用期間: 2019年10月〜現在
 
 #### フレームワーク
+
+##### Echo
+
+- 使用期間: 2024年7月〜現在
+
+##### Laravel
+
+- 使用期間: 2023年4月〜2014年7月
 
 ##### Symfony
 
@@ -105,6 +145,10 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 * 使用期間: 2015年10月〜2019年4月
 * 経験したバージョン: 4.2, 5.2
 
+##### React Router
+
+- 使用期間: 2025年1月〜現在
+
 ##### Next.js
 
 * 使用期間: 2021年8月〜2024年7月
@@ -114,7 +158,7 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 
 ##### MySQL
 
-* 使用期間: 2015年4月〜現在
+* 使用期間: 2015年4月〜2024年7月
 * 経験したバージョン: 5.6, 5.7
 * Amazon RDSで使用
 
@@ -122,10 +166,11 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 
 * 使用期間: 2016年4月〜現在
 * Amazon Redshiftで使用
+* Amazon RDSで使用
 
-##### Redis
+##### Redis(Valkey)
 
-* 使用期間: 2015年10月〜2019年4月
+* 使用期間: 2015年10月〜現在
 * Amazon ElastiCacheで使用
 
 ##### Memcached
@@ -137,7 +182,7 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 
 ### 株式会社REGALI
 
-#### etlaの開発: 2025年12月
+#### etlaの開発: 2025年12月〜
 
 - 社内ナレッジ+外部サービス+AIによる業務効率化と、AIオペレーターを実施するプロジェクト
 - エンジニア3人の開発立ち上げメンバーとして参画。その後は約8名のエンジニアと開発
@@ -168,7 +213,7 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 - Go・Python共通の監視基盤とOpenTelemetry連携を整備
 - 各種システムに共通監視基盤を導入
 
-#### [クラモニ](https://www.beeats.co.jp/service/omo_solution/clomoni/)の開発: 2025年1月
+#### [クラモニ](https://www.beeats.co.jp/service/omo_solution/clomoni/)の開発: 2025年1月〜
 
 - 他社既存サービスを自社で立ち上げ直すリニューアルプロジェクト
 - エンジニア1人の開発立ち上げメンバーとして参画。その後は約5名のエンジニアと開発
