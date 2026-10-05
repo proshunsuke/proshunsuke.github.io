@@ -5,11 +5,11 @@ import { mkdtemp, mkdir, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
-import { readPublishedAt } from "~/lib/content.server";
+import { readPublishedAt, readUpdatedAt } from "~/lib/content.server";
 
 const exec = promisify(execFile);
 
-test("初回追加日を取得し、編集・移動後も維持する。履歴不足は拒否する", async () => {
+test("初回追加日を維持し、更新日を最新の変更に追従させる。履歴不足は拒否する", async () => {
   const root = await mkdtemp(join(tmpdir(), "publication-history-"));
   const cwd = join(root, "repo");
   await mkdir(cwd);
@@ -40,6 +40,7 @@ test("初回追加日を取得し、編集・移動後も維持する。履歴�
       "--date=2022-01-23T00:30:00+09:00",
     );
     expect(await readPublishedAt("original post.md", cwd)).toBe("2022-01-23");
+    expect(await readUpdatedAt("original post.md", cwd)).toBe("2022-01-23");
     await git("mv", "original post.md", "renamed.md");
     await git(
       "-c",
@@ -49,6 +50,7 @@ test("初回追加日を取得し、編集・移動後も維持する。履歴�
       "Rename",
       "--date=2024-02-29T12:00:00+09:00",
     );
+    expect(await readUpdatedAt("renamed.md", cwd)).toBe("2024-02-29");
     await writeFile(join(cwd, "renamed.md"), "Original article\nUpdated text\n");
     await git("add", "renamed.md");
     await git(
@@ -60,11 +62,14 @@ test("初回追加日を取得し、編集・移動後も維持する。履歴�
       "--date=2026-09-20T12:00:00+09:00",
     );
     expect(await readPublishedAt("renamed.md", cwd)).toBe("2022-01-23");
+    expect(await readUpdatedAt("renamed.md", cwd)).toBe("2026-09-20");
     await writeFile(join(cwd, "draft.md"), "Uncommitted draft");
     expect(await readPublishedAt("draft.md", cwd)).toBeUndefined();
+    expect(await readUpdatedAt("draft.md", cwd)).toBeUndefined();
     const shallow = join(root, "shallow");
     await git("clone", "--depth=1", pathToFileURL(cwd).href, shallow);
     await expect(readPublishedAt("renamed.md", shallow)).rejects.toThrow("full Git history");
+    await expect(readUpdatedAt("renamed.md", shallow)).rejects.toThrow("full Git history");
   } finally {
     await rm(root, { recursive: true, force: true });
   }

@@ -83,11 +83,21 @@
     @apply rounded bg-wash px-1.5 py-0.5 font-mono text-ink;
     font-weight: 400;
   }
-  .prose h5 {
+  .prose h4 {
+    font-size: 1.125rem;
+  }
+  .prose h5,
+  .prose h6 {
+    color: var(--tw-prose-headings);
     font-weight: 700;
-    font-size: 1.1rem;
     margin-top: 2em;
     margin-bottom: 0.8em;
+  }
+  .prose h5 {
+    font-size: 1rem;
+  }
+  .prose h6 {
+    font-size: 0.875rem;
   }
   .prose > :first-child {
     margin-top: 0;

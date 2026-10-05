@@ -19,6 +19,13 @@ const gitOutput = (args: string[], cwd: string) =>
     });
   });
 
+export const readUpdatedAt = async (path: string, cwd = process.cwd()) => {
+  if ((await gitOutput(["rev-parse", "--is-shallow-repository"], cwd)) === "true")
+    throw new Error("Update dates require full Git history. Run git fetch --unshallow.");
+  const date = await gitOutput(["log", "-1", "--format=%as", "--", path], cwd);
+  return date || undefined;
+};
+
 export const readPublishedAt = async (path: string, cwd = process.cwd()) => {
   if ((await gitOutput(["rev-parse", "--is-shallow-repository"], cwd)) === "true")
     throw new Error("Publication dates require full Git history. Run git fetch --unshallow.");
