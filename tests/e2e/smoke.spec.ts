@@ -1,3 +1,5 @@
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 import { expect, test } from "#tests/e2e/fixtures";
 
 test("公開ページへ直接アクセス・再読み込みできる", async ({ page }) => {
@@ -19,6 +21,18 @@ test("公開ページへ直接アクセス・再読み込みできる", async ({
           : page.locator("main time");
       await expect(time).toHaveAttribute("datetime", "2022-01-23");
       await expect(time).toHaveText("2022/01/23");
+    } else if (path === "/resume/") {
+      const { stdout } = await promisify(execFile)("git", [
+        "log",
+        "-1",
+        "--format=%as",
+        "--",
+        "content/pages/resume.md",
+      ]);
+      const updatedAt = stdout.trim();
+      const date = page.locator("main h1 + p");
+      await expect(date).toHaveText(`更新日：${updatedAt.replaceAll("-", "/")}`);
+      await expect(date.locator("time")).toHaveAttribute("datetime", updatedAt);
     } else {
       await expect(page.locator("main time")).toHaveCount(0);
     }
