@@ -140,14 +140,21 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 
 #### [クラモニ](https://www.beeats.co.jp/service/omo_solution/clomoni/)の開発: 2025年1月
 
-- 初期エンジニア1人の開発立ち上げメンバーとして参画
+- 他社既存サービスを自社で立ち上げ直すリニューアルプロジェクト
+- エンジニア1人の開発立ち上げメンバーとして参画
 - DBモデリング、管理画面の設計・開発、配信APIの開発、Androidアプリへの機能追加を担当
 
 ##### クラモニの立ち上げ
 
 - DBモデリング、インフラ、管理画面やAPIの基盤実装、主要機能の開発、CI、開発環境整備を1人で実施
-- LEEEPエンジニアのスキルやリリース時期の制約を考慮してGoを中心にしつつ、LEEEPで課題であった管理画面フロントエンドの課題やAPI設計の改善を含めて基盤実装を実施
-- AWS、Terraform、Cognito、Amplify、Go、Echo、TypeSpec、React Router、MinimalというMUIテーマで構築
+- LEEEPエンジニアのスキルやリリース時期の制約を考慮してGoを中心にしつつ、LEEEPで課題であった管理画面フロントエンドやAPI設計の改善を含めて基盤実装を実施
+- AWS、Terraform、Cognito、Amplify、Atlas、Go、Echo、TypeSpec、React Router、GitHub Actionsによるデプロイの導入
+
+##### 配信設定機能の改善
+
+- 既存システムでは配信の繰り返し設定機能が使いづらく、同じ配信設定を毎回コピーしなければならないという運用の手間が発生しているという課題が存在した
+- 新システムではRRULEの仕様に則って配信予定を設定可能にすることで、複雑な繰り返しの条件を簡単かつ直感的に設定可能にした
+- 
 
 #### [LEEEP](https://leeep.jp/)の開発: 2024年7月〜
 
