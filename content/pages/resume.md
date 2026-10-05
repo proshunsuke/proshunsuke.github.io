@@ -34,7 +34,8 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 
 ### 受賞
 
-- 
+- CARTA EVOLUTiON AWARD エンジニア優秀賞: 2024年1月
+- REGALI 2025年度上半期 エンジニア優秀賞: 2025年7月
 
 ### エンジニアリングスキル
 
