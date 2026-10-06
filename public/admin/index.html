@@ -8,6 +8,15 @@
     <title>コンテンツ管理 | pro_shunsuke</title>
   </head>
   <body>
+    <script>
+      window.CMS_MANUAL_INIT = true;
+    </script>
     <script src="https://unpkg.com/decap-cms@3.16.2/dist/decap-cms.js"></script>
+    <script type="module">
+      import { registerSlugBackend } from "/admin/slug-backend.mjs";
+
+      registerSlugBackend(window.CMS);
+      window.CMS.init();
+    </script>
   </body>
 </html>
