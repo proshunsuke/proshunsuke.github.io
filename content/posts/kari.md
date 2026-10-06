@@ -17,13 +17,22 @@ slug: kari
 
 この要件に合うフレームワークは例えば以下が考えられます。
 
-- Next.js
-- TanStack Start
-- React Router
+- [Next.js](https://nextjs.org/)
+- [TanStack Start](https://tanstack.com/start/latest)
+- [React Router](https://reactrouter.com/)
 
 Next.jsではシンプルなSPAを構成するにはtoo muchであるため選択肢から除外しました。  
 TanStack StartとReact Routerはこの要件に非常にマッチします。  
 TanStack Startはルーティングが型安全であることが気に入っています。React Routerはページごとのデータ取得、フォーム送信、ページの再検証をシンプルに記述できるところが気に入っています。  
 今回の要件では、より「各ページごとの処理」を強調してシンプルに実装したかったため、React Routerが最もよくマッチしていると判断しました。
 
-### 記事の記述には
+### 記事の記述にはDecap CMS
+
+記事を記述することについての要件は以下です。
+
+- マークダウンで体験よく記事が書ける
+- 記事を書きながらプレビューできる
+- 記事はリポジトリで管理できる
+- セルフホストが可能で無料で利用できる
+
+この要件に合致するのが[Decap CMS](https://decapcms.org/)でした。
