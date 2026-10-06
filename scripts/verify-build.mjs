@@ -111,3 +111,9 @@ assert.equal(
   await readFile(`build/client${cmsConfig[1]}`, "utf8"),
   await readFile("public/admin/config.yml", "utf8"),
 );
+const cmsBackend = admin.match(/"(\/admin\/slug-backend\.[a-f0-9]{12}\.mjs)"/);
+assert.ok(cmsBackend, "CMS backend needs a versioned URL");
+assert.equal(
+  await readFile(`build/client${cmsBackend[1]}`, "utf8"),
+  await readFile("public/admin/slug-backend.mjs", "utf8"),
+);
