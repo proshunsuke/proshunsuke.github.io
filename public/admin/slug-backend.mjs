@@ -29,7 +29,7 @@ export const registerSlugBackend = (
           throw new Error("URLの識別子は英小文字・数字・ハイフンで入力してください。");
         pendingPost = slug;
       }
-      return entry;
+      // A returned value replaces the article data; this hook only reads it.
     },
   });
   CMS.registerEventListener({
