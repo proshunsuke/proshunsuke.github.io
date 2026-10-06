@@ -1,4 +1,5 @@
 import { expect, test, vi } from "vite-plus/test";
+import matter from "gray-matter";
 import { registerSlugBackend } from "../public/admin/slug-backend.mjs";
 
 const path = (slug) => `content/posts/${slug}.md`;
@@ -100,7 +101,11 @@ const setup = () => {
       ["data", new Map([["slug", slug]])],
     ]);
   const save = (slug, options = {}, internalSlug = "kari") => {
-    events.get("preSave")({ entry: entry(slug, internalSlug) });
+    const article = entry(slug, internalSlug);
+    const result = events.get("preSave")({ entry: article });
+    const data = result === undefined ? article.get("data") : result;
+    expect(data.get("slug")).toBe(slug);
+    expect(data.get("collection")).toBeUndefined();
     return backend.persistEntry(
       { dataFiles: [{ path: path(internalSlug), slug: internalSlug, raw: slug }], assets: [] },
       {
@@ -135,6 +140,39 @@ const setup = () => {
     originalPublish,
   };
 };
+
+test.each(["posts", "pages"])(
+  "%sの保存前イベントで記事データと本文を維持し、内部情報を保存しない",
+  (collection) => {
+    const state = setup();
+    const article = state.entry("portal-site-rebuild", "kari", collection);
+    article.set("path", path("kari"));
+    article.set("raw", "元のMarkdown");
+    const originalData = new Map([
+      ["title", "ポータルサイトを作り直しました"],
+      ["description", "構成を紹介します。"],
+      ["slug", "portal-site-rebuild"],
+      ["body", "## 本文\n\n記事の内容です。\n"],
+    ]);
+    article.set("data", originalData);
+    const result = state.events.get("preSave")({ entry: article });
+    // Decap treats a returned value as replacement data, not as a full entry.
+    const savedData = result === undefined ? article.get("data") : result;
+    const toObject = (value) =>
+      value instanceof Map
+        ? Object.fromEntries([...value].map(([key, item]) => [key, toObject(item)]))
+        : value;
+    const { body, ...frontmatter } = toObject(savedData);
+    const saved = matter(matter.stringify(body ?? "", frontmatter));
+    expect(saved.data).toEqual({
+      title: originalData.get("title"),
+      description: originalData.get("description"),
+      slug: "portal-site-rebuild",
+    });
+    expect(saved.content).toBe(originalData.get("body"));
+    expect(article.get("data")).toBe(originalData);
+  },
+);
 
 test("slug変更と本文保存を同じPRで行い、再保存・再リネームしても旧ファイルを残さない", async () => {
   const state = setup();
