@@ -1,7 +1,7 @@
 ---
 title: ポータルサイトを作り直しました
 description: ポータルサイトをReact RouterとDecap CMSで再構築しました。技術選定の理由や記事の管理方法、テストとAIを活用した開発環境を紹介します。
-slug: portal-site-rebuild
+slug: portal-site-rebuild2
 ---
 ポータルサイトの技術構成が古くなっていたのと、新しい方式で管理したくなったので作り直しました。  
 現在の構成を紹介します。
