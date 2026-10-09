@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import rehypeSanitize from "rehype-sanitize";
 import rehypeSlug from "rehype-slug";
+import rehypeExternalLinks from "rehype-external-links";
 import rehypeStringify from "rehype-stringify";
 import { toString } from "hast-util-to-string";
 import type { Heading } from "~/lib/headings";
@@ -43,6 +44,7 @@ const processor = unified()
   .use(remarkRehype)
   .use(rehypeSanitize)
   .use(rehypeSlug, { prefix: "section-" })
+  .use(rehypeExternalLinks, { target: "_blank", rel: ["noopener", "noreferrer"] })
   .use(rehypeStringify);
 
 export const readContent = async (collection: "pages" | "posts", slug: string) => {
