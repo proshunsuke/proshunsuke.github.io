@@ -38,7 +38,7 @@ const Home = () => (
     </section>
     <section aria-label="サイトのコンテンツ" className="py-12 sm:py-16">
       <p className="eyebrow mb-6">EXPLORE</p>
-      <div className="grid gap-5 md:grid-cols-3">
+      <div className="grid gap-5 md:grid-cols-2">
         {[
           {
             path: "/resume/",
@@ -55,8 +55,15 @@ const Home = () => (
             description: "開発の記録と、作ったものについて。",
           },
           {
-            path: "/about/",
+            path: "/business/",
             number: "03",
+            title: "事業について",
+            english: "BUSINESS",
+            description: "Web制作・Webアプリ開発と、自社サービスの企画・開発。",
+          },
+          {
+            path: "/about/",
+            number: "04",
             title: "このサイトについて",
             english: "ABOUT",
             description: "このサイトを作った理由と、その仕組み。",

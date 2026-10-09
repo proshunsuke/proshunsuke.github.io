@@ -5,7 +5,7 @@ import { fixedPages, site } from "../app/lib/site.ts";
 const pages = [
   { path: "/", title: fixedPages["/"].title, description: fixedPages["/"].description },
   ...(await Promise.all(
-    ["resume", "about"].map(async (slug) => ({
+    ["resume", "about", "business"].map(async (slug) => ({
       path: `/${slug}/`,
       title: (await readContent("pages", slug)).title,
       description: (await readContent("pages", slug)).description,
