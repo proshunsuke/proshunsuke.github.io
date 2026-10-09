@@ -2,6 +2,7 @@ import { afterEach, expect, test } from "vite-plus/test";
 import { mkdtemp, mkdir, copyFile, writeFile, readFile, readdir, rm, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { fixedPages } from "../app/lib/site.ts";
 import { generateImages, renderImage, validImage } from "./og-images.mjs";
 
 const roots = [];
@@ -28,22 +29,24 @@ test("新規・タイトル変更・生成環境変更だけを再生成し、�
       `---\ntitle: ${title}\nslug: example\ndescription: ${description}\n---\n${body}`,
     );
   await update("日本語のタイトルと GitHub & <React>");
+  const fixedPageCount = Object.keys(fixedPages).length;
+  const pageCount = fixedPageCount + 1;
   const first = await generateImages(root);
-  expect(first).toMatchObject({ generated: 5, reused: 0 });
+  expect(first).toMatchObject({ generated: pageCount, reused: 0 });
   const url = first.manifest["/posts/example/"].url;
   const cached = join(root, ".cache/og", url.split("/").at(-1));
   const before = await stat(cached);
-  expect(await generateImages(root)).toMatchObject({ generated: 0, reused: 5 });
+  expect(await generateImages(root)).toMatchObject({ generated: 0, reused: pageCount });
   expect((await stat(cached)).mtimeMs).toBe(before.mtimeMs);
 
   await update("日本語のタイトルと GitHub & <React>", "説明を変更", "本文を変更");
   const bodyChange = await generateImages(root);
-  expect(bodyChange).toMatchObject({ generated: 0, reused: 5 });
+  expect(bodyChange).toMatchObject({ generated: 0, reused: pageCount });
   expect(bodyChange.manifest).toEqual(first.manifest);
 
   await update("変更したタイトル");
   const changed = await generateImages(root);
-  expect(changed).toMatchObject({ generated: 1, reused: 4 });
+  expect(changed).toMatchObject({ generated: 1, reused: fixedPageCount });
   expect(changed.manifest["/posts/example/"].url).not.toBe(url);
   expect(changed.manifest["/"]).toEqual(first.manifest["/"]);
   expect(await readdir(join(root, "public/og"))).not.toContain(url.split("/").at(-1));
@@ -55,19 +58,19 @@ test("新規・タイトル変更・生成環境変更だけを再生成し、�
     changed.manifest["/posts/example/"].url.split("/").at(-1),
   );
   await writeFile(current, "broken");
-  expect(await generateImages(root)).toMatchObject({ generated: 1, reused: 4 });
+  expect(await generateImages(root)).toMatchObject({ generated: 1, reused: fixedPageCount });
   expect(validImage(await readFile(current))).toBe(true);
 
   await writeFile(join(root, "package-lock.json"), '{"lockfileVersion": 3}\n');
-  expect(await generateImages(root)).toMatchObject({ generated: 5, reused: 0 });
+  expect(await generateImages(root)).toMatchObject({ generated: pageCount, reused: 0 });
   await rm(join(root, ".cache/og"), { recursive: true });
-  expect(await generateImages(root)).toMatchObject({ generated: 5, reused: 0 });
+  expect(await generateImages(root)).toMatchObject({ generated: pageCount, reused: 0 });
 
   await rm(article);
   const removed = await generateImages(root);
-  expect(removed).toMatchObject({ generated: 0, reused: 4 });
+  expect(removed).toMatchObject({ generated: 0, reused: fixedPageCount });
   expect(removed.manifest["/posts/example/"]).toBeUndefined();
-  expect(await readdir(join(root, "public/og"))).toHaveLength(4);
+  expect(await readdir(join(root, "public/og"))).toHaveLength(fixedPageCount);
 }, 30000);
 
 test("長い日本語タイトルを収め、収まらない場合は切り捨てずに失敗する", async () => {
