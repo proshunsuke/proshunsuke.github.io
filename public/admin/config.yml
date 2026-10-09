@@ -54,3 +54,10 @@ collections:
           - { label: タイトル, name: title, widget: string }
           - { label: 共有・検索用の説明, name: description, widget: text }
           - { label: 本文, name: body, widget: markdown }
+      - name: business
+        label: 事業について
+        file: content/pages/business.md
+        fields:
+          - { label: タイトル, name: title, widget: string }
+          - { label: 共有・検索用の説明, name: description, widget: text }
+          - { label: 本文, name: body, widget: markdown }

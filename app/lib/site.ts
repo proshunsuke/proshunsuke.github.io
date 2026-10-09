@@ -11,7 +11,7 @@ export const fixedPages = {
     imageTitle: "pro_shunsuke",
     label: "PORTFOLIO",
     description:
-      "鈴木駿介（pro_shunsuke）の個人サイト。職務経歴と、開発の記録・作ったものを紹介します。",
+      "鈴木駿介（pro_shunsuke）の個人サイト。事業内容、職務経歴と、開発の記録・作ったものを紹介します。",
   },
   "/resume/": {
     title: "職務経歴書",
@@ -22,6 +22,11 @@ export const fixedPages = {
     title: "このサイトについて",
     imageTitle: "このサイトについて",
     label: "ABOUT",
+  },
+  "/business/": {
+    title: "事業について",
+    imageTitle: "事業について",
+    label: "BUSINESS",
   },
   "/posts/": {
     title: "ブログ",

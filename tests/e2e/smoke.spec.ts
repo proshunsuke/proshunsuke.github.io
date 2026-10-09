@@ -8,7 +8,14 @@ test("公開ページへ直接アクセス・再読み込みできる", async ({
   page.on("console", (message) => {
     if (message.type() === "error") errors.push(message.text());
   });
-  for (const path of ["/", "/resume/", "/about/", "/posts/", "/posts/github-copy-title-link/"]) {
+  for (const path of [
+    "/",
+    "/resume/",
+    "/about/",
+    "/business/",
+    "/posts/",
+    "/posts/github-copy-title-link/",
+  ]) {
     expect((await page.goto(path))?.status()).toBe(200);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(page.getByRole("group", { name: "配色" })).toBeVisible();

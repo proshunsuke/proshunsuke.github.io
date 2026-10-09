@@ -48,6 +48,17 @@ test("サイト紹介のURL・タイトル・リンクを統一する", async ({
   await expect(page).toHaveTitle("このサイトについて | pro_shunsuke");
 });
 
+test("事業ページの外部リンクは新規タブ、サイト内リンクは同じタブで開く", async ({ page }) => {
+  await page.goto("/business/");
+  const external = page.getByRole("article").getByRole("link", { name: "X（@pro_shunsuke）" });
+  await expect(external).toHaveAttribute("target", "_blank");
+  await expect(external).toHaveAttribute("rel", "noopener noreferrer");
+  const internal = page.getByRole("article").getByRole("link", { name: "職務経歴書" });
+  await expect(internal).not.toHaveAttribute("target", "_blank");
+  await internal.click();
+  await expect(page).toHaveURL("/resume/");
+});
+
 test("GitHub・X・mixi2はトップページから新規タブで開く", async ({ page }) => {
   await page.goto("/");
   for (const [name, href] of [
