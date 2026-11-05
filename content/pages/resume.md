@@ -345,7 +345,7 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 
 #### 技術環境
 
-- AWS、ECS、MySQL、Terraform、Docker、Go、TypeScript、Echo、React、React Router、Java、Android、GitHub Actions、MUI、TypeSpec、openapi-fetch、Atlas、SSMパラメータストア
+- AWS、ECS、MySQL、Terraform、Docker、Go、TypeScript、Echo、React、React Router、Java、Android、GitHub Actions、MUI、TypeSpec、openapi-fetch、Atlas
 
 ### [LEEEP](https://leeep.jp/)の開発: 2024年7月〜
 
