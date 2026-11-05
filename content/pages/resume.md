@@ -290,6 +290,7 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 - AWS、EKS、EC2、PostgreSQL、OpenSearch、Terraform、Kubernetes、Temporal、Istio、SigNoz、ArgoCD、Docker、Go、Python、TypeScript、Echo、React、React Router
 
 ### [クラモニ](https://www.beeats.co.jp/service/omo_solution/clomoni/)の開発: 2025年1月〜
+
 - デジタルサイネージサービスを、LEEEPとの連携や機能拡張を見据えて自社で再構築するプロジェクト
 - 立ち上げ時は唯一のエンジニアとして、DB・インフラ・管理画面・API・開発環境の整備と主要機能の開発を担当。その後は約5名で開発を推進
 - 自社システムへの完全移行により、継続的な収益を得られる状態を実現。祝日配信やログイン必須Webページの配信機能を開発し、新規契約につなげた
