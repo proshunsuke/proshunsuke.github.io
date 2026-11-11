@@ -401,6 +401,10 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
   - 従来は各画面が個別に実装され、同じ機能でも挙動が異なり、共通の修正を各画面に繰り返し反映する必要があった
   - 表示項目や絞り込み条件など、各レポートの違いを設定として渡す構成にした。共通機能の修正を1か所に集約し、新しいレポートも統一されたUIで追加できるようにした
 
+#### 技術環境
+
+- AWS、ECS、MySQL、Terraform、Docker、Go、TypeScript、Echo、React、React Router、Dart、Android、iOS、MUI、OpenAPI
+
 ## 株式会社CARTA HOLDINGS(元 株式会社VOYAGE GROUP)
 
 ### 既存アンケートシステムのリニューアルプロジェクト: 2023年4月〜
