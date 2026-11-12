@@ -531,7 +531,7 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 
 #### 技術環境
 
-- AWS、EC2、PHP、JavaScript、TypeScript、CSS、React、Next.js、Redux、SWR、Webpack、Yarn、Storybook、ESLint、Stylelint、Prettier
+- AWS、EC2、PHP、JavaScript、TypeScript、React、Next.js、Redux、SWR、Webpack、Yarn、Storybook、ESLint、Stylelint、Prettier
 
 ### システム改善チーム: 2019年4月〜
 
