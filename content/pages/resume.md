@@ -468,6 +468,8 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 
 #### 技術環境
 
+- AWS、ECS、Fargate、CloudFormation、PHP、Laravel、React、Inertia.js、SurveyJS、ecschedule
+
 ### デザインチーム: 2020年4月〜
 
 - エンジニア1人+デザイナー3人のチームリーダーを担当
