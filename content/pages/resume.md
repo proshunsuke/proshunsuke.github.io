@@ -495,182 +495,65 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 
 ## プログラミング言語
 
-### Go
-
-- 使用期間: 2024年7月〜現在
-- Echoを用いたWebアプリケーション開発で使用
-
-### Python
-
-- 使用期間: 2026年9月〜現在
-
-### Dart
-
-- 使用期間: 2024年10月〜現在
-- Flutterを用いたAndroid、iOSアプリ開発で使用
-
-### Java
-
-- 使用期間: 2025年1月〜現在
-- Androidアプリ開発で使用
-
-### PHP
-
-- 使用期間: 2015年4月〜2024年7月
-- Symfonyを用いたWebアプリケーション開発で使用
-- 独自フレームワークを用いたWebアプリケーション開発で使用
-- Laravelを用いたWebアプリケーション開発で使用
-
-### Ruby
-
-- 使用期間: 2015年10月〜2019年4月
-- Ruby on Railsを用いたWebアプリケーション開発で使用
-
-### JavaScript
-
-- 使用期間: 2015年4月〜現在
-
-### TypeScript
-
-- 使用期間: 2019年12月〜現在
-- React、Next.js、React Routerを用いた開発で使用
-- 趣味プロダクトのGoogle Apps Scriptを用いた開発で使用
-
-### Rust
-
-- 使用期間: 2020年3月〜現在
-- 趣味プロダクトのコマンドラインツールの開発で使用
-
-## インフラ
-
-### AWS
-
-- 使用期間: 2019年4月〜現在
-- CloudFormationを用いたIaCで管理
-- 構成管理にAnsibleを使用
-- 使用したサービス
-  - EC2, S3, CloudFront, CloudWatch, CloudFormation, EFS, ALB, Route53, SES, VPC, SNS, Lambda, ECS, ElastiCache, RDS, Redshift, API Gateway, WAF, SQS, EBS, EKS
-
-### GCP
-
-- 使用期間: 2019年12月〜現在
-- Cloud Functionsを使用
-- Vertex AIを使用
-
-### Terraform
-
-- 使用期間: 2024年7月〜現在
-- CLIで使用
-- HCP Terraformで使用
-
-### Kubernetes
-
-- 使用期間: 2026年7月〜現在
-- etlaの構築で使用
-
-### Istio
-
-- 使用期間: 2026年7月〜現在
-- etlaの構築で使用
-
-## Webサーバー
-
-### Apache
-
-- 使用期間: 2019年4月〜2019年10月
-
-### Nginx
-
-- 使用期間: 2019年10月〜現在
-
-## フレームワーク
-
-### Echo
-
-- 使用期間: 2024年7月〜現在
-
-### Laravel
-
-- 使用期間: 2023年4月〜2024年7月
-
-### Symfony
-
-- 使用期間: 2015年4月〜2019年4月
-
-### Ruby on Rails
-
-- 使用期間: 2015年10月〜2019年4月
-
-### React Router
-
-- 使用期間: 2025年1月〜現在
-
-### Next.js
-
-- 使用期間: 2021年8月〜2024年7月
-
-## DB
-
-### MySQL
-
-- 使用期間: 2015年4月〜現在
-- Amazon RDSで使用
-
-### PostgreSQL
-
-- 使用期間: 2025年12月〜現在
-- etlaで使用（Amazon RDS）
-
-### Amazon Redshift
-
-- 使用期間: 2016年4月〜現在
-- ログの集計・分析で使用
-
-### Redis(Valkey)
-
-- 使用期間: 2015年10月〜現在
-- Amazon ElastiCacheで使用
-
-### Memcached
-
-- 使用期間: 2015年4月〜2019年4月
-- Amazon ElastiCacheで使用
-
-## 監視
-
-### Datadog
-
-- 使用期間: 2015年4月〜現在
-
-### Site24x7
-
-- 使用期間: 2017年〜2021年
-
-### PagerDuty
-
-- 使用期間: 2018年〜2024年
-
-### SigNoz
-
-- 使用期間: 2026年6月〜現在
-
-## CI/CD
-
-### Jenkins
-
-- 使用期間: 2015年4月〜2019年
-
-### CircleCI
-
-- 使用期間: 2015年4月〜2019年
-
-### GitHub Actions
-
-- 使用期間: 2019年〜現在
-
-### Argo CD
-
-- 使用期間: 2026年8月〜現在
+- Go：2024年7月〜現在
+- Python：2026年9月〜現在
+- PHP：2015年4月〜2024年7月
+- Ruby：2015年10月〜2019年4月
+- JavaScript：2015年4月〜現在
+- TypeScript：2019年12月〜現在
+- Dart：2024年10月〜現在
+- Java：2025年1月〜現在
+- Rust：2020年3月〜現在（個人開発）
+- その他：SQL、HTML、CSS、シェルスクリプト
+
+## フレームワーク・UI
+
+- バックエンド：Echo、Laravel、Symfony、Ruby on Rails
+- フロントエンド：React、React Router、Next.js、Inertia.js
+- UI・スタイリング：MUI、Mantine、Tailwind CSS、Sass／SCSS、CSS Modules、Emotion、styled-components
+- モバイル：Flutter（Android・iOS）、JavaによるAndroid開発
+- JavaScript実行環境：Node.js
+
+## クラウド・インフラ
+
+- AWS：EC2、ECS、EKS、RDS、S3、CloudFront、ALB、WAFなど
+- Google Cloud：Cloud Functions、Vertex AI
+- モバイル関連：Firebase、Firebase Cloud Messaging
+- IaC・構成管理：Terraform、HCP Terraform、CloudFormation、AWS CDK、Ansible
+- コンテナ・サービスメッシュ：Docker、Docker Compose、Kubernetes、Helm、Istio
+- OS・Webサーバー：Linux、Apache、Nginx
+
+## データベース・キャッシュ・分析基盤
+
+- RDB：MySQL、PostgreSQL
+- キャッシュ：Redis／Valkey、Memcached
+- 分析・検索・可視化：Amazon Redshift、OpenSearch、Redash
+
+## AI・ジョブ実行基盤
+
+- LLM：OpenAI API、Anthropic API、Gemma系モデルなどのセルフホスト
+- AIエージェント：MCP、ユーザー定義スキル、独自ハーネスの実装
+- 開発支援：Claude Code、Codex、GitHub Copilot、Cursor
+- ジョブ実行基盤：Temporal
+
+## 監視・オブザーバビリティ
+
+- 計測・監視：OpenTelemetry、SigNoz、Datadog、Site24x7
+- ログ収集：Fluentd、Kinesis Data Firehose
+- 通知：PagerDuty
+
+## 開発基盤・テスト・CI/CD
+
+- バージョン管理：Git
+- ビルド・パッケージ管理：Vite、Webpack、npm、Yarn、uv
+- UI開発：Storybook
+- コード検査・整形：ESLint、Stylelint、Prettier、Biome、Ruff
+- APIスキーマ・確認：TypeSpec、OpenAPI、Swagger UI、Postman
+- DBスキーマ・マイグレーション管理：Atlas
+- テスト：PHPUnit、RSpec、Jest、Vitest、React Testing Library、Playwright、Go標準のtesting・testify・gomock
+- ビジュアルリグレッションテスト（VRT）：Chromatic
+- 負荷試験：Gatling
+- CI/CD：GitHub Actions、Argo CD、CodePipeline、CodeDeploy、Jenkins、CircleCI
 
 # 採用・教育
 
