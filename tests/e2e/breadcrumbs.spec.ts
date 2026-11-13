@@ -16,7 +16,7 @@ test("各ページにパンくずを一つ表示し、現在ページはリン�
     await expect(breadcrumb.getByRole("link")).toHaveText([...parents]);
     const current = breadcrumb.locator('[aria-current="page"]');
     const title =
-      path === "/" ? "ホーム" : await page.getByRole("heading", { level: 1 }).innerText();
+      path === "/" ? "ホーム" : await page.locator("main h1:not(article h1)").innerText();
     await expect(current).toHaveText(title);
     expect(await current.evaluate((element) => element.tagName)).toBe("SPAN");
   }

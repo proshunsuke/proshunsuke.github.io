@@ -97,6 +97,22 @@ title: 安全な表示
   expect(html).toContain('href="https://example.com/"');
 });
 
+test("本文の外部リンクは新規タブ、サイト内リンクは同じタブで開く", async () => {
+  files.readFile.mockResolvedValue(`---
+description: 説明
+title: リンク
+---
+[外部](https://example.com/)
+
+[内部](/resume/)
+`);
+  const { html } = await readContent("pages", "example");
+  const external = html.match(/<a\s[^>]*href="https:\/\/example.com\/"[^>]*>/)?.[0];
+  expect(external).toContain('target="_blank"');
+  expect(external).toContain('rel="noopener noreferrer"');
+  expect(html).toContain('<a href="/resume/">内部</a>');
+});
+
 test.each(["", "description: 説明\ntitle: ''", "description: 説明\ntitle: 123"])(
   "不正なタイトルを拒否する: %s",
   async (frontmatter) => {

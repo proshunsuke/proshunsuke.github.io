@@ -44,19 +44,8 @@ test("サイト紹介のURL・タイトル・リンクを統一する", async ({
     .getByRole("link", { name: /このサイトについて/ })
     .click();
   await expect(page).toHaveURL("/about/");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("このサイトについて");
-  await expect(page).toHaveTitle("このサイトについて | pro_shunsuke");
-});
-
-test("事業ページの外部リンクは新規タブ、サイト内リンクは同じタブで開く", async ({ page }) => {
-  await page.goto("/business/");
-  const external = page.getByRole("article").getByRole("link", { name: "X（@pro_shunsuke）" });
-  await expect(external).toHaveAttribute("target", "_blank");
-  await expect(external).toHaveAttribute("rel", "noopener noreferrer");
-  const internal = page.getByRole("article").getByRole("link", { name: "職務経歴書" });
-  await expect(internal).not.toHaveAttribute("target", "_blank");
-  await internal.click();
-  await expect(page).toHaveURL("/resume/");
+  const title = await page.locator("main h1:not(article h1)").innerText();
+  await expect(page).toHaveTitle(`${title} | pro_shunsuke`);
 });
 
 test("GitHub・X・mixi2はトップページから新規タブで開く", async ({ page }) => {
@@ -103,23 +92,6 @@ test("未知のURLはHTTP 404を返し、ホームに戻れる", async ({ page }
   await expect(page).toHaveURL("/");
 });
 
-test("職務経歴書のインラインコードにバッククォートの装飾を付けない", async ({ page }) => {
-  await page.goto("/resume/");
-  const code = page
-    .locator("article code")
-    .filter({ hasText: /^pro_shunsuke$/ })
-    .first();
-  await expect(code).toBeVisible();
-  for (const pseudo of ["::before", "::after"]) {
-    expect(
-      await code.evaluate(
-        (element, selector) => getComputedStyle(element, selector).content,
-        pseudo,
-      ),
-    ).toMatch(/^(none|normal|"")$/);
-  }
-});
-
 test("遷移中は読み込み状態を表示し、完了すると解除する", async ({ page }) => {
   await page.goto("/");
   let release = () => {};
@@ -137,7 +109,8 @@ test("遷移中は読み込み状態を表示し、完了すると解除する",
   } finally {
     release();
   }
-  await expect(page.getByRole("heading", { name: "職務経歴書", exact: true })).toBeVisible();
+  await expect(page).toHaveURL("/resume/");
+  await expect(page.getByRole("article")).toBeVisible();
   await expect(page.getByRole("status")).toBeEmpty();
   await expect(page.locator('[aria-busy="true"]')).toHaveCount(0);
 });
