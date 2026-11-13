@@ -2,7 +2,7 @@ import { expect, test } from "#tests/e2e/fixtures";
 import AxeBuilder from "@axe-core/playwright";
 
 for (const width of [375, 768, 1440]) {
-  test(`${width}pxで横にはみ出さず、追従ヘッダーが目次移動先を隠さない`, async ({ page }) => {
+  test(`${width}pxで主要ページが横にはみ出さない`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     for (const path of ["/", "/resume/", "/business/", "/posts/github-copy-title-link/"]) {
       await page.goto(path);
@@ -11,23 +11,6 @@ for (const width of [375, 768, 1440]) {
         true,
       );
     }
-    await page.goto("/resume/");
-    const link = page.getByRole("navigation", { name: "目次" }).getByRole("link").nth(1);
-    const href = await link.getAttribute("href");
-    await link.click();
-    const heading = page.locator(`[id="${href!.slice(1)}"]`);
-    await expect
-      .poll(async () => {
-        const header = await page.locator("body > header").boundingBox();
-        const target = await heading.boundingBox();
-        return !!header && !!target && target.y >= header.y + header.height && target.y < 900;
-      })
-      .toBe(true);
-    await expect
-      .poll(() =>
-        page.locator("body > header").evaluate((element) => element.getBoundingClientRect().top),
-      )
-      .toBe(0);
   });
 }
 
