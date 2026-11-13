@@ -663,6 +663,8 @@ description: 鈴木駿介（pro_shunsuke）の職務経歴書。これまで担�
 
 #### 技術環境
 
+- Ruby、Ruby on Rails、PHP、Symfony、MySQL
+
 ### デジタルギフトチーム: 2015年4月〜
 
 - エンジニア4人チームの開発メンバーとして参画
