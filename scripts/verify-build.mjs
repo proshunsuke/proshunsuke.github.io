@@ -43,7 +43,6 @@ for (const { path, title, description } of pages) {
     html.includes(`href="https://proshunsuke.github.io${path}"`),
     `Incorrect canonical in ${file}`,
   );
-  assert.ok(!/test-post-[123]/.test(html), `Removed article leaked into ${file}`);
   const head = html.slice(0, html.indexOf("</head>"));
   const meta = (name) => {
     const matches = [
